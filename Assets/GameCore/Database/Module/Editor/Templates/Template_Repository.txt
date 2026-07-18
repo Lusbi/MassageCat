@@ -1,0 +1,9 @@
+// WARNING: Generated file. Do not modify!
+
+namespace GameCore.Database
+{
+    public class $DATA_TYPERepository : Repository<$DATA_TYPEData>
+    {
+        
+    }
+}

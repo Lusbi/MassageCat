@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf59cf04dbe3ae4eb309ae771fb8933, type: 3}
+  m_Name: GameDefaultSetting
+  m_EditorClassIdentifier: 
+  defaultScenemapReference:
+    m_key: "\u5192\u96AA\u5165\u53E3"
+    m_queryText: 
+    m_selectedTitle: "\u5192\u96AA\u5165\u53E3: "
+  defaultClickDamage: 1
+  defaultSpellDamage: 50
+  defaultEnemyReference:
+    m_key: "\u7D19\u7BB1"
+    m_queryText: 
+    m_selectedTitle: "\u7D19\u7BB1: "
+  defaultCardDropRate: 0.2
+  defaultCardFlag:
+    m_key: "\u521D\u6B21\u7372\u5F97\u5361\u7247"
+    m_queryText: 
+    m_selectedTitle: "\u904A\u6232\u9AD4\u9A57/\u521D\u6B21\u7372\u5F97\u5361\u7247: "
+  tomatoModeCardDropRateBonus: 10
+  debugDamageRate: 1
+  audioSettings: {fileID: 11400000, guid: 1ba6701677a3e384890b744b78c83a01, type: 2}
+  bgmSettings: {fileID: 11400000, guid: 014b23c9e18690e4eb67008dd217f0cc, type: 2}

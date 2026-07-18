@@ -1,0 +1,50 @@
+* text=auto
+
+# 程式碼與 Unity YAML 採用一致的 LF 換行
+*.cs text eol=lf
+*.asmdef text eol=lf
+*.asmref text eol=lf
+*.shader text eol=lf
+*.hlsl text eol=lf
+*.cginc text eol=lf
+*.compute text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+# Unity YAML 會以「key: 」表示空值，停用此格式的行尾空白誤報
+*.meta text eol=lf whitespace=-blank-at-eol
+*.unity text eol=lf whitespace=-blank-at-eol
+*.prefab text eol=lf whitespace=-blank-at-eol
+*.asset text eol=lf whitespace=-blank-at-eol
+*.mat text eol=lf whitespace=-blank-at-eol
+*.anim text eol=lf whitespace=-blank-at-eol
+*.controller text eol=lf whitespace=-blank-at-eol
+*.mixer text eol=lf whitespace=-blank-at-eol
+*.lighting text eol=lf whitespace=-blank-at-eol
+
+# 二進位資產不套用文字轉換
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.psd binary
+*.ai binary
+*.tif binary
+*.tiff binary
+*.bmp binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.mp4 binary
+*.mov binary
+*.ttf binary
+*.otf binary
+*.dll binary
+*.pdb binary
+*.pdf binary
+*.aar binary
+*.jar binary
+*.tgz binary
+*.unitypackage binary

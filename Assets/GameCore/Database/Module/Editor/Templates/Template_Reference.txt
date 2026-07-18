@@ -1,0 +1,11 @@
+// WARNING: Generated file. Do not modify!
+using System;
+
+namespace GameCore.Database
+{
+    [Serializable]
+    public class $DATA_TYPEReference : DataReference<$DATA_TYPEData>
+    {
+        
+    }
+}

@@ -1,0 +1,11 @@
+// WARNING: Generated file. Do not modify!
+using System;
+
+namespace GameCore.Database
+{
+    [System.Flags]
+    public enum $ENUM_NAME
+    {
+$ENUM_TYPES
+    }
+}

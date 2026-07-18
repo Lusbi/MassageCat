@@ -1,0 +1,10 @@
+using System;
+
+namespace GameCore.Database
+{
+    [Serializable]
+    public class $DATA_TYPEData : Data
+    {
+        
+    }
+}

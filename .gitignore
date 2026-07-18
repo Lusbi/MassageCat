@@ -1,0 +1,49 @@
+# Unity 產生內容
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Addressables 建置輸出
+/[Ss]erver[Dd]ata/
+/[Aa]ssets/[Ss]treamingAssets/aa*
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# IDE 與 Unity 自動產生的方案檔
+/.vs/
+/.vscode/
+/.idea/
+*.csproj
+*.sln
+*.slnx
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.opendb
+*.VC.db
+
+# 建置與診斷輸出
+*.apk
+*.aab
+*.app
+*.unitypackage
+sysinfo.txt
+crashlytics-build.properties
+
+# 暫存與備份檔
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# 僅供本機代理與內部維護使用，不發布至公開 Repository
+/AGENTS.md
+/Docs/MassageCat_ProjectArchitecture.md
+/LocalBackups/

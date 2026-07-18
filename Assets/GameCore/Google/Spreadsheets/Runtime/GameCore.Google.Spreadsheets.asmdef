@@ -1,0 +1,23 @@
+{
+    "name": "GameCore.Google.Spreadsheets",
+    "rootNamespace": "",
+    "references": [
+        "GUID:85307ddf7aec01f4cb59e1747906cc0e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Google.Apis.dll",
+        "Google.Apis.Auth.dll",
+        "Google.Apis.Auth.PlatformServices.dll",
+        "Google.Apis.Core.dll",
+        "Google.Apis.Sheets.v4.dll",
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

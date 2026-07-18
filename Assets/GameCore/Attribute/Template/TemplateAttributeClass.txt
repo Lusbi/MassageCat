@@ -1,0 +1,25 @@
+namespace GameCore.Attribute
+{
+	/// <summary>
+	/// @{summary}
+	/// </summary>
+	public class @{Type}Attribute : AttributeBase
+	{
+	    public override AttributeType attributeType => AttributeType.@{Type};
+	
+	    public override void AddCurrentValue(float value)
+	    {
+	        base.AddCurrentValue(value);
+	    }
+	
+	    public override void SetCurrentValue(float value)
+	    {
+	        base.SetCurrentValue(value);
+	    }
+	
+	    public override float GetValueFormula()
+	    {
+			return @{Formula};
+	    }
+	}
+}
