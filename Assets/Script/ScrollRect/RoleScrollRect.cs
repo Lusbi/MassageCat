@@ -1,13 +1,22 @@
 using System.Collections.Generic;
+using GameCore.Audio;
 using GameCore.Database;
-using SuperScrollView;
+using GameCore.Event;
+using GameCore.UI;
 using UnityEngine;
 
 public class RoleScrollRect : MonoBehaviour
 {
-    [SerializeField] private LoopListView2 m_loopListview2;
-    private DataSourceMgr<RoleInfo> m_dataSourceMgr;
-    private List<RoleInfo> m_filteredDataList = null;
+    private const float k_idleArrowAlpha = 0.35f;
+
+    [SerializeField] private UIButton m_leftArrowButton;
+    [SerializeField] private UIButton m_rightArrowButton;
+
+    private List<RoleInfo> m_sortedRoleList;
+    private EventListener m_eventListener;
+    private CanvasGroup m_leftArrowCanvasGroup;
+    private CanvasGroup m_rightArrowCanvasGroup;
+    private int m_currentRoleIndex = -1;
     private bool m_isInitialized;
 
     private void Awake()
@@ -20,85 +29,164 @@ public class RoleScrollRect : MonoBehaviour
         EnsureInitialized();
     }
 
+    private void OnDestroy()
+    {
+        if (m_leftArrowButton != null)
+            m_leftArrowButton.onHover -= OnLeftArrowHover;
+
+        if (m_rightArrowButton != null)
+            m_rightArrowButton.onHover -= OnRightArrowHover;
+
+        m_eventListener?.Destroy();
+    }
+
     private bool EnsureInitialized()
     {
         if (m_isInitialized)
             return true;
 
-        if (m_loopListview2 == null)
+        if (m_leftArrowButton == null || m_rightArrowButton == null)
             return false;
 
-        var datas = Database<RoleData>.GetAll();
-        m_dataSourceMgr = new DataSourceMgr<RoleInfo>(datas.Count);
-        m_filteredDataList = new List<RoleInfo>();
-        foreach (var roleData in datas)
+        Dictionary<string, RoleData>.ValueCollection roleDatas = Database<RoleData>.GetAll();
+        m_sortedRoleList = new List<RoleInfo>(roleDatas.Count);
+        foreach (RoleData roleData in roleDatas)
         {
-            RoleInfo enemyInfo = new RoleInfo();
-            enemyInfo.roleData = roleData;
-            m_filteredDataList.Add(enemyInfo);
+            m_sortedRoleList.Add(new RoleInfo
+            {
+                roleData = roleData
+            });
         }
-        m_filteredDataList.Sort((x, y) =>
-        {
-            return x.roleData.roleSortId.CompareTo(y.roleData.roleSortId);
-        });
-        m_loopListview2.InitListView(m_dataSourceMgr.TotalItemCount, OnGetItemByIndex);
+
+        m_sortedRoleList.Sort(CompareRoleInfo);
+        m_leftArrowButton.onClicked = OnPreviousRoleClicked;
+        m_rightArrowButton.onClicked = OnNextRoleClicked;
+        m_leftArrowButton.onHover += OnLeftArrowHover;
+        m_rightArrowButton.onHover += OnRightArrowHover;
+        m_leftArrowCanvasGroup = m_leftArrowButton.GetComponent<CanvasGroup>();
+        m_rightArrowCanvasGroup = m_rightArrowButton.GetComponent<CanvasGroup>();
+
+        m_eventListener = new EventListener();
+        m_eventListener.AddListener<FlagUpdateEvent>(OnFlagUpdateEvent, true);
+
         m_isInitialized = true;
+        UpdateArrowVisibility();
         return true;
     }
 
-    private LoopListViewItem2 OnGetItemByIndex(LoopListView2 view, int index)
+    private static int CompareRoleInfo(RoleInfo left, RoleInfo right)
     {
-        if (m_filteredDataList == null || index < 0 || index >= m_filteredDataList.Count)
-            return null;
-
-        LoopListViewItem2 item = view.NewListViewItem("RoleItemHUD");
-        if (item == null)
-        {
-            return null;
-        }
-
-        RoleItemHUD roleItemHUD = item.GetComponent<RoleItemHUD>();
-        if (item.IsInitHandlerCalled == false)
-        {
-            item.IsInitHandlerCalled = true;
-            roleItemHUD.Initlization();
-        }
-
-        roleItemHUD.Apply(m_filteredDataList[index]);
-        return item;
+        return left.roleData.roleSortId.CompareTo(right.roleData.roleSortId);
     }
 
     /// <summary>
-    /// ßÛ∑s¶C™Ì∏Ã™∫∂µ•ÿ
+    /// Êõ¥Êñ∞‰∏≠Â§ÆËßíËâ≤Â∑¶Âè≥ÁÆ≠È†≠ÁöÑÈ°ØÁ§∫ÁãÄÊÖã„ÄÇ
     /// </summary>
     internal void ListUpdate()
     {
         if (EnsureInitialized() == false)
             return;
 
-        m_loopListview2.RefreshAllShownItem();
+        UpdateArrowVisibility();
     }
 
     /// <summary>
-    /// ±N ScrollRect §§™∫®§¶‚≈„•‹≤æ¶‹µe≠±≥Ã•™§Ë
+    /// ÂêåÊ≠•ÁõÆÂâç‰∏≠Â§ÆÈ°ØÁ§∫ËßíËâ≤ËàáËßíËâ≤Á¥¢Âºï„ÄÇ
     /// </summary>
-    /// <param name="data"></param>
     internal void ListMoveToTop(RoleData data)
     {
         if (EnsureInitialized() == false || data == null)
             return;
 
-        int targetIndex = -1;
-        for (int i = 0; i < m_filteredDataList.Count; i++)
+        for (int i = 0; i < m_sortedRoleList.Count; i++)
         {
-            if (m_filteredDataList[i].roleData == data)
-            {
-                targetIndex = i;
-                break;
-            }
+            if (m_sortedRoleList[i].roleData != data)
+                continue;
+
+            m_currentRoleIndex = i;
+            UpdateArrowVisibility();
+            return;
+        }
+    }
+
+    private void OnPreviousRoleClicked(UIButton button)
+    {
+        TrySelectAdjacentRole(-1);
+    }
+
+    private void OnNextRoleClicked(UIButton button)
+    {
+        TrySelectAdjacentRole(1);
+    }
+
+    private void TrySelectAdjacentRole(int direction)
+    {
+        int targetIndex = m_currentRoleIndex + direction;
+        if (CanSelectRole(targetIndex) == false)
+            return;
+
+        AudioClipManager.instance.PlaySFX(AudioClipType.Button_ClickSFX, 0.5f);
+        EventManager.instance.Notify(new SetBattleRoleEvent(m_sortedRoleList[targetIndex].roleData.key));
+    }
+
+    private void OnFlagUpdateEvent(FlagUpdateEvent eventData)
+    {
+        UpdateArrowVisibility();
+    }
+
+    private void OnLeftArrowHover(UIButton button, bool isHovered)
+    {
+        SetArrowAlpha(m_leftArrowCanvasGroup, isHovered);
+    }
+
+    private void OnRightArrowHover(UIButton button, bool isHovered)
+    {
+        SetArrowAlpha(m_rightArrowCanvasGroup, isHovered);
+    }
+
+    private void UpdateArrowVisibility()
+    {
+        if (m_leftArrowButton != null)
+        {
+            UpdateArrowVisibility(
+                m_leftArrowButton,
+                m_leftArrowCanvasGroup,
+                CanSelectRole(m_currentRoleIndex - 1));
         }
 
-        if (targetIndex >= 0)
-            m_loopListview2.MovePanelToItemIndex(targetIndex, 0f);
+        if (m_rightArrowButton != null)
+        {
+            UpdateArrowVisibility(
+                m_rightArrowButton,
+                m_rightArrowCanvasGroup,
+                CanSelectRole(m_currentRoleIndex + 1));
+        }
+    }
+
+    private static void UpdateArrowVisibility(UIButton button, CanvasGroup canvasGroup, bool isVisible)
+    {
+        if (isVisible == false)
+        {
+            button.hover = false;
+            button.Show(false);
+            return;
+        }
+
+        SetArrowAlpha(canvasGroup, false);
+        button.Show(true);
+    }
+
+    private static void SetArrowAlpha(CanvasGroup canvasGroup, bool isHovered)
+    {
+        if (canvasGroup != null)
+            canvasGroup.alpha = isHovered ? 1f : k_idleArrowAlpha;
+    }
+
+    private bool CanSelectRole(int roleIndex)
+    {
+        return m_currentRoleIndex >= 0
+            && roleIndex >= 0
+            && roleIndex < m_sortedRoleList.Count
+            && m_sortedRoleList[roleIndex].roleData.ValidateFlagReferenceConditions();
     }
 }

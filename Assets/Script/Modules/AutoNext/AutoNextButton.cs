@@ -50,6 +50,12 @@ public class AutoNextButton : MonoBehaviour, IInitlization
     private bool m_isAutoNext;
     public bool isAutoNext => m_isAutoNext;
 
+    internal bool UsesUnlockFlag(string flagKey)
+    {
+        return m_flagReference != null
+            && string.Equals(m_flagReference.GetKey(), flagKey, StringComparison.Ordinal);
+    }
+
     public void Stop()
     {
         if (m_isAutoNext)

@@ -161,8 +161,6 @@ public class BattlePanel : PanelBase
 
                 m_autoModel = AutoModel.Off;
                 m_tomatoManager.Apply(m_curBattleRole);
-
-                CreateDefaultEnemy();
                 break;
             case BattleModel.Spell:
 
@@ -204,6 +202,14 @@ public class BattlePanel : PanelBase
         TutorialFlowDiagnostics.Log(
             $"BattlePanel 收到旗標事件：key={eventData.flagKey}, hasTeachPanel={m_teachPanel != null}",
             this);
+
+        if (m_desktopPetMode && m_autoNextButton && m_autoNextButton.UsesUnlockFlag(eventData.flagKey))
+        {
+            TutorialFlowDiagnostics.Log(
+                $"Desktop Pet 模式略過自動下一關教學：key={eventData.flagKey}",
+                this);
+            return;
+        }
 
         if (m_teachPanel)
             m_teachPanel.TeachTrigger(eventData.flagKey);
@@ -322,7 +328,7 @@ public class BattlePanel : PanelBase
             m_sortedRoleDatas.Sort((a, b) => a.roleSortId.CompareTo(b.roleSortId));
         }
 
-        bool isAutoNext = m_autoNextButton && m_autoNextButton.isAutoNext;
+        bool isAutoNext = m_desktopPetMode || (m_autoNextButton && m_autoNextButton.isAutoNext);
         bool isSpelling = m_spellHandler && m_spellHandler.isSpelling;
         if (isAutoNext || isSpelling)
         {
