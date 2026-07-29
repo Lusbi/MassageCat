@@ -3,6 +3,8 @@ using GameCore.Database;
 
 public class RoleTalkHandler
 {
+    private const float k_talkInterval = 5f;
+
     private RoleData m_roleData;
     private float m_durationTime;
     private readonly List<TalkEntry> m_validEntries = new List<TalkEntry>();
@@ -38,9 +40,10 @@ public class RoleTalkHandler
 
         if (talk.HasValue)
         {
-            m_durationTime = talk.Value.Duration;
+            // 台詞播完後保留空檔，避免角色文字無縫常駐畫面。
+            m_durationTime = talk.Value.Duration + k_talkInterval;
             string content = LocalizationManager.instance.GetLocalization(talk.Value.Content);
-            TalkManager.instance.Play(content, m_durationTime);
+            TalkManager.instance.Play(content, talk.Value.Duration);
         }
     }
 

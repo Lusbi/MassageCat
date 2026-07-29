@@ -28,7 +28,7 @@ namespace GameCore.Steam
             }
             s_instance = this;
             DontDestroyOnLoad(gameObject);
-#if WALKBRAVE_STEAM_ENABLED
+#if WALKBRAVE_STEAM_ENABLED && !UNITY_EDITOR
             TryInitializeSteam();
 #endif
         }
@@ -173,31 +173,62 @@ namespace GameCore.Steam
         {
             private const string k_dllName = "steam_api64";
             private static bool s_initialized;
+            private static bool s_initializationFailed;
             private static IntPtr s_userStats = IntPtr.Zero;
 
             public static bool IsInitialized => s_initialized && s_userStats != IntPtr.Zero;
 
             public static bool EnsureInitialized()
             {
+#if UNITY_EDITOR
+                return false;
+#else
                 if (IsInitialized)
                     return true;
 
-                if (!SteamAPI_IsSteamRunning())
+                if (s_initializationFailed)
                     return false;
 
-                if (!SteamAPI_Init())
-                    return false;
-
-                s_userStats = SteamAPI_SteamUserStats_v012();
-                if (s_userStats == IntPtr.Zero)
+                try
                 {
-                    SteamAPI_Shutdown();
-                    s_initialized = false;
-                    return false;
+                    if (!SteamAPI_IsSteamRunning())
+                        return false;
+
+                    if (!SteamAPI_Init())
+                        return false;
+
+                    s_userStats = SteamAPI_SteamUserStats_v013();
+                    if (s_userStats == IntPtr.Zero)
+                    {
+                        SteamAPI_Shutdown();
+                        s_initialized = false;
+                        return false;
+                    }
+
+                    s_initialized = true;
+                    return true;
+                }
+                catch (DllNotFoundException exception)
+                {
+                    MarkInitializationFailed(exception);
+                }
+                catch (EntryPointNotFoundException exception)
+                {
+                    MarkInitializationFailed(exception);
+                }
+                catch (BadImageFormatException exception)
+                {
+                    MarkInitializationFailed(exception);
                 }
 
-                s_initialized = true;
-                return true;
+                return false;
+#endif
+            }
+
+            private static void MarkInitializationFailed(Exception exception)
+            {
+                s_initializationFailed = true;
+                Debug.LogError($"[SteamAchievementManager] Native Steam initialization failed: {exception.GetType().Name}: {exception.Message}");
             }
 
             public static bool RequestCurrentStats()
@@ -266,8 +297,8 @@ namespace GameCore.Steam
             [DllImport(k_dllName, EntryPoint = "SteamAPI_RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
             private static extern void SteamAPI_RunCallbacks();
 
-            [DllImport(k_dllName, EntryPoint = "SteamAPI_SteamUserStats_v012", CallingConvention = CallingConvention.Cdecl)]
-            private static extern IntPtr SteamAPI_SteamUserStats_v012();
+            [DllImport(k_dllName, EntryPoint = "SteamAPI_SteamUserStats_v013", CallingConvention = CallingConvention.Cdecl)]
+            private static extern IntPtr SteamAPI_SteamUserStats_v013();
 
             [DllImport(k_dllName, EntryPoint = "SteamAPI_ISteamUserStats_RequestCurrentStats", CallingConvention = CallingConvention.Cdecl)]
             [return: MarshalAs(UnmanagedType.I1)]

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Runtime.CompilerServices;
 using BigMath;
 using GameCore.Database;
 using GameCore.Event;
@@ -121,9 +119,9 @@ public class StorageData
         satisfyCount = 0; // Default value if not found
     }
 
-    public void ApplyLastBattleStorageData(string enemyKey, BigInteger remainHit)
+    public void ApplyBattleProgressData(string enemyKey, BigNumber accumulatedHealValue)
     {
-        m_battleStorageData = new BattleStorageData(enemyKey, remainHit);
+        m_battleStorageData = new BattleStorageData(enemyKey, accumulatedHealValue);
     }
 
     internal void AddCardStorageData(string key)
@@ -245,17 +243,17 @@ public class ItemStorageData
 public class BattleStorageData
 {
     private string m_enemyKey;
-    private BigNumber m_remainHit;
+    private BigNumber m_accumulatedHealValue;
 
     public string EnemyKey => m_enemyKey;
-    public BigNumber RemainHit => m_remainHit;
-    public BattleStorageData(string enemyKey, BigNumber remainHit)
+    public BigNumber AccumulatedHealValue => m_accumulatedHealValue;
+    public BattleStorageData(string enemyKey, BigNumber accumulatedHealValue)
     {
         m_enemyKey = enemyKey;
-        m_remainHit = remainHit;
+        m_accumulatedHealValue = accumulatedHealValue;
     }
-    public void SetRemainHit(int remainHit)
+    public void SetAccumulatedHealValue(BigNumber accumulatedHealValue)
     {
-        m_remainHit = remainHit;
+        m_accumulatedHealValue = accumulatedHealValue;
     }
 }

@@ -8,6 +8,9 @@ public class UnityMainThreadDispatcher : MonoBehaviour
     private static readonly ConcurrentQueue<Action> s_queue = new();
     private static readonly object s_inputStateLock = new();
     private const int k_maxPerFrame = 10;
+    private static bool s_hasPendingInputRestore;
+    private static bool s_pendingInputRestoreState;
+    private static float s_pendingInputRestoreTime;
 
     public static void Enqueue(Action action)
     {
@@ -26,6 +29,8 @@ public class UnityMainThreadDispatcher : MonoBehaviour
 
     private void LateUpdate()
     {
+        TryRestoreInputListenerState();
+
         if (!s_inputListenerState)
             return;
 
@@ -44,6 +49,13 @@ public class UnityMainThreadDispatcher : MonoBehaviour
     /// </summary>
     /// <param name="state"></param>
     public static void SetInputListenerState(bool state)
+    {
+        // 明確狀態切換優先於 UI 的短暫抑制，避免舊延遲回呼覆寫教學或彈窗狀態。
+        s_hasPendingInputRestore = false;
+        ApplyInputListenerState(state);
+    }
+
+    private static void ApplyInputListenerState(bool state)
     {
         bool previousState;
         int clearedCount = 0;
@@ -75,10 +87,21 @@ public class UnityMainThreadDispatcher : MonoBehaviour
     /// <param name="delay"></param>
     public static void DelaySetInputListenerState(bool state, float delay)
     {
-        SetInputListenerState(state);
-        PrimeTween.Tween.Delay(delay, () =>
-                {
-                    SetInputListenerState(!state);
-                }, true);
+        // 由 Dispatcher 自己管理恢復時間，不依賴可能被場景或物件生命週期取消的 Tween。
+        s_hasPendingInputRestore = false;
+        ApplyInputListenerState(state);
+        s_pendingInputRestoreState = !state;
+        s_pendingInputRestoreTime = Time.unscaledTime + Mathf.Max(0f, delay);
+        s_hasPendingInputRestore = true;
+    }
+
+    private static void TryRestoreInputListenerState()
+    {
+        if (!s_hasPendingInputRestore || Time.unscaledTime < s_pendingInputRestoreTime)
+            return;
+
+        bool restoreState = s_pendingInputRestoreState;
+        s_hasPendingInputRestore = false;
+        ApplyInputListenerState(restoreState);
     }
 }

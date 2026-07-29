@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class TalkManager : MonoSingleton<TalkManager>
 {
-    private TextMeshProUGUI m_talkText;
-    private TextAnimatorPlayer m_textAnimatorPlayer;
+    [Tooltip("由 BattlePanel 初始化時綁定 EnemySpawn/RoleTalkText。")]
+    [SerializeField] private TextMeshProUGUI m_talkText;
+    [Tooltip("由 BattlePanel 初始化時從 EnemySpawn/RoleTalkText 快取。")]
+    [SerializeField] private TextAnimatorPlayer m_textAnimatorPlayer;
 
     private float m_remainingDuration;
     private bool m_isPlaying;
@@ -19,15 +21,11 @@ public class TalkManager : MonoSingleton<TalkManager>
     private void Update()
     {
         if (!m_isPlaying)
-        {
             return;
-        }
 
         m_remainingDuration -= Time.deltaTime;
         if (m_remainingDuration <= 0f)
-        {
             Clear();
-        }
     }
 
     public void Play(string content, float duration)
@@ -42,21 +40,24 @@ public class TalkManager : MonoSingleton<TalkManager>
         m_isPlaying = true;
 
         if (m_talkText != null && !m_talkText.gameObject.activeSelf)
-        {
             m_talkText.gameObject.SetActive(true);
-        }
 
-        m_textAnimatorPlayer ??= GameObject.FindAnyObjectByType<TextAnimatorPlayer>();
-        if (m_textAnimatorPlayer != null)
-        {
+        if (m_textAnimatorPlayer != null && m_textAnimatorPlayer.isActiveAndEnabled)
             m_textAnimatorPlayer.ShowText(content);
-        }
-        
-        if (m_talkText != null)
-        {
-            m_talkText.text = content;
-        }
+        else if (m_talkText != null)
+            m_talkText.SetText(content);
+    }
 
+    internal void BindRoleTalkText(TextMeshProUGUI roleTalkText)
+    {
+        if (m_talkText != roleTalkText)
+            Clear();
+
+        m_talkText = roleTalkText;
+        m_textAnimatorPlayer = null;
+
+        if (m_talkText != null)
+            m_talkText.TryGetComponent(out m_textAnimatorPlayer);
     }
 
     public void Clear()
@@ -64,20 +65,20 @@ public class TalkManager : MonoSingleton<TalkManager>
         m_isPlaying = false;
         m_remainingDuration = 0f;
 
-        m_textAnimatorPlayer ??= GameObject.FindAnyObjectByType<TextAnimatorPlayer>();
-        if (m_textAnimatorPlayer != null)
+        // 初次載入時對話物件尚未啟用，避免在 TMP 初始化前呼叫 Febucci。
+        if (m_talkText == null || !m_talkText.isActiveAndEnabled)
+            return;
+
+        if (m_textAnimatorPlayer != null && m_textAnimatorPlayer.isActiveAndEnabled)
         {
             m_textAnimatorPlayer.StopShowingText();
             m_textAnimatorPlayer.ShowText(string.Empty);
         }
-
-        if (m_talkText != null)
+        else
         {
-            m_talkText.text = string.Empty;
-            if (m_talkText.gameObject.activeSelf)
-            {
-                m_talkText.gameObject.SetActive(false);
-            }
+            m_talkText.SetText(string.Empty);
         }
+
+        m_talkText.gameObject.SetActive(false);
     }
 }

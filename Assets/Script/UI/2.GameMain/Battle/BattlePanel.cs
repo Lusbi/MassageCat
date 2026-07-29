@@ -7,6 +7,9 @@ using BigMath;
 using System.Collections.Generic;
 using Modules.SystemMessage;
 using GameCore.Audio;
+using PrimeTween;
+using UnityEngine.Serialization;
+using MassageCat.Gallery;
 
 public enum BattleModel
 {
@@ -27,25 +30,30 @@ public class BattlePanel : PanelBase
     private const string k_enemySpawnAnimation = "SpawnEnemyAnim";
     [SerializeField] private RectTransform m_enemyParent;
     [SerializeField] private Image m_bgImage;
+    [SerializeField] private RectTransform m_foregroundRoot;
+    [SerializeField] private SceneVisualToggleButton m_sceneVisualToggleButton;
     [SerializeField] private RoleSpawnHUD m_enemySpawn;
     [SerializeField] private Animation m_ani;
     [SerializeField] private TomatoButton m_tomatoBtn;
-    [SerializeField] private HitPanel m_hitPanel;
+    [SerializeField] private GalleryButton m_galleryButton;
+    [FormerlySerializedAs("m_hitPanel")]
+    [SerializeField] private HealFeedbackPanel m_healFeedbackPanel;
     [SerializeField] private TeachPanel m_teachPanel;
     [SerializeField] private AutoNextButton m_autoNextButton;
     [SerializeField] private SpellButton m_spellButton;
     [SerializeField] private SpellHandler m_spellHandler;
     [SerializeField] private SystemMessageView m_systemMessageView;
-    [SerializeField] private NormalHit normalHitTemplate;
-    [SerializeField] private CriticleHit criticleHitTemplate;
+    [FormerlySerializedAs("normalHitTemplate")]
+    [SerializeField] private NormalHealEffect m_normalHealEffectTemplate;
+    [FormerlySerializedAs("criticleHitTemplate")]
+    [SerializeField] private StrongHealEffect m_strongHealEffectTemplate;
     [SerializeField] private BgmStateButton m_bgmStateButton;
     [SerializeField] private AudioStateButton m_audioStateButton;
 
-    private List<NormalHit> m_normalHitPoolList = new List<NormalHit>();
-    private List<CriticleHit> m_criticleHitPoolList = new List<CriticleHit>();
-
-    private List<NormalHit> m_activeNormalHitList = new List<NormalHit>();
-    private List<CriticleHit> m_activeCriticleHitList = new List<CriticleHit>();
+    private readonly List<NormalHealEffect> m_normalHealEffectPoolList = new List<NormalHealEffect>();
+    private readonly List<StrongHealEffect> m_strongHealEffectPoolList = new List<StrongHealEffect>();
+    private readonly List<NormalHealEffect> m_activeNormalHealEffectList = new List<NormalHealEffect>();
+    private readonly List<StrongHealEffect> m_activeStrongHealEffectList = new List<StrongHealEffect>();
 
     private TomatoManager m_tomatoManager;
     private EventListener m_eventListener;
@@ -54,24 +62,35 @@ public class BattlePanel : PanelBase
     private int m_tomatoHitStack = 0;
     private BigNumber m_curHealValue = 0;
     private RoleTalkHandler m_roleTalkHandler;
+    private Action<NormalHealEffect> m_releaseNormalHealEffect;
+    private Action<StrongHealEffect> m_releaseStrongHealEffect;
 
     private BattleModel m_battleModel = BattleModel.Normal;
     private AutoModel m_autoModel = AutoModel.Off;
     private List<RoleData> m_sortedRoleDatas = new List<RoleData>();
+    private readonly Dictionary<GameObject, GameObject> m_foregroundInstances = new Dictionary<GameObject, GameObject>(11);
+    private bool m_allowAutoAdvanceAfterDefeat;
     private bool m_desktopPetMode;
-    [SerializeField] private bool m_showBackgroundInDesktopPetMode;
+    private bool m_sceneVisualsVisible = true;
+    private GameObject m_activeForeground;
 
     public event Action OnSpellForceStopped;
     public event Action OnSpellTimeoutStopped;
 
+    internal BattleModel CurrentBattleModel => m_battleModel;
+
     public override void Initlization(Action callBack = null)
     {
         base.Initlization(callBack);
+        EnsureSceneVisualUI();
 
         if (m_enemySpawn)
         {
             m_enemySpawn.Initlization();
             m_enemySpawn.ApplyDieAction(DieAction);
+
+            if (TalkManager.instance)
+                TalkManager.instance.BindRoleTalkText(m_enemySpawn.RoleTalkText);
         }
 
         if (m_eventListener == null)
@@ -89,13 +108,15 @@ public class BattlePanel : PanelBase
 
         m_tomatoManager ??= TomatoManager.instance;
 
-        if (m_hitPanel)
-            m_hitPanel.Initlization();
+        if (m_healFeedbackPanel)
+            m_healFeedbackPanel.Initlization();
 
-        m_normalHitPoolList.Clear();
-        m_activeNormalHitList.Clear();
-        m_criticleHitPoolList.Clear();
-        m_activeCriticleHitList.Clear();
+        m_normalHealEffectPoolList.Clear();
+        m_activeNormalHealEffectList.Clear();
+        m_strongHealEffectPoolList.Clear();
+        m_activeStrongHealEffectList.Clear();
+        m_releaseNormalHealEffect ??= ReleaseNormalHealEffect;
+        m_releaseStrongHealEffect ??= ReleaseStrongHealEffect;
 
         m_roleTalkHandler = new RoleTalkHandler();
 
@@ -117,11 +138,44 @@ public class BattlePanel : PanelBase
             m_systemMessageView.Initlization();
         }
 
+        if (m_galleryButton)
+            m_galleryButton.Initlization();
+
         if (m_bgmStateButton)
             m_bgmStateButton.Initlization();
             
         if (m_audioStateButton)
             m_audioStateButton.Initlization();
+
+        m_sceneVisualsVisible = true;
+        if (m_sceneVisualToggleButton)
+            m_sceneVisualToggleButton.Initlization(SetSceneVisualsVisible);
+        ApplySceneVisualVisibility();
+    }
+
+    private void EnsureSceneVisualUI()
+    {
+        if (m_foregroundRoot == null)
+        {
+            GameObject foregroundRootObject = new GameObject("ForegroundRoot", typeof(RectTransform));
+            foregroundRootObject.layer = gameObject.layer;
+            m_foregroundRoot = foregroundRootObject.GetComponent<RectTransform>();
+            m_foregroundRoot.SetParent(transform, false);
+            m_foregroundRoot.anchorMin = Vector2.zero;
+            m_foregroundRoot.anchorMax = Vector2.one;
+            m_foregroundRoot.offsetMin = Vector2.zero;
+            m_foregroundRoot.offsetMax = Vector2.zero;
+            m_foregroundRoot.pivot = new Vector2(0.5f, 0.5f);
+
+            if (m_bgImage)
+                m_bgImage.transform.SetSiblingIndex(0);
+            if (m_enemyParent)
+                m_enemyParent.SetSiblingIndex(1);
+            m_foregroundRoot.SetSiblingIndex(2);
+        }
+
+        if (m_sceneVisualToggleButton == null)
+            m_sceneVisualToggleButton = SceneVisualToggleButton.CreateRuntime(transform);
     }
 
 
@@ -132,6 +186,7 @@ public class BattlePanel : PanelBase
 
         m_battleModel = model;
         ReupdateBattleState(spellStopReason);
+        GalleryStateChangeNotifier.Notify();
     }
 
     public void UpdateAutoModel(AutoModel model)
@@ -143,17 +198,19 @@ public class BattlePanel : PanelBase
     }
     private void ReupdateBattleState(SpellStopReason spellStopReason)
     {
+        uiGameMainView.SetRoleArrowInteraction(m_battleModel == BattleModel.Normal);
+
         switch (m_battleModel)
         {
             case BattleModel.Normal:
 
-                if (m_spellHandler)
+                if (m_spellHandler && m_spellHandler.isSpelling)
                     m_spellHandler.SpellStop(spellStopReason);
                 if (m_spellButton)
                     m_spellButton.SetEnable(false);
                 break;
             case BattleModel.Tomato:
-                if (m_spellHandler)
+                if (m_spellHandler && m_spellHandler.isSpelling)
                     m_spellHandler.SpellStop(spellStopReason);
 
                 if (m_spellButton)
@@ -163,11 +220,11 @@ public class BattlePanel : PanelBase
                 m_tomatoManager.Apply(m_curBattleRole);
                 break;
             case BattleModel.Spell:
-
+                CreateDefaultEnemy();
+                // 角色資料套用會清除對話框，拼字題目必須在角色建立後才顯示翻譯。
                 if (m_spellHandler)
                     m_spellHandler.SpellStart();
 
-                CreateDefaultEnemy();
                 if (m_autoNextButton)
                     m_autoNextButton.Stop();
                 break;
@@ -183,6 +240,7 @@ public class BattlePanel : PanelBase
                 break;
             case SpellStopReason.Timeout:
                 OnSpellTimeoutStopped?.Invoke();
+                UpdateBattleModel(BattleModel.Normal, SpellStopReason.Timeout);
                 break;
         }
     }
@@ -248,12 +306,12 @@ public class BattlePanel : PanelBase
                 value += m_curHealValue;
             }
 
-            if (m_enemySpawn)
-                m_enemySpawn.HitHUDUpdate(value);
-
-            PlayHit(value.ToString(), true);
-            
-            PlayCriticleHitEffect();
+            if (m_enemySpawn && value > 0)
+            {
+                ApplyHealToEnemy(value);
+                PlayHealFeedback(value.ToString(), true);
+                PlayStrongHealEffect();
+            }
 
             UpdateBattleModel(BattleModel.Normal);
         }
@@ -263,31 +321,140 @@ public class BattlePanel : PanelBase
     private void OnSetBattleRoleEvent(SetBattleRoleEvent eventData)
     {
         if (Database<RoleData>.TryLoad(eventData.roleKey, out var data))
-        {
-            StorageManager.instance.StorageData.ApplyLastBattleStorageData(data.key, data.Fatigue);
-            HitValueUpdate();
-            m_curBattleRole = data;
-            m_enemySpawn.LoadRoleData(data);
-            UpdateSceneBackground(data.SceneReference.Load());
-            m_roleTalkHandler.Apply(data);
-            TomatoTimeHint(data);
-
-            uiGameMainView.ApplyRoleDataToListTop(data);
-        }
+            ApplyBattleRoleData(data, 0);
     }
 
-    private void UpdateSceneBackground(ScenemapData scenemapData)
+    private void ApplyBattleRoleData(RoleData data, BigNumber accumulatedHealValue)
     {
-        if (m_desktopPetMode && m_showBackgroundInDesktopPetMode == false)
+        StorageManager.instance.StorageData.ApplyBattleProgressData(data.key, accumulatedHealValue);
+        m_curBattleRole = data;
+        HitValueUpdate();
+        m_enemySpawn.LoadRoleData(data);
+        m_enemySpawn.ApplyAccumulatedHealValue(accumulatedHealValue);
+        UpdateSceneVisuals(data.SceneReference.Load());
+        m_roleTalkHandler.Apply(data);
+        TomatoTimeHint(data);
+
+        uiGameMainView.ApplyRoleDataToListTop(data);
+        GalleryStateChangeNotifier.Notify();
+    }
+
+    internal bool TrySelectRoleFromGallery(string roleKey, out string reason)
+    {
+        if (m_battleModel != BattleModel.Normal)
+        {
+            reason = "normal_mode_only";
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(roleKey)
+            || Database<RoleData>.TryLoad(roleKey, out RoleData roleData) == false)
+        {
+            reason = "role_not_found";
+            return false;
+        }
+
+        if (roleData.ValidateFlagReferenceConditions() == false)
+        {
+            reason = "role_locked";
+            return false;
+        }
+
+        OnSetBattleRoleEvent(new SetBattleRoleEvent(roleKey));
+        reason = string.Empty;
+        return true;
+    }
+
+    private void UpdateSceneVisuals(ScenemapData scenemapData)
+    {
+        if (scenemapData == null)
             return;
 
-        m_bgImage.SetImage(scenemapData.ImgBgReference).AutoEnable();
+        if (m_bgImage)
+        {
+            m_bgImage.SetImage(scenemapData.ImgBgReference).AutoEnable();
+            m_bgImage.raycastTarget = false;
+        }
+
+        UpdateSceneForeground(scenemapData.SpawnObjectReference, scenemapData.SceneMapNo);
+        ApplySceneVisualVisibility();
+    }
+
+    private void UpdateSceneForeground(GameObject foregroundPrefab, int sceneMapNo)
+    {
+        if (m_activeForeground)
+            m_activeForeground.SetActive(false);
+
+        m_activeForeground = null;
+        if (foregroundPrefab == null)
+        {
+            LogMissingForegroundPrefab(sceneMapNo);
+            return;
+        }
+
+        if (m_foregroundRoot == null)
+        {
+            LogMissingForegroundRoot(sceneMapNo);
+            return;
+        }
+
+        if (m_foregroundInstances.TryGetValue(foregroundPrefab, out GameObject foregroundInstance) == false
+            || foregroundInstance == null)
+        {
+            foregroundInstance = Instantiate(foregroundPrefab, m_foregroundRoot, false);
+            m_foregroundInstances[foregroundPrefab] = foregroundInstance;
+
+            Image foregroundImage = foregroundInstance.GetComponent<Image>();
+            if (foregroundImage == null || foregroundImage.sprite == null)
+                LogMissingForegroundSprite(sceneMapNo, foregroundPrefab.name);
+        }
+
+        m_activeForeground = foregroundInstance;
+        m_activeForeground.SetActive(m_sceneVisualsVisible);
+    }
+
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    [System.Diagnostics.Conditional("DEVELOPMENT_BUILD")]
+    private static void LogMissingForegroundPrefab(int sceneMapNo)
+    {
+        Debug.LogWarning($"SceneMap_{sceneMapNo:00} 未綁定有效的前景 Prefab。");
+    }
+
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    [System.Diagnostics.Conditional("DEVELOPMENT_BUILD")]
+    private static void LogMissingForegroundRoot(int sceneMapNo)
+    {
+        Debug.LogWarning($"SceneMap_{sceneMapNo:00} 無法載入前景：BattlePanel 缺少 ForegroundRoot。");
+    }
+
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    [System.Diagnostics.Conditional("DEVELOPMENT_BUILD")]
+    private static void LogMissingForegroundSprite(int sceneMapNo, string prefabName)
+    {
+        Debug.LogWarning($"SceneMap_{sceneMapNo:00} 的前景 Prefab「{prefabName}」缺少 Image Sprite。");
+    }
+
+    private void SetSceneVisualsVisible(bool isVisible)
+    {
+        m_sceneVisualsVisible = isVisible;
+        ApplySceneVisualVisibility();
+    }
+
+    private void ApplySceneVisualVisibility()
+    {
+        if (m_bgImage)
+            m_bgImage.enabled = m_sceneVisualsVisible;
+
+        if (m_foregroundRoot)
+            m_foregroundRoot.gameObject.SetActive(m_sceneVisualsVisible);
     }
 
     private void OnDestroy()
     {
         if (m_spellHandler)
             m_spellHandler.SpellStopped -= OnSpellStopped;
+
+        m_foregroundInstances.Clear();
     }
 
     public override void ActiveOn()
@@ -295,7 +462,11 @@ public class BattlePanel : PanelBase
         bool hasBattleData = string.IsNullOrEmpty(StorageManager.instance.StorageData.BattleStorageData.EnemyKey) == false;
         if (hasBattleData)
         {
-            m_enemySpawn.ApplyBattleStorageData(StorageManager.instance.StorageData.BattleStorageData);
+            BattleStorageData battleStorageData = StorageManager.instance.StorageData.BattleStorageData;
+            if (Database<RoleData>.TryLoad(battleStorageData.EnemyKey, out RoleData roleData))
+                ApplyBattleRoleData(roleData, battleStorageData.AccumulatedHealValue);
+            else
+                CreateDefaultEnemy();
         }
         else
         {
@@ -318,22 +489,29 @@ public class BattlePanel : PanelBase
 
     private void CreateBattleEnemy()
     {
+        CreateBattleEnemy(true);
+    }
+
+    private void CreateBattleEnemyAfterDefeat()
+    {
+        CreateBattleEnemy(m_allowAutoAdvanceAfterDefeat);
+    }
+
+    private void CreateBattleEnemy(bool allowNormalAutoAdvance)
+    {
         uiGameMainView.ApplyRoleRect();
         RoleData nextRoleData = null;
 
-        if (m_sortedRoleDatas == null || m_sortedRoleDatas.Count == 0)
-        {
-            var roleDatas = Database<RoleData>.GetAll();
-            m_sortedRoleDatas = new List<RoleData>(roleDatas);
-            m_sortedRoleDatas.Sort((a, b) => a.roleSortId.CompareTo(b.roleSortId));
-        }
+        EnsureSortedRoleDatas();
 
-        bool isAutoNext = m_desktopPetMode || (m_autoNextButton && m_autoNextButton.isAutoNext);
+        bool isAutoNext = allowNormalAutoAdvance
+            && (m_desktopPetMode || (m_autoNextButton && m_autoNextButton.isAutoNext));
         bool isSpelling = m_spellHandler && m_spellHandler.isSpelling;
         if (isAutoNext || isSpelling)
         {
-            foreach (var roleData in m_sortedRoleDatas)
+            for (int i = 0; i < m_sortedRoleDatas.Count; i++)
             {
+                RoleData roleData = m_sortedRoleDatas[i];
                 if (roleData.ValidateFlagReferenceConditions() && roleData.roleSortId > m_curBattleRole.roleSortId)
                 {
                     nextRoleData = roleData;
@@ -363,6 +541,39 @@ public class BattlePanel : PanelBase
         PlayBgm();
 
         PlaySFX(AudioClipType.BossAppearSFX);
+    }
+
+    private void EnsureSortedRoleDatas()
+    {
+        if (m_sortedRoleDatas != null && m_sortedRoleDatas.Count > 0)
+            return;
+
+        Dictionary<string, RoleData>.ValueCollection roleDatas = Database<RoleData>.GetAll();
+        m_sortedRoleDatas = new List<RoleData>(roleDatas);
+        m_sortedRoleDatas.Sort(CompareRoleData);
+    }
+
+    private static int CompareRoleData(RoleData left, RoleData right)
+    {
+        return left.roleSortId.CompareTo(right.roleSortId);
+    }
+
+    private bool IsLatestUnlockedRole(RoleData roleData)
+    {
+        if (roleData == null)
+            return false;
+
+        EnsureSortedRoleDatas();
+        for (int i = m_sortedRoleDatas.Count - 1; i >= 0; i--)
+        {
+            RoleData unlockedRoleData = m_sortedRoleDatas[i];
+            if (unlockedRoleData.ValidateFlagReferenceConditions() == false)
+                continue;
+
+            return string.Equals(unlockedRoleData.key, roleData.key, StringComparison.Ordinal);
+        }
+
+        return false;
     }
 
     private void PlayBgm()
@@ -397,6 +608,8 @@ public class BattlePanel : PanelBase
     private void DieAction()
     {
         m_isAlive = false;
+        // 必須在寫入解鎖旗標前判定，否則新敵人解鎖後原目標就不再是最新敵人。
+        m_allowAutoAdvanceAfterDefeat = IsLatestUnlockedRole(m_curBattleRole);
 
         TutorialFlowDiagnostics.Log(
             $"敵人擊倒：roleKey={m_curBattleRole?.key}, battleModel={m_battleModel}",
@@ -405,6 +618,8 @@ public class BattlePanel : PanelBase
         PlaySFX(AudioClipType.SatisfySFX);
 
         StorageManager.instance.StorageData.AddEnemySatisfyCount(m_curBattleRole.key, m_battleModel);
+        // 寫入完成狀態後立即刷新，確保自動切換角色前至少繪製一次新徽章。
+        uiGameMainView.ApplyRoleRect();
         if (m_curBattleRole.SatisfyToAddFlagReference != null)
         {
             string flagKey = m_curBattleRole.SatisfyToAddFlagReference.GetKey();
@@ -438,7 +653,8 @@ public class BattlePanel : PanelBase
                 PlaySFX(AudioClipType.GetCardSFX);
             }
         }
-        EnemyDieAnimation(CreateBattleEnemy);
+        GalleryStateChangeNotifier.Notify();
+        PlayHealCompleteAnimation(CreateBattleEnemyAfterDefeat);
     }
     public void Hit(string hit)
     {
@@ -448,18 +664,18 @@ public class BattlePanel : PanelBase
         switch (m_battleModel)
         {
             case BattleModel.Normal:
-                NormalHit(hit);
+                HandleNormalInput(hit);
                 break;
             case BattleModel.Tomato:
-                TomatoHit(hit);
+                HandleTomatoInput(hit);
                 break;
             case BattleModel.Spell:
-                SpellHit(hit);
+                HandleSpellInput(hit);
                 break;
         }
     }
 
-    private void SpellHit(string hit)
+    private void HandleSpellInput(string hit)
     {
         if (m_enemySpawn && m_spellHandler)
         {
@@ -469,50 +685,63 @@ public class BattlePanel : PanelBase
 
             if (spellInputChar)
             {
-                PrimeTween.Tween.Delay(0.15f, () =>
-                {
-                    BigNumber value = m_curHealValue * SettingsManager.instance.setting.defaultSpellHeal;
-                    m_enemySpawn.HitHUDUpdate(value);
-                    PlayHit(value.ToString());
-                });
-
+                Tween.Delay(
+                    this,
+                    0.15f,
+                    static panel => panel.ApplySpellHeal(),
+                    warnIfTargetDestroyed: false);
             }
         }
     }
 
-    private void TomatoHit(string hit)
+    private void ApplySpellHeal()
+    {
+        if (m_isAlive == false || m_enemySpawn == null)
+            return;
+
+        BigNumber value = m_curHealValue * SettingsManager.instance.setting.defaultSpellHeal;
+        ApplyHealToEnemy(value);
+        PlayHealFeedback(value.ToString());
+    }
+
+    private void HandleTomatoInput(string hit)
     {
         if (m_isAlive == false)
             return;
 
         m_tomatoHitStack++;
-        m_enemySpawn.PlayBlockHitAnimation();
+        m_enemySpawn.PlayPendingHealFeedback();
     }
 
-    private void NormalHit(string hit)
+    private void HandleNormalInput(string hit)
     {
         if (m_isAlive == false)
             return;
 
         if (m_enemySpawn)
         {
-            m_enemySpawn.HitHUDUpdate(m_curHealValue);
-            m_enemySpawn.PlayHitAnimation();
-            PlayHit(m_curHealValue.ToString());
-            
-            PlayNormalHitEffect();
+            ApplyHealToEnemy(m_curHealValue);
+            PlayHealFeedback(m_curHealValue.ToString());
+            PlayNormalHealEffect();
         }
     }
 
-    public void PlayHit(string hitValue, bool isTomato = false)
+    private void PlayHealFeedback(string healValue, bool isStrong = false)
     {
-        if (m_hitPanel)
-            m_hitPanel.PlayHit(hitValue, isTomato);
+        if (m_healFeedbackPanel)
+            m_healFeedbackPanel.PlayHealValue(healValue, isStrong);
 
-        if (isTomato)
+        if (isStrong)
             PlaySFX(AudioClipType.CriticleSFX);
         else
             PlaySFX(AudioClipType.HealSFX);
+    }
+
+    private void ApplyHealToEnemy(BigNumber healValue)
+    {
+        m_enemySpawn.ApplyHealValue(healValue);
+        StorageManager.instance.StorageData.BattleStorageData.SetAccumulatedHealValue(
+            m_enemySpawn.AccumulatedHealValue);
     }
 
     public void TomatoTimeHint(RoleData roleData)
@@ -522,9 +751,9 @@ public class BattlePanel : PanelBase
     }
 
 
-    private void EnemyDieAnimation(Action callBack = null)
+    private void PlayHealCompleteAnimation(Action callBack = null)
     {
-        m_enemySpawn.EnemyDieAnimation(callBack);
+        m_enemySpawn.PlayHealCompleteAnimation(callBack);
     }
 
     private void PlayAnimation(string ClipName, Action callBack = null)
@@ -539,7 +768,7 @@ public class BattlePanel : PanelBase
 
     public override void Tick(float deltaTime)
     {
-        if (m_roleTalkHandler != null)
+        if (m_roleTalkHandler != null && m_battleModel != BattleModel.Spell)
             m_roleTalkHandler.Tick(deltaTime);
 
         switch (m_battleModel)
@@ -562,70 +791,67 @@ public class BattlePanel : PanelBase
         AudioClipManager.instance.PlaySFX(clipType, 1f);
     }
 
-    private void PlayCriticleHitEffect()
+    private void PlayStrongHealEffect()
     {
-        if (m_criticleHitPoolList.Count > 0)
+        StrongHealEffect strongHealEffect;
+        int poolCount = m_strongHealEffectPoolList.Count;
+        if (poolCount > 0)
         {
-            int lastIndex = m_criticleHitPoolList.Count - 1;
-            var criticleHit = m_criticleHitPoolList[lastIndex];
-            m_criticleHitPoolList.RemoveAt(lastIndex);
-            m_activeCriticleHitList.Add(criticleHit);
-            criticleHit.gameObject.SetActive(true);
-            criticleHit.transform.localPosition = UnityEngine.Random.insideUnitCircle * 50f;
-            criticleHit.Play(() =>
-            {
-                m_activeCriticleHitList.Remove(criticleHit);
-                m_criticleHitPoolList.Add(criticleHit);
-            });
+            int lastIndex = poolCount - 1;
+            strongHealEffect = m_strongHealEffectPoolList[lastIndex];
+            m_strongHealEffectPoolList.RemoveAt(lastIndex);
         }
         else
         {
-            var criticleHit = Instantiate(criticleHitTemplate, m_hitPanel.transform);
-            m_activeCriticleHitList.Add(criticleHit);
-            criticleHit.Play(() =>
-            {
-                criticleHit.gameObject.SetActive(false);
-                m_activeCriticleHitList.Remove(criticleHit);
-                m_criticleHitPoolList.Add(criticleHit);
-            });
+            strongHealEffect = Instantiate(m_strongHealEffectTemplate, m_healFeedbackPanel.transform);
+            strongHealEffect.gameObject.SetActive(false);
         }
+
+        m_activeStrongHealEffectList.Add(strongHealEffect);
+        strongHealEffect.transform.localPosition = UnityEngine.Random.insideUnitCircle * 50f;
+        strongHealEffect.Play(m_releaseStrongHealEffect);
     }
-    private void PlayNormalHitEffect()
+
+    private void ReleaseStrongHealEffect(StrongHealEffect strongHealEffect)
     {
-        if (m_normalHitPoolList.Count > 0)
+        strongHealEffect.gameObject.SetActive(false);
+        m_activeStrongHealEffectList.Remove(strongHealEffect);
+        m_strongHealEffectPoolList.Add(strongHealEffect);
+    }
+
+    private void PlayNormalHealEffect()
+    {
+        NormalHealEffect normalHealEffect;
+        int poolCount = m_normalHealEffectPoolList.Count;
+        if (poolCount > 0)
         {
-            int lastIndex = m_normalHitPoolList.Count - 1;
-            var normalHit = m_normalHitPoolList[lastIndex];
-            m_normalHitPoolList.RemoveAt(lastIndex);
-            m_activeNormalHitList.Add(normalHit);
-            normalHit.transform.localPosition = UnityEngine.Random.insideUnitCircle * 50f;
-            normalHit.Play(() =>
-            {
-                m_activeNormalHitList.Remove(normalHit);
-                m_normalHitPoolList.Add(normalHit);
-            });
+            int lastIndex = poolCount - 1;
+            normalHealEffect = m_normalHealEffectPoolList[lastIndex];
+            m_normalHealEffectPoolList.RemoveAt(lastIndex);
         }
         else
         {
-            var normalHit = Instantiate(normalHitTemplate, m_hitPanel.transform);
-            m_activeNormalHitList.Add(normalHit);
-            normalHit.Play(() =>
-            {
-                m_activeNormalHitList.Remove(normalHit);
-                m_normalHitPoolList.Add(normalHit);
-            });
+            normalHealEffect = Instantiate(m_normalHealEffectTemplate, m_healFeedbackPanel.transform);
+            normalHealEffect.gameObject.SetActive(false);
         }
+
+        m_activeNormalHealEffectList.Add(normalHealEffect);
+        normalHealEffect.transform.localPosition = UnityEngine.Random.insideUnitCircle * 50f;
+        normalHealEffect.Play(m_releaseNormalHealEffect);
+    }
+
+    private void ReleaseNormalHealEffect(NormalHealEffect normalHealEffect)
+    {
+        normalHealEffect.gameObject.SetActive(false);
+        m_activeNormalHealEffectList.Remove(normalHealEffect);
+        m_normalHealEffectPoolList.Add(normalHealEffect);
     }
     public void ApplyDesktopPetMode()
     {
         m_desktopPetMode = true;
 
-        if (m_bgImage && m_showBackgroundInDesktopPetMode == false)
-            m_bgImage.enabled = false;
-
         SetDesktopHidden(m_autoNextButton);
-        SetDesktopHidden(m_spellButton);
-        SetDesktopHidden(m_spellHandler);
+        // Desktop Pet 仍保留拼字按鈕與挑戰介面，顯示狀態交由解鎖旗標控制。
         SetDesktopHidden(m_bgmStateButton);
         SetDesktopHidden(m_audioStateButton);
     }

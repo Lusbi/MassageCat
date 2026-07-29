@@ -29,7 +29,7 @@ namespace MassageCat.EditorTools
         private const float k_sortWidth = 44f;
         private const float k_zoneWidth = 108f;
         private const float k_roleWidth = 190f;
-        private const float k_fatigueWidth = 135f;
+        private const float k_requiredHealValueWidth = 135f;
         private const float k_routeWidth = 205f;
         private const float k_rowHeight = 50f;
 
@@ -56,9 +56,9 @@ namespace MassageCat.EditorTools
         private readonly StringBuilder m_csvBuilder = new StringBuilder(32768);
 
         private DamageSimulationRoleInput[] m_roles = Array.Empty<DamageSimulationRoleInput>();
-        private BigInteger[] m_originalFatigueValues = Array.Empty<BigInteger>();
-        private BigInteger[] m_previewFatigueValues = Array.Empty<BigInteger>();
-        private BigInteger[] m_candidateFatigueValues = Array.Empty<BigInteger>();
+        private BigInteger[] m_originalRequiredHealValues = Array.Empty<BigInteger>();
+        private BigInteger[] m_previewRequiredHealValues = Array.Empty<BigInteger>();
+        private BigInteger[] m_candidateRequiredHealValues = Array.Empty<BigInteger>();
         private DamageSimulationResult m_result;
 
         private int m_spellUnlockSortId;
@@ -264,8 +264,8 @@ namespace MassageCat.EditorTools
             header.Add(CreateHeaderCell("#", k_sortWidth));
             header.Add(CreateHeaderCell("\u5340\u57df", k_zoneWidth));
             header.Add(CreateHeaderCell("\u89d2\u8272", k_roleWidth));
-            header.Add(CreateHeaderCell("\u76ee\u524d\u75b2\u52de\u503c", k_fatigueWidth));
-            header.Add(CreateHeaderCell("\u5efa\u8b70\u75b2\u52de\u503c", k_fatigueWidth));
+            header.Add(CreateHeaderCell("\u76ee\u524d\u7642\u7652\u9700\u6c42\u503c", k_requiredHealValueWidth));
+            header.Add(CreateHeaderCell("\u5efa\u8b70\u7642\u7652\u9700\u6c42\u503c", k_requiredHealValueWidth));
             header.Add(CreateHeaderCell("\u666e\u901a\u8def\u7dda", k_routeWidth));
             header.Add(CreateHeaderCell("\u5b57\u5f59\u8def\u7dda", k_routeWidth));
             header.Add(CreateHeaderCell("\u756a\u8304\u8def\u7dda", k_routeWidth));
@@ -297,10 +297,10 @@ namespace MassageCat.EditorTools
             DamageSimulationRoleResult roleResult = m_result != null && index < m_result.RoleResults.Length
                 ? m_result.RoleResults[index]
                 : default;
-            BigInteger previewFatigue = index < m_previewFatigueValues.Length
-                ? m_previewFatigueValues[index]
+            BigInteger previewRequiredHealValue = index < m_previewRequiredHealValues.Length
+                ? m_previewRequiredHealValues[index]
                 : BigInteger.Zero;
-            row.Bind(m_roles[index], previewFatigue, roleResult, m_calculationValid);
+            row.Bind(m_roles[index], previewRequiredHealValue, roleResult, m_calculationValid);
         }
 
         private static void ConfigureInputField(BaseField<string> field, float width)
@@ -383,7 +383,7 @@ namespace MassageCat.EditorTools
             }
 
             AllocateCalculationBuffers();
-            CopyFatigueValues(m_originalFatigueValues, m_previewFatigueValues);
+            CopyRequiredHealValues(m_originalRequiredHealValues, m_previewRequiredHealValues);
 
             if (m_dataErrors.Count > 0 || !TryBuildSettings(out DamageSimulationSettings settings))
             {
@@ -394,7 +394,7 @@ namespace MassageCat.EditorTools
                 return;
             }
 
-            DamageSimulationCalculator.CalculateAll(m_roles, m_originalFatigueValues, settings, m_result);
+            DamageSimulationCalculator.CalculateAll(m_roles, m_originalRequiredHealValues, settings, m_result);
             DamageSimulationRouteResult normalResult = m_result.Normal;
             if (resetInputs || m_targetHours <= 0d || double.IsNaN(m_targetHours) || double.IsInfinity(m_targetHours))
             {
@@ -542,7 +542,7 @@ namespace MassageCat.EditorTools
             HashSet<int> spellLevels)
         {
             m_roles = new DamageSimulationRoleInput[roleAssets.Count];
-            m_originalFatigueValues = new BigInteger[roleAssets.Count];
+            m_originalRequiredHealValues = new BigInteger[roleAssets.Count];
             HashSet<string> zones = new HashSet<string>(StringComparer.Ordinal);
 
             for (int i = 0; i < roleAssets.Count; i++)
@@ -554,17 +554,17 @@ namespace MassageCat.EditorTools
                 else
                     zones.Add(zone);
 
-                BigInteger fatigue = BigInteger.Zero;
+                BigInteger requiredHealValue = BigInteger.Zero;
                 try
                 {
-                    fatigue = role.Fatigue.Value;
+                    requiredHealValue = role.RequiredHealValue.Value;
                 }
                 catch (Exception exception)
                 {
-                    m_dataErrors.Add($"\u7121\u6cd5\u89e3\u6790\u89d2\u8272\u75b2\u52de\u503c\uff1a{role.key}\uff08{exception.Message}\uff09");
+                    m_dataErrors.Add($"\u7121\u6cd5\u89e3\u6790\u89d2\u8272\u7642\u7652\u9700\u6c42\u503c\uff1a{role.key}\uff08{exception.Message}\uff09");
                 }
-                if (fatigue <= BigInteger.Zero)
-                    m_dataErrors.Add($"\u89d2\u8272\u75b2\u52de\u503c\u5fc5\u9808\u5927\u65bc 0\uff1a{role.key}");
+                if (requiredHealValue <= BigInteger.Zero)
+                    m_dataErrors.Add($"\u89d2\u8272\u7642\u7652\u9700\u6c42\u503c\u5fc5\u9808\u5927\u65bc 0\uff1a{role.key}");
 
                 decimal tomatoSeconds = decimal.Zero;
                 if (!tomatoDurations.TryGetValue(role.key, out tomatoSeconds) || tomatoSeconds <= decimal.Zero)
@@ -579,13 +579,13 @@ namespace MassageCat.EditorTools
                     SortId = role.roleSortId,
                     Zone = zone,
                     RoleKey = role.key,
-                    OriginalFatigue = fatigue,
+                    OriginalRequiredHealValue = requiredHealValue,
                     SatisfyBonus = role.SatisfyBonus,
                     TomatoBonus = role.TomatoBonus,
                     TomatoSeconds = tomatoSeconds,
                     HasSpellQuestions = hasSpellQuestions,
                 };
-                m_originalFatigueValues[i] = fatigue;
+                m_originalRequiredHealValues[i] = requiredHealValue;
             }
 
             m_zoneCount = zones.Count;
@@ -594,10 +594,10 @@ namespace MassageCat.EditorTools
         private void AllocateCalculationBuffers()
         {
             int count = m_roles.Length;
-            if (m_originalFatigueValues.Length != count)
-                m_originalFatigueValues = new BigInteger[count];
-            m_previewFatigueValues = new BigInteger[count];
-            m_candidateFatigueValues = new BigInteger[count];
+            if (m_originalRequiredHealValues.Length != count)
+                m_originalRequiredHealValues = new BigInteger[count];
+            m_previewRequiredHealValues = new BigInteger[count];
+            m_candidateRequiredHealValues = new BigInteger[count];
             m_result = new DamageSimulationResult(count);
         }
 
@@ -688,12 +688,12 @@ namespace MassageCat.EditorTools
             decimal targetSeconds = targetHours * 3600m;
             bool solved = DamageSimulationCalculator.TrySolveTarget(
                 m_roles,
-                m_originalFatigueValues,
+                m_originalRequiredHealValues,
                 settings,
                 m_referenceRoute,
                 targetSeconds,
-                m_previewFatigueValues,
-                m_candidateFatigueValues,
+                m_previewRequiredHealValues,
+                m_candidateRequiredHealValues,
                 m_result,
                 out m_bestMultiplier,
                 out m_achievedSeconds,
@@ -707,7 +707,7 @@ namespace MassageCat.EditorTools
                 return;
             }
 
-            DamageSimulationCalculator.CalculateAll(m_roles, m_previewFatigueValues, settings, m_result);
+            DamageSimulationCalculator.CalculateAll(m_roles, m_previewRequiredHealValues, settings, m_result);
             DamageSimulationRouteResult referenceResult = m_result.GetRoute(m_referenceRoute);
             m_achievedSeconds = referenceResult.TotalSeconds;
             if (durationOverflow || referenceResult.DurationOverflow)
@@ -820,7 +820,8 @@ namespace MassageCat.EditorTools
                 m_calculationHelpBox.messageType = HelpBoxMessageType.Info;
                 m_calculationHelpBox.text =
                     $"\u57fa\u6e96\uff1a{s_routeNames[(int)m_referenceRoute]}\uff5c\u75b2\u52de\u500d\u7387\uff1a{m_bestMultiplier.ToString("0.################", CultureInfo.InvariantCulture)}\uff5c" +
-                    $"\u76ee\u6a19\uff1a{FormatDuration(targetSeconds)}\uff5c\u5be6\u969b\uff1a{FormatDuration(m_achievedSeconds)}\uff5c\u8aa4\u5dee\uff1a{direction}{FormatDuration(delta)}\u3002";
+                    $"\u76ee\u6a19\uff1a{FormatDuration(targetSeconds)}\uff5c\u5be6\u969b\uff1a{FormatDuration(m_achievedSeconds)}\uff5c\u8aa4\u5dee\uff1a{direction}{FormatDuration(delta)}\u3002" +
+                    "\n\u7b2c N \u96bb\u4f7f\u7528\u524d N-1 \u96bb\u7684\u7d2f\u7a4d\u52a0\u6210\uff1b\u81ea\u8eab\u52a0\u6210\u5f9e\u4e0b\u4e00\u96bb\u751f\u6548\u3002";
 
                 m_normalSummaryLabel.text = FormatRouteSummary("\u666e\u901a\u8def\u7dda", m_result.Normal);
                 m_spellSummaryLabel.text = FormatRouteSummary("\u5b57\u5f59\u8def\u7dda", m_result.Spell);
@@ -872,7 +873,7 @@ namespace MassageCat.EditorTools
         {
             m_csvBuilder.Clear();
             AppendCsvRow(
-                "RowType", "SortId", "Zone", "RoleKey", "CurrentFatigue", "SuggestedFatigue",
+                "RowType", "SortId", "Zone", "RoleKey", "CurrentRequiredHealValue", "SuggestedRequiredHealValue",
                 "NormalAction", "NormalDamage", "NormalHits", "NormalSeconds",
                 "SpellAction", "SpellDamage", "SpellHits", "SpellWords", "SpellSeconds",
                 "TomatoAction", "TomatoDamage", "TomatoHits", "TomatoSessions", "TomatoSeconds");
@@ -886,8 +887,8 @@ namespace MassageCat.EditorTools
                     role.SortId.ToString(CultureInfo.InvariantCulture),
                     role.Zone,
                     role.RoleKey,
-                    role.OriginalFatigue.ToString(CultureInfo.InvariantCulture),
-                    m_previewFatigueValues[i].ToString(CultureInfo.InvariantCulture),
+                    role.OriginalRequiredHealValue.ToString(CultureInfo.InvariantCulture),
+                    m_previewRequiredHealValues[i].ToString(CultureInfo.InvariantCulture),
                     GetActionName(result.Normal.ActionType),
                     result.Normal.DamagePerAction.ToString(CultureInfo.InvariantCulture),
                     result.Normal.RequiredNormalHits.ToString(CultureInfo.InvariantCulture),
@@ -910,7 +911,7 @@ namespace MassageCat.EditorTools
             AppendCsvRow(
                 "Setting", string.Empty, string.Empty, "ReferenceRoute", s_routeNames[(int)m_referenceRoute],
                 "TargetHours", m_targetHours.ToString("R", CultureInfo.InvariantCulture),
-                "FatigueMultiplier", m_bestMultiplier.ToString(CultureInfo.InvariantCulture),
+                "RequiredHealValueMultiplier", m_bestMultiplier.ToString(CultureInfo.InvariantCulture),
                 "InputsPerSecond", m_inputsPerSecond.ToString("R", CultureInfo.InvariantCulture),
                 "WordsPerMinute", m_wordsPerMinute.ToString("R", CultureInfo.InvariantCulture),
                 "BaseHeal", m_baseHeal.ToString(CultureInfo.InvariantCulture),
@@ -970,7 +971,7 @@ namespace MassageCat.EditorTools
                 case DamageSimulationError.InvalidDamage:
                     return string.Concat("\u7642\u7652\u503c\u6216\u500d\u7387\u7121\u6548", roleName, "\u3002");
                 case DamageSimulationError.InvalidHealth:
-                    return string.Concat("\u89d2\u8272\u75b2\u52de\u503c\u5fc5\u9808\u5927\u65bc 0", roleName, "\u3002");
+                    return string.Concat("\u89d2\u8272\u7642\u7652\u9700\u6c42\u503c\u5fc5\u9808\u5927\u65bc 0", roleName, "\u3002");
                 case DamageSimulationError.MissingSpellQuestions:
                     return string.Concat("\u7f3a\u5c11\u5b57\u5f59\u984c\u5eab", roleName, "\u3002");
                 case DamageSimulationError.MissingTomatoDuration:
@@ -1116,7 +1117,7 @@ namespace MassageCat.EditorTools
             return left.roleSortId.CompareTo(right.roleSortId);
         }
 
-        private static void CopyFatigueValues(BigInteger[] source, BigInteger[] destination)
+        private static void CopyRequiredHealValues(BigInteger[] source, BigInteger[] destination)
         {
             int count = Math.Min(source.Length, destination.Length);
             for (int i = 0; i < count; i++)
@@ -1128,8 +1129,8 @@ namespace MassageCat.EditorTools
             private readonly Label m_sortLabel;
             private readonly Label m_zoneLabel;
             private readonly Label m_roleLabel;
-            private readonly Label m_currentFatigueLabel;
-            private readonly Label m_previewFatigueLabel;
+            private readonly Label m_currentRequiredHealValueLabel;
+            private readonly Label m_previewRequiredHealValueLabel;
             private readonly Label m_normalLabel;
             private readonly Label m_spellLabel;
             private readonly Label m_tomatoLabel;
@@ -1141,16 +1142,16 @@ namespace MassageCat.EditorTools
                 m_sortLabel = CreateCell(k_sortWidth);
                 m_zoneLabel = CreateCell(k_zoneWidth);
                 m_roleLabel = CreateCell(k_roleWidth);
-                m_currentFatigueLabel = CreateCell(k_fatigueWidth);
-                m_previewFatigueLabel = CreateCell(k_fatigueWidth);
+                m_currentRequiredHealValueLabel = CreateCell(k_requiredHealValueWidth);
+                m_previewRequiredHealValueLabel = CreateCell(k_requiredHealValueWidth);
                 m_normalLabel = CreateCell(k_routeWidth);
                 m_spellLabel = CreateCell(k_routeWidth);
                 m_tomatoLabel = CreateCell(k_routeWidth);
                 Add(m_sortLabel);
                 Add(m_zoneLabel);
                 Add(m_roleLabel);
-                Add(m_currentFatigueLabel);
-                Add(m_previewFatigueLabel);
+                Add(m_currentRequiredHealValueLabel);
+                Add(m_previewRequiredHealValueLabel);
                 Add(m_normalLabel);
                 Add(m_spellLabel);
                 Add(m_tomatoLabel);
@@ -1158,20 +1159,20 @@ namespace MassageCat.EditorTools
 
             public void Bind(
                 DamageSimulationRoleInput role,
-                BigInteger previewFatigue,
+                BigInteger previewRequiredHealValue,
                 DamageSimulationRoleResult result,
                 bool hasValidResult)
             {
                 m_sortLabel.text = role.SortId.ToString(CultureInfo.InvariantCulture);
                 m_zoneLabel.text = role.Zone;
                 m_roleLabel.text = role.RoleKey;
-                m_currentFatigueLabel.text = FormatBigInteger(role.OriginalFatigue);
-                m_previewFatigueLabel.text = FormatBigInteger(previewFatigue);
+                m_currentRequiredHealValueLabel.text = FormatBigInteger(role.OriginalRequiredHealValue);
+                m_previewRequiredHealValueLabel.text = FormatBigInteger(previewRequiredHealValue);
                 m_normalLabel.text = hasValidResult ? FormatStep(result.Normal) : "-";
                 m_spellLabel.text = hasValidResult ? FormatStep(result.Spell) : "-";
                 m_tomatoLabel.text = hasValidResult ? FormatStep(result.Tomato) : "-";
 
-                tooltip = $"{role.RoleKey}\n\u76ee\u524d\uff1a{role.OriginalFatigue}\n\u5efa\u8b70\uff1a{previewFatigue}";
+                tooltip = $"{role.RoleKey}\n\u76ee\u524d\uff1a{role.OriginalRequiredHealValue}\n\u5efa\u8b70\uff1a{previewRequiredHealValue}";
             }
 
             private static Label CreateCell(float width)

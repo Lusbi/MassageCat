@@ -5,44 +5,85 @@ using System.Security.Cryptography;
 namespace BigMath
 {
     /// <summary>
-    /// Á¡¥]¸Ë BigInteger¡A´£¨Ñ²Å¸¹¹Bºâ¡]+ - * / ^¡^»P¤ñ¸û¹Bºâ¡]== != < <= > >=¡^
-    /// ª`·N¡G¦¹«¬§O±N ^ µø¬°¡u¾­¦¸¡v¡A¶È­­¥k°¼¬° int ªº±¡¹Ò
+    /// è–„åŒ…è£ BigIntegerï¼Œæä¾›ç¬¦è™Ÿé‹ç®—ï¼ˆ+ - * / ^ï¼‰èˆ‡æ¯”è¼ƒé‹ç®—ï¼ˆ== != < <= > >=ï¼‰
+    /// æ³¨æ„ï¼šæ­¤å‹åˆ¥å°‡ ^ è¦–ç‚ºã€Œå†ªæ¬¡ã€ï¼Œåƒ…é™å³å´ç‚º int çš„æƒ…å¢ƒ
     /// </summary>
     public readonly struct BigNumber : IComparable<BigNumber>, IEquatable<BigNumber>
     {
+        private static readonly RandomNumberGenerator s_rng = RandomNumberGenerator.Create();
+
         public BigInteger Value { get; }
 
         public BigNumber(BigInteger value) => Value = value;
 
-        // Áô¦¡Âà´«¡A¤è«Kª½±µ¥Î¾ã¼Æ©Î BigInteger «Ø¥ß BigNumber
+        // éš±å¼è½‰æ›ï¼Œæ–¹ä¾¿ç›´æ¥ç”¨æ•´æ•¸æˆ– BigInteger å»ºç«‹ BigNumber
         public static implicit operator BigNumber(int v) => new BigNumber(new BigInteger(v));
         public static implicit operator BigNumber(long v) => new BigNumber(new BigInteger(v));
         public static implicit operator BigNumber(BigInteger v) => new BigNumber(v);
 
-        // »İ­n®É¤]¥i¨ú¦^ BigInteger
+        // éœ€è¦æ™‚ä¹Ÿå¯å–å› BigInteger
         public static implicit operator BigInteger(BigNumber v) => v.Value;
 
-        // 1) ºâ³N¹Bºâ + - * /
+        // 1) ç®—è¡“é‹ç®— + - * /
         public static BigNumber operator +(BigNumber a, BigNumber b) => new BigNumber(a.Value + b.Value);
         public static BigNumber operator -(BigNumber a, BigNumber b) => new BigNumber(a.Value - b.Value);
         public static BigNumber operator *(BigNumber a, BigNumber b) => new BigNumber(a.Value * b.Value);
         public static BigNumber operator /(BigNumber a, BigNumber b) => new BigNumber(a.Value / b.Value);
 
-        // 2) ¾­¦¸¡G¥H ^ ªí¥Ü¡A­­©w¥k°¼¬° int
+        // 2) å†ªæ¬¡ï¼šä»¥ ^ è¡¨ç¤ºï¼Œé™å®šå³å´ç‚º int
         public static BigNumber operator ^(BigNumber a, int exponent)
         {
             return new BigNumber(BigInteger.Pow(a.Value, exponent));
         }
 
-        // ¤]´£¨Ñ©ú½Tªº¤èªkª©¥»¡]·í exponent »İ­nÀË¬d©Î¨Ó¦Û BigInteger ®É¡^
+        // ä¹Ÿæä¾›æ˜ç¢ºçš„æ–¹æ³•ç‰ˆæœ¬ï¼ˆç•¶ exponent éœ€è¦æª¢æŸ¥æˆ–ä¾†è‡ª BigInteger æ™‚ï¼‰
         public static BigNumber Pow(BigNumber a, BigInteger exponent)
         {
             if (exponent > int.MaxValue || exponent < int.MinValue)
-                throw new ArgumentOutOfRangeException(nameof(exponent), "¦¸¤è«ü¼Æ¥²¶·¦b int ½d³ò¤º");
+                throw new ArgumentOutOfRangeException(nameof(exponent), "æ¬¡æ–¹æŒ‡æ•¸å¿…é ˆåœ¨ int ç¯„åœå…§");
             return new BigNumber(BigInteger.Pow(a.Value, (int)exponent));
         }
 
-        // 3) ¤ñ¸û¹Bºâ == != < <= > >= »İ­n¦¨¹ï¹ê§@
+        /// <summary>
+        /// å°‡ numerator / denominator å››æ¨äº”å…¥ç‚º 0 åˆ° scale çš„ç¸®æ”¾æ•´æ•¸ï¼Œä¸ç¶“éæµ®é»æ•¸è½‰æ›ã€‚
+        /// </summary>
+        public static bool TryGetScaledRatio(
+            BigNumber numerator,
+            BigNumber denominator,
+            int scale,
+            out int scaledRatio)
+        {
+            scaledRatio = 0;
+            if (denominator.Value <= BigInteger.Zero || scale <= 0)
+                return false;
+
+            if (numerator.Value <= BigInteger.Zero)
+                return true;
+
+            if (numerator.Value >= denominator.Value)
+            {
+                scaledRatio = scale;
+                return true;
+            }
+
+            BigInteger scaledNumerator = numerator.Value * scale;
+            BigInteger quotient = BigInteger.DivRem(
+                scaledNumerator,
+                denominator.Value,
+                out BigInteger remainder);
+
+            // ç™‚ç™’æ¯”ä¾‹åªè™•ç†éè² æ•¸ï¼Œå› æ­¤ä¸­é»æ¡å‘ä¸Šæ¨å…¥ã€‚
+            if (remainder * 2 >= denominator.Value)
+                quotient += BigInteger.One;
+
+            if (quotient > scale)
+                quotient = scale;
+
+            scaledRatio = (int)quotient;
+            return true;
+        }
+
+        // 3) æ¯”è¼ƒé‹ç®— == != < <= > >= éœ€è¦æˆå°å¯¦ä½œ
         public static bool operator ==(BigNumber a, BigNumber b) => a.Value == b.Value;
         public static bool operator !=(BigNumber a, BigNumber b) => a.Value != b.Value;
         public static bool operator <(BigNumber a, BigNumber b) => a.Value < b.Value;
@@ -50,15 +91,13 @@ namespace BigMath
         public static bool operator <=(BigNumber a, BigNumber b) => a.Value <= b.Value;
         public static bool operator >=(BigNumber a, BigNumber b) => a.Value >= b.Value;
 
-        // 4) ¤¶­±¹ê§@
+        // 4) ä»‹é¢å¯¦ä½œ
         public int CompareTo(BigNumber other) => Value.CompareTo(other.Value);
         public bool Equals(BigNumber other) => Value.Equals(other.Value);
         public override bool Equals(object obj) => obj is BigNumber bn && Equals(bn);
         public override int GetHashCode() => Value.GetHashCode();
 
         public override string ToString() => Value.ToString();
-
-        private static readonly RandomNumberGenerator Rng = RandomNumberGenerator.Create();
 
         public static BigNumber Range(BigNumber min, BigNumber max)
         {
@@ -96,7 +135,7 @@ namespace BigMath
 
             do
             {
-                Rng.GetBytes(buffer);
+                s_rng.GetBytes(buffer);
                 buffer[^1] &= 0x7F;
                 result = new BigInteger(buffer);
             } while (result >= upperExclusive);
@@ -125,7 +164,7 @@ namespace BigMath
     }
 
     /// <summary>
-    /// ¨Ì§A»İ¨D«O¯d Utils¡G´£¨Ñ a ¡ò b = result ªº¦r¦ê®æ¦¡¤u¨ã
+    /// ä¾ä½ éœ€æ±‚ä¿ç•™ Utilsï¼šæä¾› a âŠ• b = result çš„å­—ä¸²æ ¼å¼å·¥å…·
     /// </summary>
     public static class BigIntegerUtils
     {
@@ -146,7 +185,7 @@ namespace BigMath
         };
 
         /// <summary>
-        /// ¦^¶Ç¦r¦ê¡G"a op b = result"¡A­Y¬° Compare «h¿é¥X a ? b¡]<, =, >¡^
+        /// å›å‚³å­—ä¸²ï¼š"a op b = result"ï¼Œè‹¥ç‚º Compare å‰‡è¼¸å‡º a ? bï¼ˆ<, =, >ï¼‰
         /// </summary>
         public static string FormatEval(BigNumber a, Operator op, BigNumber b)
         {
@@ -157,16 +196,16 @@ namespace BigMath
                 case Operator.Multiply: return $"{a} * {b} = {a * b}";
                 case Operator.Divide: return $"{a} / {b} = {a / b}";
                 case Operator.Pow:
-                    // ³o¸Ì¥Î ^ ªº int ª©¥»¡A­Y»İ­n BigInteger «ü¼Æ½Ğ§ï¥Î BigNumber.Pow(a, exponent)
+                    // é€™è£¡ç”¨ ^ çš„ int ç‰ˆæœ¬ï¼Œè‹¥éœ€è¦ BigInteger æŒ‡æ•¸è«‹æ”¹ç”¨ BigNumber.Pow(a, exponent)
                     if (b.Value > int.MaxValue || b.Value < int.MinValue)
-                        throw new ArgumentOutOfRangeException(nameof(b), "¦¸¤è«ü¼Æ¥²¶·¦b int ½d³ò¤º");
+                        throw new ArgumentOutOfRangeException(nameof(b), "æ¬¡æ–¹æŒ‡æ•¸å¿…é ˆåœ¨ int ç¯„åœå…§");
                     return $"{a} ^ {b} = {(a ^ (int)b.Value)}";
                 case Operator.Compare:
                     var cmp = a.CompareTo(b);
                     var sign = cmp < 0 ? "<" : (cmp > 0 ? ">" : "=");
                     return $"{a} {sign} {b}";
                 default:
-                    throw new NotSupportedException($"¤£¤ä´©ªº¹Bºâ: {op}");
+                    throw new NotSupportedException($"ä¸æ”¯æ´çš„é‹ç®—: {op}");
             }
         }
     }

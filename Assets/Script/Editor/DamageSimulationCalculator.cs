@@ -36,7 +36,7 @@ namespace MassageCat.EditorTools
         public int SortId;
         public string Zone;
         public string RoleKey;
-        public BigInteger OriginalFatigue;
+        public BigInteger OriginalRequiredHealValue;
         public int SatisfyBonus;
         public int TomatoBonus;
         public decimal TomatoSeconds;
@@ -162,18 +162,18 @@ namespace MassageCat.EditorTools
 
         public static void CalculateAll(
             IReadOnlyList<DamageSimulationRoleInput> roles,
-            IReadOnlyList<BigInteger> fatigueValues,
+            IReadOnlyList<BigInteger> requiredHealValues,
             in DamageSimulationSettings settings,
             DamageSimulationResult output)
         {
             if (roles == null)
                 throw new ArgumentNullException(nameof(roles));
-            if (fatigueValues == null)
-                throw new ArgumentNullException(nameof(fatigueValues));
+            if (requiredHealValues == null)
+                throw new ArgumentNullException(nameof(requiredHealValues));
             if (output == null)
                 throw new ArgumentNullException(nameof(output));
-            if (roles.Count != fatigueValues.Count || output.RoleResults.Length != roles.Count)
-                throw new ArgumentException("Role, fatigue, and output counts must match.");
+            if (roles.Count != requiredHealValues.Count || output.RoleResults.Length != roles.Count)
+                throw new ArgumentException("Role, required heal value, and output counts must match.");
 
             output.Reset();
 
@@ -195,28 +195,28 @@ namespace MassageCat.EditorTools
                 return;
             }
 
-            for (int i = 0; i < fatigueValues.Count; i++)
+            for (int i = 0; i < requiredHealValues.Count; i++)
             {
-                if (fatigueValues[i] > BigInteger.Zero)
+                if (requiredHealValues[i] > BigInteger.Zero)
                     continue;
 
                 InvalidateAll(output, DamageSimulationError.InvalidHealth, i);
                 return;
             }
 
-            CalculateNormalRoute(roles, fatigueValues, settings, output);
-            CalculateSpellRoute(roles, fatigueValues, settings, output);
-            CalculateTomatoRoute(roles, fatigueValues, settings, output);
+            CalculateNormalRoute(roles, requiredHealValues, settings, output);
+            CalculateSpellRoute(roles, requiredHealValues, settings, output);
+            CalculateTomatoRoute(roles, requiredHealValues, settings, output);
         }
 
         public static bool TrySolveTarget(
             IReadOnlyList<DamageSimulationRoleInput> roles,
-            IReadOnlyList<BigInteger> originalFatigueValues,
+            IReadOnlyList<BigInteger> originalRequiredHealValues,
             in DamageSimulationSettings settings,
             DamageSimulationRoute referenceRoute,
             decimal targetSeconds,
-            BigInteger[] bestFatigueValues,
-            BigInteger[] candidateFatigueValues,
+            BigInteger[] bestRequiredHealValues,
+            BigInteger[] candidateRequiredHealValues,
             DamageSimulationResult scratchResult,
             out decimal bestMultiplier,
             out decimal achievedSeconds,
@@ -232,22 +232,22 @@ namespace MassageCat.EditorTools
 
             if (targetSeconds <= decimal.Zero)
                 return false;
-            if (roles == null || originalFatigueValues == null || bestFatigueValues == null ||
-                candidateFatigueValues == null || scratchResult == null)
+            if (roles == null || originalRequiredHealValues == null || bestRequiredHealValues == null ||
+                candidateRequiredHealValues == null || scratchResult == null)
                 return false;
-            if (roles.Count != originalFatigueValues.Count ||
-                bestFatigueValues.Length != roles.Count ||
-                candidateFatigueValues.Length != roles.Count ||
+            if (roles.Count != originalRequiredHealValues.Count ||
+                bestRequiredHealValues.Length != roles.Count ||
+                candidateRequiredHealValues.Length != roles.Count ||
                 scratchResult.RoleResults.Length != roles.Count)
                 return false;
 
             bool hasBest = false;
             decimal bestDistance = decimal.MaxValue;
 
-            ApplyScale(originalFatigueValues, decimal.Zero, candidateFatigueValues);
+            ApplyScale(originalRequiredHealValues, decimal.Zero, candidateRequiredHealValues);
             if (!EvaluateCandidate(
                     roles,
-                    candidateFatigueValues,
+                    candidateRequiredHealValues,
                     settings,
                     referenceRoute,
                     scratchResult,
@@ -258,12 +258,12 @@ namespace MassageCat.EditorTools
                 return false;
 
             UpdateBestCandidate(
-                candidateFatigueValues,
+                candidateRequiredHealValues,
                 decimal.Zero,
                 minimumSeconds,
                 minimumOverflow,
                 targetSeconds,
-                bestFatigueValues,
+                bestRequiredHealValues,
                 ref hasBest,
                 ref bestDistance,
                 ref bestMultiplier,
@@ -276,10 +276,10 @@ namespace MassageCat.EditorTools
             decimal lowMultiplier = decimal.Zero;
             decimal highMultiplier = decimal.One;
 
-            ApplyScale(originalFatigueValues, highMultiplier, candidateFatigueValues);
+            ApplyScale(originalRequiredHealValues, highMultiplier, candidateRequiredHealValues);
             if (!EvaluateCandidate(
                     roles,
-                    candidateFatigueValues,
+                    candidateRequiredHealValues,
                     settings,
                     referenceRoute,
                     scratchResult,
@@ -290,12 +290,12 @@ namespace MassageCat.EditorTools
                 return false;
 
             UpdateBestCandidate(
-                candidateFatigueValues,
+                candidateRequiredHealValues,
                 highMultiplier,
                 highSeconds,
                 highOverflow,
                 targetSeconds,
-                bestFatigueValues,
+                bestRequiredHealValues,
                 ref hasBest,
                 ref bestDistance,
                 ref bestMultiplier,
@@ -311,10 +311,10 @@ namespace MassageCat.EditorTools
                     break;
 
                 highMultiplier *= 2m;
-                ApplyScale(originalFatigueValues, highMultiplier, candidateFatigueValues);
+                ApplyScale(originalRequiredHealValues, highMultiplier, candidateRequiredHealValues);
                 if (!EvaluateCandidate(
                         roles,
-                        candidateFatigueValues,
+                        candidateRequiredHealValues,
                         settings,
                         referenceRoute,
                         scratchResult,
@@ -325,12 +325,12 @@ namespace MassageCat.EditorTools
                     return false;
 
                 UpdateBestCandidate(
-                    candidateFatigueValues,
+                    candidateRequiredHealValues,
                     highMultiplier,
                     highSeconds,
                     highOverflow,
                     targetSeconds,
-                    bestFatigueValues,
+                    bestRequiredHealValues,
                     ref hasBest,
                     ref bestDistance,
                     ref bestMultiplier,
@@ -347,10 +347,10 @@ namespace MassageCat.EditorTools
                 if (middleMultiplier == lowMultiplier || middleMultiplier == highMultiplier)
                     break;
 
-                ApplyScale(originalFatigueValues, middleMultiplier, candidateFatigueValues);
+                ApplyScale(originalRequiredHealValues, middleMultiplier, candidateRequiredHealValues);
                 if (!EvaluateCandidate(
                         roles,
-                        candidateFatigueValues,
+                        candidateRequiredHealValues,
                         settings,
                         referenceRoute,
                         scratchResult,
@@ -361,12 +361,12 @@ namespace MassageCat.EditorTools
                     return false;
 
                 UpdateBestCandidate(
-                    candidateFatigueValues,
+                    candidateRequiredHealValues,
                     middleMultiplier,
                     middleSeconds,
                     middleOverflow,
                     targetSeconds,
-                    bestFatigueValues,
+                    bestRequiredHealValues,
                     ref hasBest,
                     ref bestDistance,
                     ref bestMultiplier,
@@ -395,7 +395,7 @@ namespace MassageCat.EditorTools
 
         private static void CalculateNormalRoute(
             IReadOnlyList<DamageSimulationRoleInput> roles,
-            IReadOnlyList<BigInteger> fatigueValues,
+            IReadOnlyList<BigInteger> requiredHealValues,
             in DamageSimulationSettings settings,
             DamageSimulationResult output)
         {
@@ -412,7 +412,7 @@ namespace MassageCat.EditorTools
                     return;
                 }
 
-                BigInteger hitCount = CeilDivide(fatigueValues[i], damage);
+                BigInteger hitCount = CeilDivide(requiredHealValues[i], damage);
                 decimal seconds = SaturatingDivide(hitCount, settings.InputsPerSecond, out bool overflow);
                 DamageSimulationStepResult step = CreateNormalStep(damage, hitCount, seconds, overflow);
                 DamageSimulationRoleResult roleResult = output.RoleResults[i];
@@ -426,7 +426,7 @@ namespace MassageCat.EditorTools
 
         private static void CalculateSpellRoute(
             IReadOnlyList<DamageSimulationRoleInput> roles,
-            IReadOnlyList<BigInteger> fatigueValues,
+            IReadOnlyList<BigInteger> requiredHealValues,
             in DamageSimulationSettings settings,
             DamageSimulationResult output)
         {
@@ -446,10 +446,9 @@ namespace MassageCat.EditorTools
                 DamageSimulationStepResult step;
                 if (role.SortId <= settings.SpellUnlockSortId)
                 {
-                    BigInteger hitCount = CeilDivide(fatigueValues[i], healValue);
+                    BigInteger hitCount = CeilDivide(requiredHealValues[i], healValue);
                     decimal seconds = SaturatingDivide(hitCount, settings.InputsPerSecond, out bool overflow);
                     step = CreateNormalStep(healValue, hitCount, seconds, overflow);
-                    satisfyBonus += role.SatisfyBonus;
                 }
                 else
                 {
@@ -466,7 +465,7 @@ namespace MassageCat.EditorTools
                         return;
                     }
 
-                    BigInteger wordCount = CeilDivide(fatigueValues[i], wordDamage);
+                    BigInteger wordCount = CeilDivide(requiredHealValues[i], wordDamage);
                     decimal secondsPerWord = 60m / settings.WordsPerMinute;
                     decimal seconds = SaturatingMultiply(wordCount, secondsPerWord, out bool overflow);
                     step = new DamageSimulationStepResult
@@ -483,12 +482,14 @@ namespace MassageCat.EditorTools
                 roleResult.Spell = step;
                 output.RoleResults[i] = roleResult;
                 output.Spell.Add(step);
+
+                satisfyBonus += role.SatisfyBonus;
             }
         }
 
         private static void CalculateTomatoRoute(
             IReadOnlyList<DamageSimulationRoleInput> roles,
-            IReadOnlyList<BigInteger> fatigueValues,
+            IReadOnlyList<BigInteger> requiredHealValues,
             in DamageSimulationSettings settings,
             DamageSimulationResult output)
         {
@@ -508,10 +509,9 @@ namespace MassageCat.EditorTools
                 DamageSimulationStepResult step;
                 if (role.SortId <= settings.TomatoUnlockSortId)
                 {
-                    BigInteger hitCount = CeilDivide(fatigueValues[i], healValue);
+                    BigInteger hitCount = CeilDivide(requiredHealValues[i], healValue);
                     decimal seconds = SaturatingDivide(hitCount, settings.InputsPerSecond, out bool overflow);
                     step = CreateNormalStep(healValue, hitCount, seconds, overflow);
-                    satisfyBonus += role.SatisfyBonus;
                 }
                 else
                 {
@@ -536,7 +536,7 @@ namespace MassageCat.EditorTools
                         return;
                     }
 
-                    BigInteger hitCount = CeilDivide(fatigueValues[i], healValue);
+                    BigInteger hitCount = CeilDivide(requiredHealValues[i], healValue);
                     BigInteger sessionCapacity = new BigInteger(sessionCapacityDecimal);
                     BigInteger sessionCount = CeilDivide(hitCount, sessionCapacity);
                     decimal seconds = SaturatingMultiply(sessionCount, role.TomatoSeconds, out bool overflow);
@@ -549,14 +549,16 @@ namespace MassageCat.EditorTools
                         Seconds = seconds,
                         DurationOverflow = overflow,
                     };
-
-                    tomatoBonus += role.TomatoBonus;
                 }
 
                 DamageSimulationRoleResult roleResult = output.RoleResults[i];
                 roleResult.Tomato = step;
                 output.RoleResults[i] = roleResult;
                 output.Tomato.Add(step);
+
+                satisfyBonus += role.SatisfyBonus;
+                if (role.SortId > settings.TomatoUnlockSortId)
+                    tomatoBonus += role.TomatoBonus;
             }
         }
 
@@ -634,7 +636,7 @@ namespace MassageCat.EditorTools
 
         private static bool EvaluateCandidate(
             IReadOnlyList<DamageSimulationRoleInput> roles,
-            BigInteger[] candidateFatigueValues,
+            BigInteger[] candidateRequiredHealValues,
             in DamageSimulationSettings settings,
             DamageSimulationRoute referenceRoute,
             DamageSimulationResult scratchResult,
@@ -643,7 +645,7 @@ namespace MassageCat.EditorTools
             out DamageSimulationError error,
             out int errorRoleIndex)
         {
-            CalculateAll(roles, candidateFatigueValues, settings, scratchResult);
+            CalculateAll(roles, candidateRequiredHealValues, settings, scratchResult);
             DamageSimulationRouteResult routeResult = scratchResult.GetRoute(referenceRoute);
             seconds = routeResult.TotalSeconds;
             durationOverflow = routeResult.DurationOverflow;
@@ -653,12 +655,12 @@ namespace MassageCat.EditorTools
         }
 
         private static void UpdateBestCandidate(
-            BigInteger[] candidateFatigueValues,
+            BigInteger[] candidateRequiredHealValues,
             decimal multiplier,
             decimal seconds,
             bool overflow,
             decimal targetSeconds,
-            BigInteger[] bestFatigueValues,
+            BigInteger[] bestRequiredHealValues,
             ref bool hasBest,
             ref decimal bestDistance,
             ref decimal bestMultiplier,
@@ -675,7 +677,7 @@ namespace MassageCat.EditorTools
             if (!isBetter)
                 return;
 
-            CopyValues(candidateFatigueValues, bestFatigueValues);
+            CopyValues(candidateRequiredHealValues, bestRequiredHealValues);
             hasBest = true;
             bestDistance = distance;
             bestMultiplier = multiplier;
@@ -684,14 +686,14 @@ namespace MassageCat.EditorTools
         }
 
         private static void ApplyScale(
-            IReadOnlyList<BigInteger> originalFatigueValues,
+            IReadOnlyList<BigInteger> originalRequiredHealValues,
             decimal multiplier,
             BigInteger[] destination)
         {
             GetDecimalFraction(multiplier, out BigInteger numerator, out BigInteger denominator);
-            for (int i = 0; i < originalFatigueValues.Count; i++)
+            for (int i = 0; i < originalRequiredHealValues.Count; i++)
             {
-                BigInteger scaled = originalFatigueValues[i] * numerator;
+                BigInteger scaled = originalRequiredHealValues[i] * numerator;
                 BigInteger rounded = BigInteger.DivRem(scaled, denominator, out BigInteger remainder);
                 if (!remainder.IsZero && remainder * 2 >= denominator)
                     rounded += BigInteger.One;

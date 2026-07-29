@@ -8,7 +8,19 @@ public class TeachPanel : MonoBehaviour
 
     private TeachInfo m_cacheTeachInfo;
     private IReadOnlyList<TeachStepInfo> m_cacheTeachSteps;
-    private int m_index = 0;
+    private TeachStepInfo m_activeStep;
+    private int m_index;
+    private bool m_isTeaching;
+
+    private void Update()
+    {
+        if (!m_isTeaching || m_activeStep == null || !Input.GetMouseButtonDown(0))
+            return;
+
+        // 教學顯示期間允許點擊畫面任意位置完成當前步驟，避免 UI Raycast 遺失後流程卡住。
+        m_activeStep.TryComplete();
+    }
+
     /// <summary>
     /// 觸發教學旗標
     /// </summary>
@@ -73,6 +85,7 @@ public class TeachPanel : MonoBehaviour
     {
         if (m_index < 0 || m_index >= m_cacheTeachSteps.Count)
         {
+            m_activeStep = null;
             TutorialFlowDiagnostics.Log(
                 $"教學步驟完成：index={m_index}, stepCount={m_cacheTeachSteps.Count}",
                 this);
@@ -82,14 +95,26 @@ public class TeachPanel : MonoBehaviour
         }
 
         var stepInfo = m_cacheTeachSteps[m_index];
+        if (stepInfo == null)
+        {
+            TutorialFlowDiagnostics.LogWarning($"略過空白教學步驟：index={m_index}", this);
+            m_index++;
+            NextTeachStep();
+            return;
+        }
+
+        m_activeStep = stepInfo;
         TutorialFlowDiagnostics.Log(
-            $"套用教學步驟：index={m_index}, stepKey={(stepInfo != null ? stepInfo.TeachKey : "<null>")}",
+            $"套用教學步驟：index={m_index}, stepKey={stepInfo.TeachKey}",
             this);
         stepInfo.Apply(() =>
         {
             TutorialFlowDiagnostics.Log(
                 $"教學步驟要求前往下一步：index={m_index}, stepKey={stepInfo.TeachKey}",
                 this);
+            if (ReferenceEquals(m_activeStep, stepInfo))
+                m_activeStep = null;
+
             m_index++;
             NextTeachStep();
         });
@@ -101,6 +126,10 @@ public class TeachPanel : MonoBehaviour
     /// <param name="teachState"></param>
     public void UpdateTeachState(bool teachState)
     {
+        m_isTeaching = !teachState;
+        if (teachState)
+            m_activeStep = null;
+
         if (m_canvasGroup)
         {
             m_canvasGroup.blocksRaycasts = !teachState;

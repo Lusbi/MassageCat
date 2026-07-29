@@ -5,6 +5,7 @@ using GameCore.UI;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Modules.SystemMessage
 {
@@ -25,93 +26,124 @@ namespace Modules.SystemMessage
 
     public class SystemMessageView : MonoBehaviour, IInitlization
     {
-        [SerializeField] private CanvasGroup viewCanvasGroup;
-        [SerializeField] private TextMeshProUGUI Title;
-        [SerializeField] private TextMeshProUGUI Content;
-        [SerializeField] private UIButton BtnClick;
+        private const float k_fadeDuration = 0.5f;
 
-        // ­t³d±µ¦¬°T®§¨Æ¥ó
-        private EventListener eventListener;
+        [FormerlySerializedAs("viewCanvasGroup")]
+        [SerializeField] private CanvasGroup m_viewCanvasGroup;
+        [FormerlySerializedAs("Title")]
+        [SerializeField] private TextMeshProUGUI m_title;
+        [FormerlySerializedAs("Content")]
+        [SerializeField] private TextMeshProUGUI m_content;
+        [FormerlySerializedAs("BtnClick")]
+        [SerializeField] private UIButton m_confirmButton;
 
+        private EventListener m_eventListener;
         private Action m_onConfirm;
+        private Tween m_visibilityTween;
 
         public void Initlization(Action callBack = null)
         {
-            eventListener = new EventListener();
-            eventListener.AddListener<SystemMessageEvent>((evt)=>
-            {
-                RegisterInfo(evt.Title, evt.Content, evt.OnConfirm);
-                Show();
-            });
+            StopVisibilityTween();
+            m_eventListener?.Destroy();
+            m_eventListener = new EventListener();
+            m_eventListener.AddListener<SystemMessageEvent>(OnSystemMessageEvent);
 
-            if (viewCanvasGroup == null) viewCanvasGroup = GetComponent<CanvasGroup>();
+            // æ­¤ Prefab æœƒæ›åœ¨åƒ…æ¸²æŸ“ UI Layer çš„ç›¸æ©Ÿç•«å¸ƒä¸‹ï¼Œç¢ºä¿æ‰€æœ‰å­ç¯€é»ä¸æœƒè¢«ç›¸æ©Ÿå‰”é™¤ã€‚
+            if (transform.parent != null)
+                SetLayerRecursively(transform, transform.parent.gameObject.layer);
 
-            // ¹w³]Ãö³¬
-            if (viewCanvasGroup != null)
+            if (m_viewCanvasGroup == null)
+                m_viewCanvasGroup = GetComponent<CanvasGroup>();
+
+            // åˆå§‹åŒ–ç‚ºéš±è—ç‹€æ…‹ï¼Œé¿å…ç¬¬ä¸€å¹€æ””æˆªèƒŒæ™¯è¼¸å…¥ã€‚
+            if (m_viewCanvasGroup != null)
             {
-                viewCanvasGroup.alpha = 0f;
-                viewCanvasGroup.blocksRaycasts = false;
+                m_viewCanvasGroup.alpha = 0f;
+                m_viewCanvasGroup.blocksRaycasts = false;
             }
 
-            if (BtnClick != null)
+            if (m_confirmButton != null)
             {
-                BtnClick.onClicked += OnBtnClick;
+                m_confirmButton.onClicked -= OnBtnClick;
+                m_confirmButton.onClicked += OnBtnClick;
             }
+
+            callBack?.Invoke();
         }
 
         private void OnDestroy()
         {
-            if (eventListener != null)
-            {
-                eventListener.Destroy();
-                eventListener = null;
-            }
+            StopVisibilityTween();
+            m_eventListener?.Destroy();
+            m_eventListener = null;
 
-            if (BtnClick != null)
-            {
-                BtnClick.onClicked -= OnBtnClick;
-            }
+            if (m_confirmButton != null)
+                m_confirmButton.onClicked -= OnBtnClick;
+
+            UnityMainThreadDispatcher.SetInputListenerState(true);
         }
 
-        /// <summary>
-        /// ªì©l¤Æ®Éµù¥U±µ¦¬¸ê°T
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="content"></param>
-        /// <param name="callBack"></param>
         public void RegisterInfo(string title, string content, Action callBack)
         {
-            if (Title != null) Title.text = title;
-            if (Content != null) Content.text = content;
+            if (m_title != null)
+                m_title.SetText(title);
+            if (m_content != null)
+                m_content.SetText(content);
+
             m_onConfirm = callBack;
         }
 
         public void Show()
         {
-            if (viewCanvasGroup != null)
+            StopVisibilityTween();
+            if (m_viewCanvasGroup != null)
             {
-                // 0.5¬í¡A±q0>1
-                Tween.Alpha(viewCanvasGroup, 1f, 0.5f);
-                viewCanvasGroup.blocksRaycasts = true;
+                m_viewCanvasGroup.blocksRaycasts = true;
+                m_visibilityTween = Tween.Alpha(m_viewCanvasGroup, 1f, k_fadeDuration);
             }
 
-            // 1.3 ¶}±Ò®É¡A¼È°±ºÊÅ¥¥´¦rµo°e
+            // å½ˆçª—é¡¯ç¤ºæœŸé–“åœç”¨å…¨åŸŸéµç›¤è¼¸å…¥ã€‚
             UnityMainThreadDispatcher.SetInputListenerState(false);
         }
 
         public void Hide()
         {
-            if (viewCanvasGroup != null)
+            StopVisibilityTween();
+            if (m_viewCanvasGroup != null)
             {
-                // 0.5¬í¡A±q1>0
-                Tween.Alpha(viewCanvasGroup, 0f, 0.5f).OnComplete(() =>
-                {
-                    viewCanvasGroup.blocksRaycasts = false;
-                });
+                m_visibilityTween = Tween.Alpha(m_viewCanvasGroup, 0f, k_fadeDuration)
+                    .OnComplete(this, static view => view.OnHideCompleted(), false);
+                return;
             }
 
-            // Ãö³¬®É¡A«ì´_ºÊÅ¥¥´¦rµo°e
+            OnHideCompleted();
+        }
+
+        private void OnSystemMessageEvent(SystemMessageEvent evt)
+        {
+            RegisterInfo(evt.Title, evt.Content, evt.OnConfirm);
+            Show();
+        }
+
+        private void OnHideCompleted()
+        {
+            if (m_viewCanvasGroup != null)
+                m_viewCanvasGroup.blocksRaycasts = false;
+
             UnityMainThreadDispatcher.SetInputListenerState(true);
+        }
+
+        private void StopVisibilityTween()
+        {
+            if (m_visibilityTween.isAlive)
+                m_visibilityTween.Stop();
+        }
+
+        private static void SetLayerRecursively(Transform root, int layer)
+        {
+            root.gameObject.layer = layer;
+            for (int i = 0, count = root.childCount; i < count; i++)
+                SetLayerRecursively(root.GetChild(i), layer);
         }
 
         private void OnBtnClick(UIButton btn)

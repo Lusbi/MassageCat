@@ -77,6 +77,12 @@ public class GameMainView : UIViewBase
     {
         m_roleScrollRect.ListMoveToTop(data);
     }
+
+    internal void SetRoleArrowInteraction(bool isEnabled)
+    {
+        m_roleScrollRect.SetArrowInteractionEnabled(isEnabled);
+    }
+
     private void ApplyDesktopPetMode()
     {
         if (m_battlePanel)

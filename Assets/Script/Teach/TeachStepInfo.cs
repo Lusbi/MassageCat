@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TeachStepInfo : MonoBehaviour
 {
+    private const float k_inputGracePeriod = 0.25f;
+
     [SerializeField] private CanvasGroup m_canvasGroup;
     [SerializeField] private string m_teachKey;
     [SerializeField] private UIButton m_clickBtn;
@@ -13,13 +15,15 @@ public class TeachStepInfo : MonoBehaviour
     /// </summary>
     public string TeachKey => m_teachKey;
     private Action m_nextAction;
+    private float m_inputEnableTime;
 
     public void OnEnable()
     {
         TutorialFlowDiagnostics.Log(
             $"教學步驟啟用：stepKey={m_teachKey}, hasClickButton={m_clickBtn != null}, hasTargetObject={m_obj != null}",
             this);
-        m_clickBtn.onClicked = OnClick;
+        if (m_clickBtn != null)
+            m_clickBtn.onClicked = OnClick;
     }
 
     public void OnDisable()
@@ -27,12 +31,15 @@ public class TeachStepInfo : MonoBehaviour
         TutorialFlowDiagnostics.Log(
             $"教學步驟停用並清除點擊事件：stepKey={m_teachKey}, activeSelf={gameObject.activeSelf}, activeInHierarchy={gameObject.activeInHierarchy}",
             this);
-        m_clickBtn.onClicked = null;
+        if (m_clickBtn != null)
+            m_clickBtn.onClicked = null;
     }
 
     public void Apply(Action action)
     {
         m_nextAction = action;
+        // 避免戰鬥收尾的同一次連點，立即略過剛顯示的教學。
+        m_inputEnableTime = Time.unscaledTime + k_inputGracePeriod;
         TutorialFlowDiagnostics.Log(
             $"顯示教學步驟：stepKey={m_teachKey}, hasNextAction={m_nextAction != null}, hasTargetObject={m_obj != null}, clickHandlerBound={m_clickBtn != null && m_clickBtn.onClicked != null}, targetActiveSelf={(m_obj != null && m_obj.activeSelf)}, targetActiveInHierarchy={(m_obj != null && m_obj.activeInHierarchy)}",
             this);
@@ -45,15 +52,31 @@ public class TeachStepInfo : MonoBehaviour
 
     private void OnClick(UIButton button)
     {
+        TryComplete();
+    }
+
+    internal bool TryComplete()
+    {
+        if (Time.unscaledTime < m_inputEnableTime)
+            return false;
+
+        Action nextAction = m_nextAction;
+        if (nextAction == null)
+            return false;
+
+        // 先清除回呼，確保 UI 事件與全畫面點擊備援不會重複完成同一步驟。
+        m_nextAction = null;
         TutorialFlowDiagnostics.Log(
-            $"點擊教學步驟：stepKey={m_teachKey}, hasNextAction={m_nextAction != null}",
+            $"完成教學步驟：stepKey={m_teachKey}",
             this);
-        m_nextAction?.Invoke();
+        nextAction.Invoke();
         if (m_obj)
         {
             m_obj.SetActive(false);
             CanvasGroupUpdate(false);
         }
+
+        return true;
     }
 
     private void CanvasGroupUpdate(bool isActive)

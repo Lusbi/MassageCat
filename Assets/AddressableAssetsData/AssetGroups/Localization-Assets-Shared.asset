@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Localization-Assets-Shared
   m_GUID: e72ca91f825d7424b90153007c04e8d9
-  m_SerializeEntries:
-  - m_GUID: e6e0edbaa9b26f14e973c73d02537fb7
-    m_Address: LocalizationCollection Shared Data
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: e2993f66a7e367b4b91087661a632625, type: 2}
   m_SchemaSet:

@@ -11,12 +11,16 @@ public class RoleScrollRect : MonoBehaviour
 
     [SerializeField] private UIButton m_leftArrowButton;
     [SerializeField] private UIButton m_rightArrowButton;
+    [SerializeField] private GameObject m_normalCompletionIcon;
+    [SerializeField] private GameObject m_tomatoCompletionIcon;
+    [SerializeField] private GameObject m_spellCompletionIcon;
 
     private List<RoleInfo> m_sortedRoleList;
     private EventListener m_eventListener;
     private CanvasGroup m_leftArrowCanvasGroup;
     private CanvasGroup m_rightArrowCanvasGroup;
     private int m_currentRoleIndex = -1;
+    private bool m_isArrowInteractionEnabled = true;
     private bool m_isInitialized;
 
     private void Awake()
@@ -70,6 +74,7 @@ public class RoleScrollRect : MonoBehaviour
         m_eventListener.AddListener<FlagUpdateEvent>(OnFlagUpdateEvent, true);
 
         m_isInitialized = true;
+        RefreshCompletionIndicators();
         UpdateArrowVisibility();
         return true;
     }
@@ -87,6 +92,7 @@ public class RoleScrollRect : MonoBehaviour
         if (EnsureInitialized() == false)
             return;
 
+        RefreshCompletionIndicators();
         UpdateArrowVisibility();
     }
 
@@ -104,9 +110,19 @@ public class RoleScrollRect : MonoBehaviour
                 continue;
 
             m_currentRoleIndex = i;
+            RefreshCompletionIndicators();
             UpdateArrowVisibility();
             return;
         }
+    }
+
+    internal void SetArrowInteractionEnabled(bool isEnabled)
+    {
+        if (m_isArrowInteractionEnabled == isEnabled)
+            return;
+
+        m_isArrowInteractionEnabled = isEnabled;
+        UpdateArrowVisibility();
     }
 
     private void OnPreviousRoleClicked(UIButton button)
@@ -121,11 +137,15 @@ public class RoleScrollRect : MonoBehaviour
 
     private void TrySelectAdjacentRole(int direction)
     {
+        if (m_isArrowInteractionEnabled == false)
+            return;
+
         int targetIndex = m_currentRoleIndex + direction;
         if (CanSelectRole(targetIndex) == false)
             return;
 
         AudioClipManager.instance.PlaySFX(AudioClipType.Button_ClickSFX, 0.5f);
+        UnityMainThreadDispatcher.DelaySetInputListenerState(false, 0.1f);
         EventManager.instance.Notify(new SetBattleRoleEvent(m_sortedRoleList[targetIndex].roleData.key));
     }
 
@@ -151,7 +171,8 @@ public class RoleScrollRect : MonoBehaviour
             UpdateArrowVisibility(
                 m_leftArrowButton,
                 m_leftArrowCanvasGroup,
-                CanSelectRole(m_currentRoleIndex - 1));
+                CanSelectRole(m_currentRoleIndex - 1),
+                m_isArrowInteractionEnabled);
         }
 
         if (m_rightArrowButton != null)
@@ -159,11 +180,16 @@ public class RoleScrollRect : MonoBehaviour
             UpdateArrowVisibility(
                 m_rightArrowButton,
                 m_rightArrowCanvasGroup,
-                CanSelectRole(m_currentRoleIndex + 1));
+                CanSelectRole(m_currentRoleIndex + 1),
+                m_isArrowInteractionEnabled);
         }
     }
 
-    private static void UpdateArrowVisibility(UIButton button, CanvasGroup canvasGroup, bool isVisible)
+    private static void UpdateArrowVisibility(
+        UIButton button,
+        CanvasGroup canvasGroup,
+        bool isVisible,
+        bool isInteractionEnabled)
     {
         if (isVisible == false)
         {
@@ -172,6 +198,7 @@ public class RoleScrollRect : MonoBehaviour
             return;
         }
 
+        button.locked = !isInteractionEnabled;
         SetArrowAlpha(canvasGroup, false);
         button.Show(true);
     }
@@ -188,5 +215,31 @@ public class RoleScrollRect : MonoBehaviour
             && roleIndex >= 0
             && roleIndex < m_sortedRoleList.Count
             && m_sortedRoleList[roleIndex].roleData.ValidateFlagReferenceConditions();
+    }
+
+    private void RefreshCompletionIndicators()
+    {
+        EnemyStorageData storageData = null;
+        if (m_currentRoleIndex >= 0 && m_currentRoleIndex < m_sortedRoleList.Count)
+        {
+            RoleData roleData = m_sortedRoleList[m_currentRoleIndex].roleData;
+            storageData = StorageManager.instance.StorageData.GetEnemyStorageData(roleData.key);
+        }
+
+        SetCompletionIndicator(
+            m_normalCompletionIcon,
+            storageData != null && storageData.silverClear);
+        SetCompletionIndicator(
+            m_tomatoCompletionIcon,
+            storageData != null && storageData.goldenClear);
+        SetCompletionIndicator(
+            m_spellCompletionIcon,
+            storageData != null && storageData.speedClear);
+    }
+
+    private static void SetCompletionIndicator(GameObject indicator, bool isVisible)
+    {
+        if (indicator != null && indicator.activeSelf != isVisible)
+            indicator.SetActive(isVisible);
     }
 }

@@ -47,3 +47,6 @@ crashlytics-build.properties
 /AGENTS.md
 /Docs/MassageCat_ProjectArchitecture.md
 /LocalBackups/
+
+# 本機圖片生成與驗證的暫存檔
+/tmp/

@@ -16,8 +16,8 @@ MonoBehaviour:
     m_key: "\u5192\u96AA\u5165\u53E3"
     m_queryText: 
     m_selectedTitle: "\u5192\u96AA\u5165\u53E3: "
-  defaultClickDamage: 1
-  defaultSpellDamage: 50
+  defaultClickHeal: 1
+  defaultSpellHeal: 50
   defaultEnemyReference:
     m_key: "\u7D19\u7BB1"
     m_queryText: 
@@ -28,6 +28,6 @@ MonoBehaviour:
     m_queryText: 
     m_selectedTitle: "\u904A\u6232\u9AD4\u9A57/\u521D\u6B21\u7372\u5F97\u5361\u7247: "
   tomatoModeCardDropRateBonus: 10
-  debugDamageRate: 1
+  debugHealRate: 10000
   audioSettings: {fileID: 11400000, guid: 1ba6701677a3e384890b744b78c83a01, type: 2}
   bgmSettings: {fileID: 11400000, guid: 014b23c9e18690e4eb67008dd217f0cc, type: 2}

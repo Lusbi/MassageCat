@@ -1,4 +1,5 @@
 using GameCore.UI;
+using MassageCat.Gallery;
 using UnityEngine;
 
 public class GameProcess : MonoBehaviour
@@ -55,6 +56,9 @@ public class GameProcess : MonoBehaviour
         if (m_desktopPetMode && TryGetComponent(out DesktopPetWindowController desktopPetWindowController))
         {
             desktopPetWindowController.EnsureRuntimeControls();
+            if (TryGetComponent(out GalleryBootstrap galleryBootstrap) == false)
+                galleryBootstrap = gameObject.AddComponent<GalleryBootstrap>();
+            galleryBootstrap.InitializeIntegrated(desktopPetWindowController);
         }
     }
 }

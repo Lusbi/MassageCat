@@ -34,10 +34,11 @@ namespace GameCore.Database
         [LabelText("場景參考")]
         [SerializeField]
         private ScenemapReference m_sceneReference;
-        [LabelText("疲勞值")]
+        [LabelText("療癒需求值")]
         [FormerlySerializedAs("m_hitCount")]
+        [FormerlySerializedAs("m_fatigue")]
         [SerializeField]
-        private string m_fatigue = "0";
+        private string m_requiredHealValue = "0";
         [LabelText("敵人小圖示")]
         [SerializeField]
         private Sprite m_enemyIcon;
@@ -81,7 +82,7 @@ namespace GameCore.Database
         public string RoleDescription => m_roleDescription;
         public EnemyType EnemyType => m_enemyType;
         public ScenemapReference SceneReference => m_sceneReference;
-        public BigNumber Fatigue => new BigNumber(BigInteger.Parse(m_fatigue));
+        public BigNumber RequiredHealValue => new BigNumber(BigInteger.Parse(m_requiredHealValue));
         public DirectionType DirectionType => m_directionType;
 
         public FlagReference SatisfyToAddFlagReference => m_satisfyToAddFlagReference;
@@ -160,7 +161,7 @@ namespace GameCore.Database
 
         public override string GetLog()
         {
-            return $"{base.GetLog()}, roleName = {m_roleName}, roleDescription = {m_roleDescription}, enemyType = {m_enemyType}, sceneReference = {m_sceneReference}, fatigue = {m_fatigue}";
+            return $"{base.GetLog()}, roleName = {m_roleName}, roleDescription = {m_roleDescription}, enemyType = {m_enemyType}, sceneReference = {m_sceneReference}, requiredHealValue = {m_requiredHealValue}";
         }
 #endif
     }
