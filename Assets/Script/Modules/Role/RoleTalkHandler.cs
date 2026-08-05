@@ -3,16 +3,22 @@ using GameCore.Database;
 
 public class RoleTalkHandler
 {
-    private const float k_talkInterval = 5f;
+    private const float k_initialDelayMin = 3f;
+    private const float k_initialDelayMax = 6f;
+    private const float k_talkIntervalMin = 7f;
+    private const float k_talkIntervalMax = 12f;
+    private const float k_noValidTalkRetryInterval = 10f;
 
     private RoleData m_roleData;
     private float m_durationTime;
-    private readonly List<TalkEntry> m_validEntries = new List<TalkEntry>();
+    private string m_lastTalkContent;
+    private readonly List<TalkEntry> m_validEntries = new List<TalkEntry>(12);
 
     public void Apply(RoleData roleData)
     {
         m_roleData = roleData;
-        m_durationTime = 0f;
+        m_durationTime = UnityEngine.Random.Range(k_initialDelayMin, k_initialDelayMax);
+        m_lastTalkContent = null;
 
         TalkManager.instance.Clear();
     }
@@ -23,28 +29,32 @@ public class RoleTalkHandler
             return;
 
         m_durationTime -= deltaTime;
-        if (m_durationTime < 0f)
-        {
+        if (m_durationTime <= 0f)
             TriggerTalk(TalkType.DuringMassage);
-        }
     }
 
     public void TriggerTalk(TalkType talkType)
     {
         if (m_roleData?.TalkScriptableObject == null)
+        {
+            m_durationTime = float.PositiveInfinity;
             return;
-
-        TalkManager.instance.Clear();
+        }
 
         TalkEntry? talk = GetRandomTalkWithCondition(talkType);
-
-        if (talk.HasValue)
+        if (talk.HasValue == false)
         {
-            // 台詞播完後保留空檔，避免角色文字無縫常駐畫面。
-            m_durationTime = talk.Value.Duration + k_talkInterval;
-            string content = LocalizationManager.instance.GetLocalization(talk.Value.Content);
-            TalkManager.instance.Play(content, talk.Value.Duration);
+            // 沒有符合條件的台詞時延後重試，避免每幀重新掃描資料。
+            m_durationTime = k_noValidTalkRetryInterval;
+            return;
         }
+
+        TalkEntry talkEntry = talk.Value;
+        m_lastTalkContent = talkEntry.Content;
+        m_durationTime = talkEntry.Duration + UnityEngine.Random.Range(k_talkIntervalMin, k_talkIntervalMax);
+        string content = LocalizationManager.instance.GetLocalization(talkEntry.Content);
+        TalkManager.instance.Clear();
+        TalkManager.instance.Play(content, talkEntry.Duration);
     }
 
     private TalkEntry? GetRandomTalkWithCondition(TalkType talkType)
@@ -54,22 +64,46 @@ public class RoleTalkHandler
 
         m_validEntries.Clear();
 
-        foreach (var group in m_roleData.TalkScriptableObject.Groups)
+        IReadOnlyList<TalkGroup> groups = m_roleData.TalkScriptableObject.Groups;
+        for (int groupIndex = 0; groupIndex < groups.Count; groupIndex++)
         {
+            TalkGroup group = groups[groupIndex];
             if (group.TalkType == talkType && ConditionValid(group.Condition))
             {
-                if (group.Entries != null)
-                {
-                    m_validEntries.AddRange(group.Entries);
-                }
+                IReadOnlyList<TalkEntry> entries = group.Entries;
+                for (int entryIndex = 0; entryIndex < entries.Count; entryIndex++)
+                    m_validEntries.Add(entries[entryIndex]);
             }
         }
 
         if (m_validEntries.Count == 0)
             return null;
 
-        int index = UnityEngine.Random.Range(0, m_validEntries.Count);
+        int index = GetRandomNonRepeatingIndex();
         return m_validEntries[index];
+    }
+
+    private int GetRandomNonRepeatingIndex()
+    {
+        int entryCount = m_validEntries.Count;
+        if (entryCount <= 1 || string.IsNullOrEmpty(m_lastTalkContent))
+            return UnityEngine.Random.Range(0, entryCount);
+
+        int lastIndex = -1;
+        for (int i = 0; i < entryCount; i++)
+        {
+            if (string.Equals(m_validEntries[i].Content, m_lastTalkContent, System.StringComparison.Ordinal))
+            {
+                lastIndex = i;
+                break;
+            }
+        }
+
+        if (lastIndex < 0)
+            return UnityEngine.Random.Range(0, entryCount);
+
+        int index = UnityEngine.Random.Range(0, entryCount - 1);
+        return index >= lastIndex ? index + 1 : index;
     }
 
     private bool ConditionValid(TalkCondition condition)

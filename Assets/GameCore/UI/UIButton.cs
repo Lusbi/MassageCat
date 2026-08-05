@@ -1,4 +1,5 @@
 ﻿using System;
+using PrimeTween;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,12 +19,24 @@ namespace GameCore.UI
     [RequireComponent(typeof(UIEventListener))]
     public class UIButton : MonoBehaviour
     {
+        private const float k_pressedScale = 0.94f;
+        private const float k_hoverScale = 1.04f;
+        private const float k_selectedScale = 1.07f;
+        private const float k_pressDuration = 0.06f;
+        private const float k_releaseDuration = 0.14f;
+
         public ButtonStateType buttonStateType { get; protected set; }
         public RectTransform rectTransform { get; protected set; }
 
         private bool m_hover = false;
         private bool m_selected = false;
         private bool m_locked = false;
+        private bool m_pointerDown;
+        private bool m_hasScaleFx;
+        private bool m_hasFallbackTarget;
+        private Vector3 m_normalScale;
+        private Vector3 m_fallbackTargetScale;
+        private Tween m_fallbackScaleTween;
 
 #if UNITY_EDITOR
         [ContextMenu("Reset UIButton")]
@@ -58,30 +71,13 @@ namespace GameCore.UI
                 if (m_locked)
                 {
                     m_hover = false;
-                    return;
-                }
-
-                if (m_selected)
-                {
-                    m_hover = false;
-                    foreach (var fxBase in m_fxBases)
-                    {
-                        if (fxBase == null)
-                            continue;
-                        fxBase.onSelected(m_selected);
-                    }
+                    ApplyFallbackVisualState();
                     return;
                 }
 
                 m_hover = value;
-
-                foreach (var fxBase in m_fxBases)
-                {
-                    if (fxBase == null)
-                        continue;
-                    fxBase.onHover(m_hover);
-                }
-
+                ApplyRestingFxState();
+                ApplyFallbackVisualState();
                 onHover?.Invoke(this, m_hover);
             }
         }
@@ -103,13 +99,8 @@ namespace GameCore.UI
                 }
 
                 m_selected = value;
-
-                foreach (var fxBase in m_fxBases)
-                {
-                    if (fxBase == null)
-                        continue;
-                    fxBase.onSelected(m_selected);
-                }
+                ApplyRestingFxState();
+                ApplyFallbackVisualState();
             }
         }
 
@@ -133,16 +124,21 @@ namespace GameCore.UI
                 m_locked = value;
                 if (m_locked)
                 {
-                    hover = false;
-                    selected = false;
+                    m_pointerDown = false;
+                    m_hover = false;
+                    m_selected = false;
                 }
 
-                foreach (var fxBase in m_fxBases)
+                int effectCount = m_fxBases == null ? 0 : m_fxBases.Length;
+                for (int i = 0; i < effectCount; i++)
                 {
+                    ButtonFXBase fxBase = m_fxBases[i];
                     if (fxBase == null)
                         continue;
                     fxBase.onLocked(m_locked);
                 }
+
+                ApplyFallbackVisualState();
             }
         }
 
@@ -166,9 +162,33 @@ namespace GameCore.UI
         private void OnEnable()
         {
             if (m_fxBases == null || m_fxBases.Length == 0)
-            {
                 m_fxBases = GetComponents<ButtonFXBase>();
+
+            m_hasScaleFx = false;
+            for (int i = 0, count = m_fxBases.Length; i < count; i++)
+            {
+                if (m_fxBases[i] is ButtonFXScale)
+                {
+                    m_hasScaleFx = true;
+                    break;
+                }
             }
+
+            m_pointerDown = false;
+            ApplyRestingFxState();
+            ApplyFallbackVisualState();
+        }
+
+        private void OnDisable()
+        {
+            if (m_fallbackScaleTween.isAlive)
+                m_fallbackScaleTween.Stop();
+
+            m_pointerDown = false;
+            m_hover = false;
+            m_hasFallbackTarget = false;
+            if (rectTransform != null && m_hasScaleFx == false)
+                rectTransform.localScale = m_normalScale;
         }
 
         public void SetButtonText(string text)
@@ -235,6 +255,7 @@ namespace GameCore.UI
         private void Awake()
         {
             rectTransform = transform as RectTransform;
+            m_normalScale = transform.localScale;
 
             eventListener = UIEventListener.Get(gameObject);
             eventListener.onClick = OnClick;
@@ -270,10 +291,15 @@ namespace GameCore.UI
                 return;
             }
 
+            m_pointerDown = true;
             for (int i = 0, count = m_fxBases.Length; i < count; i++)
             {
-                m_fxBases[i].onClickDown();
+                ButtonFXBase fxBase = m_fxBases[i];
+                if (fxBase != null)
+                    fxBase.onClickDown();
             }
+
+            ApplyFallbackVisualState();
 
             if (onClickDown != null)
             {
@@ -287,10 +313,16 @@ namespace GameCore.UI
                 return;
             }
 
+            m_pointerDown = false;
             for (int i = 0, count = m_fxBases.Length; i < count; i++)
             {
-                m_fxBases[i].onClickUp();
+                ButtonFXBase fxBase = m_fxBases[i];
+                if (fxBase != null)
+                    fxBase.onClickUp();
             }
+
+            ApplyRestingFxState();
+            ApplyFallbackVisualState();
 
             if (onClickUp != null)
             {
@@ -304,6 +336,60 @@ namespace GameCore.UI
         private void OnPointerExit(GameObject obj)
         {
             hover = false;
+        }
+
+        private void ApplyRestingFxState()
+        {
+            if (m_pointerDown || m_locked || m_fxBases == null)
+                return;
+
+            for (int i = 0, count = m_fxBases.Length; i < count; i++)
+            {
+                ButtonFXBase fxBase = m_fxBases[i];
+                if (fxBase == null)
+                    continue;
+
+                if (m_selected)
+                    fxBase.onSelected(true);
+                else
+                    fxBase.onHover(m_hover);
+            }
+        }
+
+        private void ApplyFallbackVisualState()
+        {
+            if (rectTransform == null || m_hasScaleFx)
+                return;
+
+            float scale = 1f;
+            if (m_locked == false)
+            {
+                if (m_pointerDown)
+                    scale = k_pressedScale;
+                else if (m_selected)
+                    scale = k_selectedScale;
+                else if (m_hover)
+                    scale = k_hoverScale;
+            }
+
+            Vector3 targetScale = m_normalScale * scale;
+            if (m_hasFallbackTarget && m_fallbackTargetScale == targetScale)
+                return;
+
+            m_hasFallbackTarget = true;
+            m_fallbackTargetScale = targetScale;
+            if (m_fallbackScaleTween.isAlive)
+                m_fallbackScaleTween.Stop();
+
+            float duration = m_pointerDown ? k_pressDuration : k_releaseDuration;
+            Ease ease = m_pointerDown ? Ease.OutCubic : Ease.OutBack;
+            m_fallbackScaleTween = Tween.Scale(
+                rectTransform,
+                rectTransform.localScale,
+                targetScale,
+                duration,
+                ease,
+                useUnscaledTime: true);
         }
 
     }

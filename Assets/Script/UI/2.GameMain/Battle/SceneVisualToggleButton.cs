@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public sealed class SceneVisualToggleButton : MonoBehaviour
 {
+    private const float k_buttonSize = 64f;
+    private const float k_iconSize = 44f;
+    private static readonly Vector2 s_desktopPosition = new Vector2(-80f, -8f);
+
     [SerializeField] private UIButton m_button;
     [SerializeField] private GameObject m_visibleIcon;
     [SerializeField] private GameObject m_hiddenIcon;
@@ -29,33 +33,74 @@ public sealed class SceneVisualToggleButton : MonoBehaviour
         buttonRect.anchorMin = Vector2.one;
         buttonRect.anchorMax = Vector2.one;
         buttonRect.pivot = Vector2.one;
-        buttonRect.anchoredPosition = new Vector2(-48f, -8f);
-        buttonRect.sizeDelta = new Vector2(32f, 32f);
+        buttonRect.anchoredPosition = s_desktopPosition;
+        buttonRect.sizeDelta = new Vector2(k_buttonSize, k_buttonSize);
         buttonRect.SetAsLastSibling();
 
         Image backgroundImage = buttonObject.GetComponent<Image>();
-        backgroundImage.color = new Color(0.05f, 0.05f, 0.05f, 0.72f);
+        backgroundImage.color = new Color(0f, 0f, 0f, 0f);
         backgroundImage.raycastTarget = true;
 
         SceneVisualToggleButton toggleButton = buttonObject.GetComponent<SceneVisualToggleButton>();
         toggleButton.m_button = buttonObject.GetComponent<UIButton>();
-        toggleButton.m_visibleIcon = CreateVisibilityIcon("VisibleIcon", buttonRect, false);
-        toggleButton.m_hiddenIcon = CreateVisibilityIcon("HiddenIcon", buttonRect, true);
+        toggleButton.m_visibleIcon = CreateVisibilityIcon(
+            "VisibleIcon",
+            buttonRect,
+            MassageCatUiArt.SceneVisible,
+            false);
+        toggleButton.m_hiddenIcon = CreateVisibilityIcon(
+            "HiddenIcon",
+            buttonRect,
+            MassageCatUiArt.SceneHidden,
+            true);
         toggleButton.m_hiddenIcon.SetActive(false);
         return toggleButton;
     }
 
-    private static GameObject CreateVisibilityIcon(string objectName, Transform parent, bool crossedOut)
+    internal void ApplyDesktopPetLayout(RectTransform runtimeControlsViewport)
     {
-        GameObject iconObject = new GameObject(objectName, typeof(RectTransform));
+        RectTransform buttonRect = (RectTransform)transform;
+        buttonRect.SetParent(runtimeControlsViewport, false);
+        buttonRect.anchorMin = Vector2.one;
+        buttonRect.anchorMax = Vector2.one;
+        buttonRect.pivot = Vector2.one;
+        buttonRect.anchoredPosition = s_desktopPosition;
+        buttonRect.sizeDelta = new Vector2(k_buttonSize, k_buttonSize);
+        buttonRect.SetAsLastSibling();
+    }
+
+    private static GameObject CreateVisibilityIcon(
+        string objectName,
+        Transform parent,
+        Sprite sprite,
+        bool crossedOut)
+    {
+        GameObject iconObject = new GameObject(
+            objectName,
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(Image));
         iconObject.layer = parent.gameObject.layer;
 
         RectTransform iconRect = iconObject.GetComponent<RectTransform>();
         iconRect.SetParent(parent, false);
-        iconRect.anchorMin = Vector2.zero;
-        iconRect.anchorMax = Vector2.one;
-        iconRect.offsetMin = Vector2.zero;
-        iconRect.offsetMax = Vector2.zero;
+        iconRect.anchorMin = new Vector2(0.5f, 0.5f);
+        iconRect.anchorMax = new Vector2(0.5f, 0.5f);
+        iconRect.anchoredPosition = Vector2.zero;
+        iconRect.sizeDelta = new Vector2(k_iconSize, k_iconSize);
+
+        Image iconImage = iconObject.GetComponent<Image>();
+        iconImage.raycastTarget = false;
+        if (sprite != null)
+        {
+            iconImage.sprite = sprite;
+            iconImage.color = Color.white;
+            iconImage.preserveAspect = true;
+            MassageCatUiArt.ApplyIconOutline(iconImage);
+            return iconObject;
+        }
+
+        iconImage.color = new Color(0f, 0f, 0f, 0f);
 
         CreateIconLine("UpperLeft", iconRect, new Vector2(-6.5f, 2f), new Vector2(6.5f, 2f), 38f);
         CreateIconLine("UpperCenter", iconRect, new Vector2(0f, 4f), new Vector2(8f, 2f), 0f);

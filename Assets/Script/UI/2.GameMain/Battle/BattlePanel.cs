@@ -454,11 +454,23 @@ public class BattlePanel : PanelBase
         if (m_spellHandler)
             m_spellHandler.SpellStopped -= OnSpellStopped;
 
+        if (m_galleryButton && m_galleryButton.transform.IsChildOf(transform) == false)
+            Destroy(m_galleryButton.gameObject);
+
+        if (m_sceneVisualToggleButton && m_sceneVisualToggleButton.transform.parent != transform)
+            Destroy(m_sceneVisualToggleButton.gameObject);
+
         m_foregroundInstances.Clear();
     }
 
     public override void ActiveOn()
     {
+        if (m_desktopPetMode && m_galleryButton)
+            m_galleryButton.gameObject.SetActive(true);
+
+        if (m_desktopPetMode && m_sceneVisualToggleButton)
+            m_sceneVisualToggleButton.gameObject.SetActive(true);
+
         bool hasBattleData = string.IsNullOrEmpty(StorageManager.instance.StorageData.BattleStorageData.EnemyKey) == false;
         if (hasBattleData)
         {
@@ -478,6 +490,12 @@ public class BattlePanel : PanelBase
 
     public override void ActiveOff()
     {
+        if (m_desktopPetMode && m_galleryButton)
+            m_galleryButton.gameObject.SetActive(false);
+
+        if (m_desktopPetMode && m_sceneVisualToggleButton)
+            m_sceneVisualToggleButton.gameObject.SetActive(false);
+
         BattleManager.instance.Register(null);
     }
 
@@ -849,6 +867,12 @@ public class BattlePanel : PanelBase
     public void ApplyDesktopPetMode()
     {
         m_desktopPetMode = true;
+
+        if (m_galleryButton)
+            DesktopPetWindowController.RegisterGalleryButton(m_galleryButton);
+
+        if (m_sceneVisualToggleButton)
+            DesktopPetWindowController.RegisterSceneVisualToggle(m_sceneVisualToggleButton);
 
         SetDesktopHidden(m_autoNextButton);
         // Desktop Pet 仍保留拼字按鈕與挑戰介面，顯示狀態交由解鎖旗標控制。

@@ -14,11 +14,15 @@ public class TeachPanel : MonoBehaviour
 
     private void Update()
     {
-        if (!m_isTeaching || m_activeStep == null || !Input.GetMouseButtonDown(0))
+        if (!m_isTeaching || m_activeStep == null)
+            return;
+
+        if (m_activeStep.TryCompleteAfterTimeout())
             return;
 
         // 教學顯示期間允許點擊畫面任意位置完成當前步驟，避免 UI Raycast 遺失後流程卡住。
-        m_activeStep.TryComplete();
+        if (Input.GetMouseButtonDown(0))
+            m_activeStep.TryComplete();
     }
 
     /// <summary>

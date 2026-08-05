@@ -1,5 +1,6 @@
 using System;
 using GameCore.Database;
+using GameCore.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,9 +42,7 @@ namespace MassageCat.Gallery
             m_cardBadge.color = entry.CardReward ? s_completeColor : Color.white;
             m_tomatoBadge.SetText(entry.TomatoClear ? "番✓" : "番—");
             m_tomatoBadge.color = entry.TomatoClear ? s_completeColor : s_incompleteColor;
-            m_background.color = string.Equals(roleData.key, selectedRoleKey, StringComparison.Ordinal)
-                ? s_selectedColor
-                : s_normalColor;
+            ApplyButtonColors(string.Equals(roleData.key, selectedRoleKey, StringComparison.Ordinal));
         }
 
         private void EnsureBuilt(TMP_FontAsset fontAsset)
@@ -60,6 +59,7 @@ namespace MassageCat.Gallery
             m_button = gameObject.AddComponent<Button>();
             m_button.targetGraphic = m_background;
             m_button.onClick.AddListener(OnClicked);
+            gameObject.AddComponent<UIButton>();
 
             m_roleIcon = CreateImage("RoleIcon", root, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f));
             RectTransform iconRect = m_roleIcon.rectTransform;
@@ -96,6 +96,20 @@ namespace MassageCat.Gallery
         {
             if (m_entry != null)
                 m_onClicked?.Invoke(m_entry);
+        }
+
+        private void ApplyButtonColors(bool isSelected)
+        {
+            Color normalColor = isSelected ? s_selectedColor : s_normalColor;
+            ColorBlock colors = m_button.colors;
+            colors.normalColor = normalColor;
+            colors.highlightedColor = Color.Lerp(normalColor, Color.white, 0.16f);
+            colors.pressedColor = Color.Lerp(normalColor, Color.black, 0.25f);
+            colors.selectedColor = s_selectedColor;
+            colors.disabledColor = new Color(normalColor.r, normalColor.g, normalColor.b, 0.55f);
+            colors.fadeDuration = 0.08f;
+            m_button.colors = colors;
+            m_background.color = normalColor;
         }
 
         private static Image CreateImage(string objectName, Transform parent, Vector2 anchorMin, Vector2 anchorMax)

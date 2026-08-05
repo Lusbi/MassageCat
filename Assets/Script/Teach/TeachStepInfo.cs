@@ -5,6 +5,7 @@ using UnityEngine;
 public class TeachStepInfo : MonoBehaviour
 {
     private const float k_inputGracePeriod = 0.25f;
+    private const float k_autoCompleteDelay = 5f;
 
     [SerializeField] private CanvasGroup m_canvasGroup;
     [SerializeField] private string m_teachKey;
@@ -16,6 +17,7 @@ public class TeachStepInfo : MonoBehaviour
     public string TeachKey => m_teachKey;
     private Action m_nextAction;
     private float m_inputEnableTime;
+    private float m_autoCompleteTime;
 
     public void OnEnable()
     {
@@ -33,13 +35,18 @@ public class TeachStepInfo : MonoBehaviour
             this);
         if (m_clickBtn != null)
             m_clickBtn.onClicked = null;
+
+        m_nextAction = null;
+        m_autoCompleteTime = 0f;
     }
 
     public void Apply(Action action)
     {
         m_nextAction = action;
         // 避免戰鬥收尾的同一次連點，立即略過剛顯示的教學。
-        m_inputEnableTime = Time.unscaledTime + k_inputGracePeriod;
+        float currentTime = Time.realtimeSinceStartup;
+        m_inputEnableTime = currentTime + k_inputGracePeriod;
+        m_autoCompleteTime = currentTime + k_autoCompleteDelay;
         TutorialFlowDiagnostics.Log(
             $"顯示教學步驟：stepKey={m_teachKey}, hasNextAction={m_nextAction != null}, hasTargetObject={m_obj != null}, clickHandlerBound={m_clickBtn != null && m_clickBtn.onClicked != null}, targetActiveSelf={(m_obj != null && m_obj.activeSelf)}, targetActiveInHierarchy={(m_obj != null && m_obj.activeInHierarchy)}",
             this);
@@ -57,7 +64,7 @@ public class TeachStepInfo : MonoBehaviour
 
     internal bool TryComplete()
     {
-        if (Time.unscaledTime < m_inputEnableTime)
+        if (Time.realtimeSinceStartup < m_inputEnableTime)
             return false;
 
         Action nextAction = m_nextAction;
@@ -69,14 +76,22 @@ public class TeachStepInfo : MonoBehaviour
         TutorialFlowDiagnostics.Log(
             $"完成教學步驟：stepKey={m_teachKey}",
             this);
-        nextAction.Invoke();
         if (m_obj)
         {
             m_obj.SetActive(false);
             CanvasGroupUpdate(false);
         }
 
+        nextAction.Invoke();
+
         return true;
+    }
+
+    internal bool TryCompleteAfterTimeout()
+    {
+        return m_nextAction != null
+            && Time.realtimeSinceStartup >= m_autoCompleteTime
+            && TryComplete();
     }
 
     private void CanvasGroupUpdate(bool isActive)

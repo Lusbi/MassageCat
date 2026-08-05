@@ -284,6 +284,7 @@ namespace MassageCat.Gallery
             if (m_integratedMode)
             {
                 scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+                scaler.scaleFactor = m_windowController.WindowScale;
                 root = CreateRect("Root", canvasObject.transform, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero);
                 root.pivot = Vector2.zero;
                 root.sizeDelta = new Vector2(k_defaultWindowWidth, k_defaultWindowHeight);
@@ -297,7 +298,12 @@ namespace MassageCat.Gallery
                 root = CreateRect("Root", canvasObject.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             }
             m_root = root;
-            AddImage(root.gameObject, new Color(0.055f, 0.065f, 0.085f, 1f));
+            Image rootImage = AddImage(root.gameObject, Color.white);
+            Sprite panelSprite = MassageCatUiArt.GalleryPanel;
+            if (panelSprite != null)
+                rootImage.sprite = panelSprite;
+            else
+                rootImage.color = new Color(0.055f, 0.065f, 0.085f, 1f);
 
             RectTransform topBar = CreateRect("TopBar", root, new Vector2(0f, 1f), Vector2.one, new Vector2(16f, -64f), new Vector2(-16f, -12f));
             TextMeshProUGUI title = CreateText("Title", topBar, 27f, TextAlignmentOptions.MidlineLeft);
@@ -314,8 +320,9 @@ namespace MassageCat.Gallery
 
             if (m_integratedMode)
             {
-                Button closeButton = CreateButton("CloseGallery", topBar, "關閉圖鑑", out _);
+                Button closeButton = CreateButton("CloseGallery", topBar, "關閉圖鑑", out TextMeshProUGUI closeText);
                 SetRect((RectTransform)closeButton.transform, new Vector2(0.85f, 0f), Vector2.one, Vector2.zero, Vector2.zero);
+                AddButtonIcon(closeButton, closeText, MassageCatUiArt.GalleryClose);
                 closeButton.onClick.AddListener(CloseIntegrated);
             }
 
@@ -370,7 +377,7 @@ namespace MassageCat.Gallery
         private void CreateGrid(RectTransform root)
         {
             RectTransform gridRoot = CreateRect("RoleGrid", root, Vector2.zero, Vector2.one, new Vector2(16f, 16f), new Vector2(-294f, -172f));
-            AddImage(gridRoot.gameObject, new Color(0.075f, 0.085f, 0.11f, 1f));
+            AddImage(gridRoot.gameObject, new Color(0.055f, 0.065f, 0.11f, 0.9f));
             ScrollRect scrollRect = gridRoot.gameObject.AddComponent<ScrollRect>();
             scrollRect.horizontal = false;
             scrollRect.vertical = true;
@@ -414,7 +421,7 @@ namespace MassageCat.Gallery
         private void CreatePreview(RectTransform root)
         {
             RectTransform preview = CreateRect("Preview", root, new Vector2(1f, 0f), Vector2.one, new Vector2(-280f, 16f), new Vector2(-16f, -172f));
-            AddImage(preview.gameObject, new Color(0.09f, 0.105f, 0.135f, 1f));
+            AddImage(preview.gameObject, new Color(0.075f, 0.085f, 0.135f, 0.9f));
 
             m_previewImage = CreateImage("PreviewImage", preview);
             RectTransform imageRect = m_previewImage.rectTransform;
@@ -827,16 +834,37 @@ namespace MassageCat.Gallery
             image.color = new Color(0.15f, 0.17f, 0.22f, 1f);
             Button button = gameObject.GetComponent<Button>();
             button.targetGraphic = image;
+            gameObject.AddComponent<UIButton>();
             ColorBlock colors = button.colors;
             colors.highlightedColor = new Color(0.23f, 0.27f, 0.34f, 1f);
             colors.pressedColor = new Color(0.10f, 0.12f, 0.16f, 1f);
+            colors.selectedColor = new Color(0.28f, 0.34f, 0.44f, 1f);
             colors.disabledColor = new Color(0.1f, 0.1f, 0.11f, 0.55f);
+            colors.fadeDuration = 0.08f;
             button.colors = colors;
 
             labelText = CreateText("Text", rectTransform, 15f, TextAlignmentOptions.Center);
             SetRect(labelText.rectTransform, Vector2.zero, Vector2.one, new Vector2(6f, 3f), new Vector2(-6f, -3f));
             labelText.SetText(label);
             return button;
+        }
+
+        private void AddButtonIcon(Button button, TextMeshProUGUI labelText, Sprite sprite)
+        {
+            if (sprite == null)
+                return;
+
+            Image icon = CreateImage("Icon", button.transform);
+            icon.sprite = sprite;
+            icon.preserveAspect = true;
+            icon.raycastTarget = false;
+            SetRect(
+                icon.rectTransform,
+                new Vector2(0f, 0.5f),
+                new Vector2(0f, 0.5f),
+                new Vector2(6f, -18f),
+                new Vector2(42f, 18f));
+            labelText.rectTransform.offsetMin = new Vector2(42f, 3f);
         }
 
         private void ApplySavedWindowSize()
