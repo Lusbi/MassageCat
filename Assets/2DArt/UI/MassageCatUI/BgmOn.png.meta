@@ -1,49 +1,22 @@
 fileFormatVersion: 2
-guid: 349ae22f744774546840721dfebb86d4
+guid: 804bf8f7389771545a2ca99393cff66a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6394833135187100243
-    second: CriticleAttack_0
+      213: 7349923467262702869
+    second: BgmOn_0
   - first:
-      213: -6632114601238531716
-    second: CriticleAttack_1
+      213: -6349027333704251986
+    second: BgmOn_1
   - first:
-      213: -407621600305629955
-    second: CriticleAttack_2
+      213: 3655712347286447467
+    second: BgmOn_2
   - first:
-      213: 2999010812219366884
-    second: CriticleAttack_3
+      213: -4353763278325504198
+    second: BgmOn_3
   - first:
-      213: 298304208008867208
-    second: CriticleAttack_4
-  - first:
-      213: -5901408532065792253
-    second: CriticleAttack_5
-  - first:
-      213: -3346097493343106773
-    second: CriticleAttack_6
-  - first:
-      213: 3721777982533442659
-    second: CriticleAttack_7
-  - first:
-      213: -7513524716777449554
-    second: CriticleAttack_8
-  - first:
-      213: 3576941671598560462
-    second: CriticleAttack_9
-  - first:
-      213: -950319764877721969
-    second: CriticleAttack_10
-  - first:
-      213: -1440029753897066107
-    second: CriticleAttack_11
-  - first:
-      213: -1005629958664535341
-    second: CriticleAttack_12
-  - first:
-      213: 3623361471718802720
-    second: CriticleAttack_13
+      213: 166168853774610363
+    second: BgmOn_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -85,7 +58,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -111,10 +84,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -139,89 +112,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CriticleAttack_0
+      name: BgmOn_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 512
-        width: 512
-        height: 512
+        x: 15
+        y: 69
+        width: 39
+        height: 100
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 35289bcead20fb850800000000000000
-      internalID: 6394833135187100243
+      spriteID: 5153080b37c200660800000000000000
+      internalID: 7349923467262702869
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CriticleAttack_1
+      name: BgmOn_1
       rect:
         serializedVersion: 2
-        x: 512
-        y: 512
-        width: 512
-        height: 512
+        x: 38
+        y: 87
+        width: 32
+        height: 62
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c71fe7b98eef5f3a0800000000000000
-      internalID: -6632114601238531716
+      spriteID: ea500515749b3e7a0800000000000000
+      internalID: -6349027333704251986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CriticleAttack_2
+      name: BgmOn_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 512
+        x: 45
+        y: 34
+        width: 140
+        height: 188
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: df4b10f6056d75af0800000000000000
-      internalID: -407621600305629955
+      spriteID: b65a405d203bbb230800000000000000
+      internalID: 3655712347286447467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CriticleAttack_3
+      name: BgmOn_3
       rect:
         serializedVersion: 2
-        x: 512
-        y: 0
-        width: 512
-        height: 512
+        x: 187
+        y: 84
+        width: 31
+        height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ed14ebb170ae9920800000000000000
-      internalID: 2999010812219366884
+      spriteID: a37a4479d535493c0800000000000000
+      internalID: -4353763278325504198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgmOn_4
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 65
+        width: 40
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbf28fd21b95e4200800000000000000
+      internalID: 166168853774610363
       vertices: []
       indices: 
       edges: []
@@ -230,7 +225,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bfa485ce21f6af849b1722a40ae49741
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -238,14 +233,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":512.0,"y":512.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      CriticleAttack_0: 6394833135187100243
-      CriticleAttack_1: -6632114601238531716
-      CriticleAttack_2: -407621600305629955
-      CriticleAttack_3: 2999010812219366884
+      BgmOn_0: 7349923467262702869
+      BgmOn_1: -6349027333704251986
+      BgmOn_2: 3655712347286447467
+      BgmOn_3: -4353763278325504198
+      BgmOn_4: 166168853774610363
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

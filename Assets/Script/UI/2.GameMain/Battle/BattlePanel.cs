@@ -69,10 +69,10 @@ public class BattlePanel : PanelBase
     private AutoModel m_autoModel = AutoModel.Off;
     private List<RoleData> m_sortedRoleDatas = new List<RoleData>();
     private readonly Dictionary<GameObject, GameObject> m_foregroundInstances = new Dictionary<GameObject, GameObject>(11);
-    private bool m_allowAutoAdvanceAfterDefeat;
     private bool m_desktopPetMode;
     private bool m_sceneVisualsVisible = true;
     private GameObject m_activeForeground;
+    private bool m_isDefeatTransitionActive;
 
     public event Action OnSpellForceStopped;
     public event Action OnSpellTimeoutStopped;
@@ -147,10 +147,24 @@ public class BattlePanel : PanelBase
         if (m_audioStateButton)
             m_audioStateButton.Initlization();
 
+        EnsureGeneralSettingsMenu();
+
         m_sceneVisualsVisible = true;
         if (m_sceneVisualToggleButton)
             m_sceneVisualToggleButton.Initlization(SetSceneVisualsVisible);
         ApplySceneVisualVisibility();
+    }
+
+    private void EnsureGeneralSettingsMenu()
+    {
+        if (GameProcess.Instance != null && GameProcess.Instance.DesktopPetMode)
+            return;
+
+        GameSettingsMenu.CreateRuntime(transform, m_autoNextButton);
+        if (m_bgmStateButton)
+            m_bgmStateButton.gameObject.SetActive(false);
+        if (m_audioStateButton)
+            m_audioStateButton.gameObject.SetActive(false);
     }
 
     private void EnsureSceneVisualUI()
@@ -198,7 +212,7 @@ public class BattlePanel : PanelBase
     }
     private void ReupdateBattleState(SpellStopReason spellStopReason)
     {
-        uiGameMainView.SetRoleArrowInteraction(m_battleModel == BattleModel.Normal);
+        UpdateRoleArrowInteraction();
 
         switch (m_battleModel)
         {
@@ -329,11 +343,12 @@ public class BattlePanel : PanelBase
         StorageManager.instance.StorageData.ApplyBattleProgressData(data.key, accumulatedHealValue);
         m_curBattleRole = data;
         HitValueUpdate();
-        m_enemySpawn.LoadRoleData(data);
+        m_enemySpawn.LoadRoleData(data, m_battleModel);
         m_enemySpawn.ApplyAccumulatedHealValue(accumulatedHealValue);
         UpdateSceneVisuals(data.SceneReference.Load());
         m_roleTalkHandler.Apply(data);
         TomatoTimeHint(data);
+        PlayBgm();
 
         uiGameMainView.ApplyRoleDataToListTop(data);
         GalleryStateChangeNotifier.Notify();
@@ -512,7 +527,7 @@ public class BattlePanel : PanelBase
 
     private void CreateBattleEnemyAfterDefeat()
     {
-        CreateBattleEnemy(m_allowAutoAdvanceAfterDefeat);
+        CreateBattleEnemy(true);
     }
 
     private void CreateBattleEnemy(bool allowNormalAutoAdvance)
@@ -523,7 +538,8 @@ public class BattlePanel : PanelBase
         EnsureSortedRoleDatas();
 
         bool isAutoNext = allowNormalAutoAdvance
-            && (m_desktopPetMode || (m_autoNextButton && m_autoNextButton.isAutoNext));
+            && m_autoNextButton
+            && m_autoNextButton.isAutoNext;
         bool isSpelling = m_spellHandler && m_spellHandler.isSpelling;
         if (isAutoNext || isSpelling)
         {
@@ -555,8 +571,12 @@ public class BattlePanel : PanelBase
             nextRoleData = m_curBattleRole;
 
         OnSetBattleRoleEvent(new SetBattleRoleEvent(nextRoleData.key));
-        PlayAnimation(k_enemySpawnAnimation, () => m_isAlive = true);
-        PlayBgm();
+        PlayAnimation(k_enemySpawnAnimation, () =>
+        {
+            m_isAlive = true;
+            m_isDefeatTransitionActive = false;
+            UpdateRoleArrowInteraction();
+        });
 
         PlaySFX(AudioClipType.BossAppearSFX);
     }
@@ -574,24 +594,6 @@ public class BattlePanel : PanelBase
     private static int CompareRoleData(RoleData left, RoleData right)
     {
         return left.roleSortId.CompareTo(right.roleSortId);
-    }
-
-    private bool IsLatestUnlockedRole(RoleData roleData)
-    {
-        if (roleData == null)
-            return false;
-
-        EnsureSortedRoleDatas();
-        for (int i = m_sortedRoleDatas.Count - 1; i >= 0; i--)
-        {
-            RoleData unlockedRoleData = m_sortedRoleDatas[i];
-            if (unlockedRoleData.ValidateFlagReferenceConditions() == false)
-                continue;
-
-            return string.Equals(unlockedRoleData.key, roleData.key, StringComparison.Ordinal);
-        }
-
-        return false;
     }
 
     private void PlayBgm()
@@ -626,8 +628,8 @@ public class BattlePanel : PanelBase
     private void DieAction()
     {
         m_isAlive = false;
-        // 必須在寫入解鎖旗標前判定，否則新敵人解鎖後原目標就不再是最新敵人。
-        m_allowAutoAdvanceAfterDefeat = IsLatestUnlockedRole(m_curBattleRole);
+        m_isDefeatTransitionActive = true;
+        UpdateRoleArrowInteraction();
 
         TutorialFlowDiagnostics.Log(
             $"敵人擊倒：roleKey={m_curBattleRole?.key}, battleModel={m_battleModel}",
@@ -667,6 +669,9 @@ public class BattlePanel : PanelBase
                 {
                     StorageManager.instance.StorageData.AddFlagStorageValue(flagKey);
                 }
+
+                if (m_enemySpawn)
+                    m_enemySpawn.RefreshCardStatus(m_curBattleRole, m_battleModel, true);
 
                 PlaySFX(AudioClipType.GetCardSFX);
             }
@@ -830,6 +835,12 @@ public class BattlePanel : PanelBase
         strongHealEffect.Play(m_releaseStrongHealEffect);
     }
 
+    private void UpdateRoleArrowInteraction()
+    {
+        if (uiGameMainView)
+            uiGameMainView.SetRoleArrowInteraction(m_battleModel == BattleModel.Normal && m_isDefeatTransitionActive == false);
+    }
+
     private void ReleaseStrongHealEffect(StrongHealEffect strongHealEffect)
     {
         strongHealEffect.gameObject.SetActive(false);
@@ -873,6 +884,9 @@ public class BattlePanel : PanelBase
 
         if (m_sceneVisualToggleButton)
             DesktopPetWindowController.RegisterSceneVisualToggle(m_sceneVisualToggleButton);
+
+        if (m_autoNextButton)
+            DesktopPetWindowController.RegisterAutoNextButton(m_autoNextButton);
 
         SetDesktopHidden(m_autoNextButton);
         // Desktop Pet 仍保留拼字按鈕與挑戰介面，顯示狀態交由解鎖旗標控制。

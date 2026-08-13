@@ -34,7 +34,8 @@ public class StorageManager : GameCore.Singleton<StorageManager>
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            m_storageData = JsonUtility.FromJson<StorageData>(json);
+            m_storageData = JsonUtility.FromJson<StorageData>(json) ?? new StorageData();
+            m_storageData.EnsureInitialized();
             Debug.Log("Storage data loaded successfully.");
         }
         else

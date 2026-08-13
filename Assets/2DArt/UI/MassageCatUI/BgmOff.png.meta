@@ -1,34 +1,13 @@
 fileFormatVersion: 2
-guid: ed6ea070ab90d914baa01114d9d13acd
+guid: 2e4438ccbc3cb5e46a8c065769514fb5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5797414072685025518
-    second: NormalAttack_0
+      213: -4678746850543484927
+    second: BgmOff_0
   - first:
-      213: -3017520957787437794
-    second: NormalAttack_1
-  - first:
-      213: 7817158413403031999
-    second: NormalAttack_2
-  - first:
-      213: 5431157316499990768
-    second: NormalAttack_3
-  - first:
-      213: 2233387475691454086
-    second: NormalAttack_4
-  - first:
-      213: 6141425250559745730
-    second: NormalAttack_5
-  - first:
-      213: 4004190055219957893
-    second: NormalAttack_6
-  - first:
-      213: -6538428742276128356
-    second: NormalAttack_7
-  - first:
-      213: 3191530319782655547
-    second: NormalAttack_8
+      213: -5681755808023534632
+    second: BgmOff_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -70,7 +49,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -96,10 +75,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -124,89 +103,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: NormalAttack_0
+      name: BgmOff_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 512
-        width: 512
-        height: 512
+        x: 50
+        y: 64
+        width: 155
+        height: 177
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ee8dd32126d847050800000000000000
-      internalID: 5797414072685025518
+      spriteID: 100c06b4780c11fb0800000000000000
+      internalID: -4678746850543484927
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NormalAttack_1
+      name: BgmOff_1
       rect:
         serializedVersion: 2
-        x: 512
-        y: 512
-        width: 512
-        height: 512
+        x: 118
+        y: 15
+        width: 27
+        height: 8
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e1588c82dac9f16d0800000000000000
-      internalID: -3017520957787437794
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NormalAttack_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fb908dfe8202c7c60800000000000000
-      internalID: 7817158413403031999
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NormalAttack_3
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0f8ee39cdc85f5b40800000000000000
-      internalID: 5431157316499990768
+      spriteID: 8d3ae3222395621b0800000000000000
+      internalID: -5681755808023534632
       vertices: []
       indices: 
       edges: []
@@ -215,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bf3c29a52883a724b9eb6bc3d69cb19f
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -223,14 +158,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":512.0,"y":512.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      NormalAttack_0: 5797414072685025518
-      NormalAttack_1: -3017520957787437794
-      NormalAttack_2: 7817158413403031999
-      NormalAttack_3: 5431157316499990768
+      BgmOff_0: -4678746850543484927
+      BgmOff_1: -5681755808023534632
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

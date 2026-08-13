@@ -21,9 +21,11 @@ public sealed class DesktopPetWindowController : MonoBehaviour
     private const float k_settingsButtonSize = 64f;
     private const float k_settingsIconSize = 44f;
     private const float k_settingsButtonMargin = 8f;
-    private const float k_settingsPanelWidth = 196f;
-    private const float k_settingsPanelHeight = 224f;
-    private const float k_rightControlReserve = 152f;
+    private const float k_settingsPanelWidth = 228f;
+    private const float k_settingsPanelHeight = 190f;
+    private const float k_menuButtonSize = 52f;
+    private const float k_menuIconSize = 34f;
+    private const float k_rightControlReserve = 144f;
     private const int k_controlSortingOrder = 1000;
     private const int k_galleryWidth = 960;
     private const int k_galleryHeight = 640;
@@ -38,15 +40,18 @@ public sealed class DesktopPetWindowController : MonoBehaviour
     private RectTransform m_runtimeControlsViewport;
     private GalleryButton m_galleryButton;
     private SceneVisualToggleButton m_sceneVisualToggleButton;
+    private AutoNextButton m_autoNextButton;
     private GameObject m_settingsDismissArea;
     private GameObject m_settingsPanel;
-    private TextMeshProUGUI m_bgmStateText;
-    private TextMeshProUGUI m_sfxStateText;
+    private Image m_bgmStateIcon;
+    private Image m_sfxStateIcon;
+    private Image m_autoNextStateIcon;
     private TMP_FontAsset m_runtimeFont;
     private Camera m_transparencyCamera;
     private bool m_settingsPanelOpen;
     private bool m_galleryExpanded;
     private bool m_galleryOnLeft;
+    private bool m_windowMinimized;
     private Vector2Int m_collapsedWindowPosition;
     private int m_lastScreenWidth;
     private int m_lastScreenHeight;
@@ -81,6 +86,15 @@ public sealed class DesktopPetWindowController : MonoBehaviour
         s_instance.AttachGalleryButtonToRuntimeViewport();
     }
 
+    internal static void RegisterAutoNextButton(AutoNextButton autoNextButton)
+    {
+        if (s_instance == null)
+            return;
+
+        s_instance.m_autoNextButton = autoNextButton;
+        s_instance.RefreshAutoNextState();
+    }
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -112,6 +126,16 @@ public sealed class DesktopPetWindowController : MonoBehaviour
         }
 
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        System.IntPtr windowHandle = GetUnityWindowHandle();
+        if (m_windowMinimized)
+        {
+            if (windowHandle == System.IntPtr.Zero || IsIconic(windowHandle))
+                return;
+
+            m_windowMinimized = false;
+            ApplyWindowStyles(false);
+        }
+
         m_reapplyTimer += Time.unscaledDeltaTime;
         if (m_reapplyTimer >= 2f)
         {
@@ -272,14 +296,16 @@ public sealed class DesktopPetWindowController : MonoBehaviour
         titleRect.anchorMin = new Vector2(0f, 1f);
         titleRect.anchorMax = new Vector2(1f, 1f);
         titleRect.pivot = new Vector2(0.5f, 1f);
-        titleRect.anchoredPosition = new Vector2(0f, -18f);
-        titleRect.sizeDelta = new Vector2(-32f, 28f);
+        titleRect.anchoredPosition = new Vector2(0f, -12f);
+        titleRect.sizeDelta = new Vector2(-32f, 24f);
         title.color = new Color32(70, 36, 20, 255);
         title.fontStyle = FontStyles.Bold;
 
-        m_bgmStateText = CreateMenuButton(panel, "BgmToggle", -58f, OnBgmToggleClicked);
-        m_sfxStateText = CreateMenuButton(panel, "SfxToggle", -106f, OnSfxToggleClicked);
-        CreateMenuButton(panel, "Quit", -154f, OnQuitClicked).SetText("離開遊戲");
+        m_bgmStateIcon = CreateMenuButton(panel, "BgmToggle", -62f, -48f, OnBgmToggleClicked, MassageCatUiArt.BgmOn);
+        m_sfxStateIcon = CreateMenuButton(panel, "SfxToggle", 0f, -48f, OnSfxToggleClicked, MassageCatUiArt.SfxOn);
+        CreateMenuButton(panel, "Quit", 62f, -48f, OnQuitClicked, MassageCatUiArt.Quit);
+        m_autoNextStateIcon = CreateMenuButton(panel, "AutoNext", -31f, -110f, OnAutoNextToggleClicked, MassageCatUiArt.AutoNextOff);
+        CreateMenuButton(panel, "Minimize", 31f, -110f, OnMinimizeClicked, MassageCatUiArt.Minimize);
         m_settingsPanel = panel.gameObject;
     }
 
@@ -355,35 +381,42 @@ public sealed class DesktopPetWindowController : MonoBehaviour
         holeImage.raycastTarget = false;
     }
 
-    private TextMeshProUGUI CreateMenuButton(
+    private Image CreateMenuButton(
         RectTransform parent,
         string objectName,
+        float anchoredX,
         float anchoredY,
-        Action<UIButton> onClick)
+        Action<UIButton> onClick,
+        Sprite iconSprite)
     {
         RectTransform button = CreateRectTransform(objectName, parent);
-        button.anchorMin = new Vector2(0f, 1f);
-        button.anchorMax = new Vector2(1f, 1f);
+        button.anchorMin = new Vector2(0.5f, 1f);
+        button.anchorMax = new Vector2(0.5f, 1f);
         button.pivot = new Vector2(0.5f, 1f);
-        button.anchoredPosition = new Vector2(0f, anchoredY);
-        button.sizeDelta = new Vector2(-36f, 40f);
+        button.anchoredPosition = new Vector2(anchoredX, anchoredY);
+        button.sizeDelta = new Vector2(k_menuButtonSize, k_menuButtonSize);
 
         Image image = button.gameObject.AddComponent<Image>();
-        image.color = new Color32(82, 65, 104, 242);
+        image.sprite = MassageCatUiArt.IconButtonFrame;
+        image.type = image.sprite != null ? Image.Type.Sliced : Image.Type.Simple;
+        image.color = image.sprite != null ? Color.white : new Color32(82, 65, 104, 242);
         image.raycastTarget = true;
-        MassageCatUiArt.ApplyIconOutline(image);
 
-        TextMeshProUGUI label = CreateText("Text", button, string.Empty, 16f);
-        RectTransform labelRect = label.rectTransform;
-        labelRect.anchorMin = Vector2.zero;
-        labelRect.anchorMax = Vector2.one;
-        labelRect.offsetMin = new Vector2(8f, 2f);
-        labelRect.offsetMax = new Vector2(-8f, -2f);
-        label.color = new Color32(255, 239, 195, 255);
+        RectTransform iconRect = CreateRectTransform("Icon", button);
+        iconRect.anchorMin = new Vector2(0.5f, 0.5f);
+        iconRect.anchorMax = new Vector2(0.5f, 0.5f);
+        iconRect.anchoredPosition = Vector2.zero;
+        iconRect.sizeDelta = new Vector2(k_menuIconSize, k_menuIconSize);
+
+        Image icon = iconRect.gameObject.AddComponent<Image>();
+        icon.sprite = iconSprite;
+        icon.color = Color.white;
+        icon.preserveAspect = true;
+        icon.raycastTarget = false;
 
         UIButton uiButton = button.gameObject.AddComponent<UIButton>();
         uiButton.onClicked = onClick;
-        return label;
+        return icon;
     }
 
     private TextMeshProUGUI CreateText(
@@ -430,6 +463,39 @@ public sealed class DesktopPetWindowController : MonoBehaviour
         SetSettingsPanelOpen(false);
     }
 
+    private void OnMinimizeClicked(UIButton button)
+    {
+        SetSettingsPanelOpen(false);
+        if (AudioClipManager.instance != null)
+            AudioClipManager.instance.PlaySFX(AudioClipType.Button_ClickSFX);
+
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        MinimizeWindow();
+#endif
+    }
+
+    /// <summary>
+    /// 以原生 Windows 行為最小化一般遊戲視窗。
+    /// </summary>
+    internal static void MinimizeStandaloneWindow()
+    {
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        System.IntPtr windowHandle = GetUnityWindowHandle();
+        if (windowHandle != System.IntPtr.Zero)
+            ShowWindow(windowHandle, k_swMinimize);
+#endif
+    }
+
+    private void OnAutoNextToggleClicked(UIButton button)
+    {
+        if (m_autoNextButton == null || m_autoNextButton.TryToggle() == false)
+            return;
+
+        RefreshAutoNextState();
+        if (AudioClipManager.instance != null)
+            AudioClipManager.instance.PlaySFX(AudioClipType.Button_ClickSFX);
+    }
+
     private void OnBgmToggleClicked(UIButton button)
     {
         AudioClipManager.instance.ToggleBGM();
@@ -457,15 +523,35 @@ public sealed class DesktopPetWindowController : MonoBehaviour
         if (m_settingsPanel != null)
             m_settingsPanel.SetActive(isOpen);
         if (isOpen)
+        {
             RefreshSettingsState();
+            RefreshAutoNextState();
+        }
     }
 
     private void RefreshSettingsState()
     {
-        if (m_bgmStateText != null)
-            m_bgmStateText.SetText(AudioClipManager.instance.IsBGMEnabled ? "BGM：開" : "BGM：關");
-        if (m_sfxStateText != null)
-            m_sfxStateText.SetText(AudioClipManager.instance.IsSFXEnabled ? "音效：開" : "音效：關");
+        if (m_bgmStateIcon != null)
+            m_bgmStateIcon.sprite = AudioClipManager.instance.IsBGMEnabled
+                ? MassageCatUiArt.BgmOn
+                : MassageCatUiArt.BgmOff;
+        if (m_sfxStateIcon != null)
+            m_sfxStateIcon.sprite = AudioClipManager.instance.IsSFXEnabled
+                ? MassageCatUiArt.SfxOn
+                : MassageCatUiArt.SfxOff;
+    }
+
+    private void RefreshAutoNextState()
+    {
+        if (m_autoNextStateIcon == null)
+            return;
+
+        bool isUnlocked = m_autoNextButton != null && m_autoNextButton.IsUnlocked;
+        bool isEnabled = isUnlocked && m_autoNextButton.isAutoNext;
+        m_autoNextStateIcon.sprite = isEnabled
+            ? MassageCatUiArt.AutoNextOn
+            : MassageCatUiArt.AutoNextOff;
+        m_autoNextStateIcon.color = isUnlocked ? Color.white : new Color32(255, 255, 255, 100);
     }
 
     private bool ContainsRuntimeControlArea(Vector3 screenPosition)
@@ -488,10 +574,10 @@ public sealed class DesktopPetWindowController : MonoBehaviour
             && referenceScreenPosition.x <= dragAreaRight)
             return true;
 
-        float settingsButtonLeft = viewportOrigin.x + m_windowSize.x - k_settingsButtonMargin - k_settingsButtonSize;
-        float settingsButtonBottom = viewportOrigin.y + m_windowSize.y - k_settingsButtonMargin - k_settingsButtonSize;
-        return referenceScreenPosition.x >= settingsButtonLeft
-               && referenceScreenPosition.y >= settingsButtonBottom;
+        float rightControlsLeft = viewportOrigin.x + m_windowSize.x - k_rightControlReserve;
+        float rightControlsBottom = viewportOrigin.y + m_windowSize.y - k_settingsButtonMargin - k_settingsButtonSize;
+        return referenceScreenPosition.x >= rightControlsLeft
+               && referenceScreenPosition.y >= rightControlsBottom;
     }
 
     private void ExpandForGallery()
@@ -502,24 +588,23 @@ public sealed class DesktopPetWindowController : MonoBehaviour
 
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
         System.IntPtr windowHandle = GetUnityWindowHandle();
-        if (windowHandle != System.IntPtr.Zero
-            && GetWindowRect(windowHandle, out NativeRect windowRect)
-            && TryGetMonitorWorkArea(windowHandle, out NativeRect workArea))
+        if (windowHandle != System.IntPtr.Zero && GetWindowRect(windowHandle, out NativeRect windowRect))
         {
             m_collapsedWindowPosition = new Vector2Int(windowRect.left, windowRect.top);
-            int leftSpace = windowRect.left - workArea.left;
-            int rightSpace = workArea.right - windowRect.right;
-            m_galleryOnLeft = leftSpace > rightSpace;
-
-            int combinedWidth = m_scaledWindowSize.x + m_scaledGallerySize.x;
-            int desiredX = m_galleryOnLeft ? windowRect.left - m_scaledGallerySize.x : windowRect.left;
-            int maxX = System.Math.Max(workArea.left, workArea.right - combinedWidth);
-            int maxY = System.Math.Max(workArea.top, workArea.bottom - m_scaledGallerySize.y);
-            m_windowPosition = new Vector2Int(
-                Mathf.Clamp(desiredX, workArea.left, maxX),
-                Mathf.Clamp(windowRect.top, workArea.top, maxY));
+            if (TryGetMonitorWorkArea(windowHandle, out NativeRect workArea))
+            {
+                int leftSpace = windowRect.left - workArea.left;
+                int rightSpace = workArea.right - windowRect.right;
+                m_galleryOnLeft = leftSpace > rightSpace;
+            }
         }
 #endif
+
+        m_windowPosition = CalculateExpandedWindowPosition(
+            m_collapsedWindowPosition,
+            m_galleryOnLeft,
+            m_scaledWindowSize,
+            m_scaledGallerySize);
 
         ApplyExpandedViewport();
         Screen.SetResolution(
@@ -543,8 +628,11 @@ public sealed class DesktopPetWindowController : MonoBehaviour
         System.IntPtr windowHandle = GetUnityWindowHandle();
         if (windowHandle != System.IntPtr.Zero && GetWindowRect(windowHandle, out NativeRect windowRect))
         {
-            int gameLeft = m_galleryOnLeft ? m_scaledGallerySize.x : 0;
-            m_collapsedWindowPosition = new Vector2Int(windowRect.left + gameLeft, windowRect.top);
+            m_collapsedWindowPosition = CalculateCollapsedWindowPosition(
+                new Vector2Int(windowRect.left, windowRect.top),
+                m_galleryOnLeft,
+                m_scaledWindowSize,
+                m_scaledGallerySize);
         }
 #endif
 
@@ -568,6 +656,18 @@ public sealed class DesktopPetWindowController : MonoBehaviour
             ApplyExpandedViewport();
         else
             ApplyCollapsedViewport();
+
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        // Screen.SetResolution 會在影格結束後非同步調整視窗；再等一幀才恢復主遊戲錨點。
+        yield return null;
+        int targetWidth = m_galleryExpanded
+            ? m_scaledWindowSize.x + m_scaledGallerySize.x
+            : m_scaledWindowSize.x;
+        int targetHeight = m_galleryExpanded
+            ? m_scaledGallerySize.y
+            : m_scaledWindowSize.y;
+        ApplyNativeWindowBounds(m_windowPosition, targetWidth, targetHeight);
+#endif
     }
 
     private void ApplyExpandedViewport()
@@ -669,18 +769,28 @@ public sealed class DesktopPetWindowController : MonoBehaviour
 
     private void InitializeWindowScale()
     {
-        int displayWidth = Display.main.systemWidth;
-        int displayHeight = Display.main.systemHeight;
-        if (displayWidth <= 0 || displayHeight <= 0)
-        {
-            Resolution currentResolution = Screen.currentResolution;
-            displayWidth = currentResolution.width;
-            displayHeight = currentResolution.height;
-        }
+        // 依 Windows 目前桌面模式縮放；Display.systemWidth 是面板原生解析度，可能與使用者設定不同。
+        Resolution currentResolution = Screen.currentResolution;
+        Vector2Int displaySize = SelectDisplaySize(
+            currentResolution.width,
+            currentResolution.height,
+            Display.main.systemWidth,
+            Display.main.systemHeight);
 
-        m_windowScale = CalculateWindowScale(displayWidth, displayHeight);
+        m_windowScale = CalculateWindowScale(displaySize.x, displaySize.y);
         m_scaledWindowSize = ScaleSize(m_windowSize, m_windowScale);
         m_scaledGallerySize = ScaleSize(new Vector2Int(k_galleryWidth, k_galleryHeight), m_windowScale);
+    }
+
+    private static Vector2Int SelectDisplaySize(
+        int currentWidth,
+        int currentHeight,
+        int nativeWidth,
+        int nativeHeight)
+    {
+        return currentWidth > 0 && currentHeight > 0
+            ? new Vector2Int(currentWidth, currentHeight)
+            : new Vector2Int(nativeWidth, nativeHeight);
     }
 
     private static float CalculateWindowScale(int displayWidth, int displayHeight)
@@ -700,6 +810,32 @@ public sealed class DesktopPetWindowController : MonoBehaviour
             Mathf.Max(1, Mathf.RoundToInt(referenceSize.y * scale)));
     }
 
+    private static Vector2Int CalculateExpandedWindowPosition(
+        Vector2Int collapsedPosition,
+        bool galleryOnLeft,
+        Vector2Int windowSize,
+        Vector2Int gallerySize)
+    {
+        int galleryLeftOffset = galleryOnLeft ? gallerySize.x : 0;
+        int gameTopInset = System.Math.Max(0, gallerySize.y - windowSize.y) / 2;
+        return new Vector2Int(
+            collapsedPosition.x - galleryLeftOffset,
+            collapsedPosition.y - gameTopInset);
+    }
+
+    private static Vector2Int CalculateCollapsedWindowPosition(
+        Vector2Int expandedPosition,
+        bool galleryOnLeft,
+        Vector2Int windowSize,
+        Vector2Int gallerySize)
+    {
+        int galleryLeftOffset = galleryOnLeft ? gallerySize.x : 0;
+        int gameTopInset = System.Math.Max(0, gallerySize.y - windowSize.y) / 2;
+        return new Vector2Int(
+            expandedPosition.x + galleryLeftOffset,
+            expandedPosition.y + gameTopInset);
+    }
+
     private void ApplyCameraSettings()
     {
         Camera mainCamera = Camera.main;
@@ -711,6 +847,31 @@ public sealed class DesktopPetWindowController : MonoBehaviour
     }
 
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+    private void MinimizeWindow()
+    {
+        System.IntPtr windowHandle = GetUnityWindowHandle();
+        if (windowHandle == System.IntPtr.Zero)
+            return;
+
+        // 最小化期間顯示工作列項目，讓使用者能直接點擊恢復。
+        System.IntPtr exStyle = GetWindowLongPtr(windowHandle, k_gwlExStyle);
+        long exStyleValue = exStyle.ToInt64();
+        exStyleValue &= ~k_wsExToolWindow;
+        exStyleValue |= k_wsExAppWindow;
+        SetWindowLongPtr(windowHandle, k_gwlExStyle, new System.IntPtr(exStyleValue));
+        SetWindowPos(
+            windowHandle,
+            System.IntPtr.Zero,
+            0,
+            0,
+            0,
+            0,
+            k_swpNoMove | k_swpNoSize | k_swpNoZOrder | k_swpFrameChanged);
+
+        m_windowMinimized = true;
+        ShowWindow(windowHandle, k_swMinimize);
+    }
+
     private void ApplyNativeWindowBounds(Vector2Int position, int width, int height)
     {
         System.IntPtr windowHandle = GetUnityWindowHandle();
@@ -752,7 +913,7 @@ public sealed class DesktopPetWindowController : MonoBehaviour
         System.IntPtr exStyle = GetWindowLongPtr(windowHandle, k_gwlExStyle);
         long exStyleValue = exStyle.ToInt64();
         exStyleValue |= k_wsExLayered | k_wsExToolWindow;
-        exStyleValue &= ~k_wsExTransparent;
+        exStyleValue &= ~(k_wsExTransparent | k_wsExAppWindow);
         SetWindowLongPtr(windowHandle, k_gwlExStyle, new System.IntPtr(exStyleValue));
 
         SetLayeredWindowAttributes(windowHandle, 0, byte.MaxValue, k_lwaAlpha);
@@ -867,8 +1028,11 @@ public sealed class DesktopPetWindowController : MonoBehaviour
     private const long k_wsExLayered = 0x00080000L;
     private const long k_wsExTransparent = 0x00000020L;
     private const long k_wsExToolWindow = 0x00000080L;
+    private const long k_wsExAppWindow = 0x00040000L;
     private const uint k_lwaAlpha = 0x00000002;
     private const uint k_swpNoMove = 0x0002;
+    private const uint k_swpNoSize = 0x0001;
+    private const uint k_swpNoZOrder = 0x0004;
     private const uint k_swpNoActivate = 0x0010;
     private const uint k_swpShowWindow = 0x0040;
     private const uint k_swpFrameChanged = 0x0020;
@@ -876,6 +1040,7 @@ public sealed class DesktopPetWindowController : MonoBehaviour
     private const uint k_monitorInfoSize = 40;
     private const int k_wmNcLButtonDown = 0x00A1;
     private const int k_htCaption = 2;
+    private const int k_swMinimize = 6;
     private static readonly System.IntPtr k_hwndTopMost = new System.IntPtr(-1);
     private static Margins s_fullWindowMargins = new Margins
     {
@@ -915,6 +1080,12 @@ public sealed class DesktopPetWindowController : MonoBehaviour
 
     [System.Runtime.InteropServices.DllImport("user32.dll")]
     private static extern bool GetWindowRect(System.IntPtr hWnd, out NativeRect lpRect);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool IsIconic(System.IntPtr hWnd);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool ShowWindow(System.IntPtr hWnd, int command);
 
     [System.Runtime.InteropServices.DllImport("dwmapi.dll")]
     private static extern int DwmExtendFrameIntoClientArea(System.IntPtr hWnd, ref Margins margins);

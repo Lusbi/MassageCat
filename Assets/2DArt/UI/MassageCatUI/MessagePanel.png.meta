@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 3de65747453a4064a9264a69a0a9ed4a
+guid: eac480606296d74419b158b3cadf8288
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -252991961967553079
-    second: AutoNext_0
-  - first:
-      213: -566752406278234838
-    second: AutoNext_1
-  - first:
-      213: -4250033171229028872
-    second: AutoNext_2
+      213: 3684339197635670191
+    second: MessagePanel_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 96, y: 96, z: 96, w: 96}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -78,10 +72,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -106,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AutoNext_0
+      name: MessagePanel_0
       rect:
         serializedVersion: 2
-        x: 55
-        y: 88
-        width: 338
-        height: 633
+        x: 0
+        y: 0
+        width: 768
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,52 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c515e7a6213d7cf0800000000000000
-      internalID: -252991961967553079
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AutoNext_1
-      rect:
-        serializedVersion: 2
-        x: 259
-        y: 216
-        width: 763
-        height: 707
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a2d103470bd7228f0800000000000000
-      internalID: -566752406278234838
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AutoNext_2
-      rect:
-        serializedVersion: 2
-        x: 455
-        y: 57
-        width: 458
-        height: 154
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8fd44413959d405c0800000000000000
-      internalID: -4250033171229028872
+      spriteID: fa03f13daf6612330800000000000000
+      internalID: 3684339197635670191
       vertices: []
       indices: 
       edges: []
@@ -185,9 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AutoNext_0: -252991961967553079
-      AutoNext_1: -566752406278234838
-      AutoNext_2: -4250033171229028872
+      MessagePanel_0: 3684339197635670191
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

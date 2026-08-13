@@ -14,6 +14,7 @@ public class AutoNextButton : MonoBehaviour, IInitlization
 
     [SerializeField] private FlagReference m_flagReference;
     private EventListener m_eventListener;
+    private bool m_isUnlocked;
     public void Initlization(Action callBack = null)
     {
         m_button.onClicked = OnButtonClick;
@@ -30,14 +31,13 @@ public class AutoNextButton : MonoBehaviour, IInitlization
 
     private void OnButtonClick(UIButton button)
     {
-        m_isAutoNext = !m_isAutoNext;
-        UpdateUI();
+        TryToggle();
     }
     private void OnFlagUpdateEvent(FlagUpdateEvent eventData)
     {
-        bool unLocked = StorageManager.instance.StorageData.GetFlagStorageValue(m_flagReference.GetKey()) > 0;
-        m_canvasGroup.alpha = unLocked ? 1 : 0f;
-        m_canvasGroup.blocksRaycasts = unLocked;
+        m_isUnlocked = StorageManager.instance.StorageData.GetFlagStorageValue(m_flagReference.GetKey()) > 0;
+        m_canvasGroup.alpha = m_isUnlocked ? 1 : 0f;
+        m_canvasGroup.blocksRaycasts = m_isUnlocked;
 
     }
 
@@ -49,6 +49,17 @@ public class AutoNextButton : MonoBehaviour, IInitlization
 
     private bool m_isAutoNext;
     public bool isAutoNext => m_isAutoNext;
+    internal bool IsUnlocked => m_isUnlocked;
+
+    internal bool TryToggle()
+    {
+        if (m_isUnlocked == false)
+            return false;
+
+        m_isAutoNext = !m_isAutoNext;
+        UpdateUI();
+        return true;
+    }
 
     internal bool UsesUnlockFlag(string flagKey)
     {

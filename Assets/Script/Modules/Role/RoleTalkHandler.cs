@@ -8,6 +8,7 @@ public class RoleTalkHandler
     private const float k_talkIntervalMin = 7f;
     private const float k_talkIntervalMax = 12f;
     private const float k_noValidTalkRetryInterval = 10f;
+    private const float k_minimumTalkDisplayDuration = 8f;
 
     private RoleData m_roleData;
     private float m_durationTime;
@@ -51,10 +52,16 @@ public class RoleTalkHandler
 
         TalkEntry talkEntry = talk.Value;
         m_lastTalkContent = talkEntry.Content;
-        m_durationTime = talkEntry.Duration + UnityEngine.Random.Range(k_talkIntervalMin, k_talkIntervalMax);
+        float displayDuration = GetTalkDisplayDuration(talkEntry.Duration);
+        m_durationTime = displayDuration + UnityEngine.Random.Range(k_talkIntervalMin, k_talkIntervalMax);
         string content = LocalizationManager.instance.GetLocalization(talkEntry.Content);
         TalkManager.instance.Clear();
-        TalkManager.instance.Play(content, talkEntry.Duration);
+        TalkManager.instance.Play(content, displayDuration);
+    }
+
+    private static float GetTalkDisplayDuration(float configuredDuration)
+    {
+        return UnityEngine.Mathf.Max(configuredDuration, k_minimumTalkDisplayDuration);
     }
 
     private TalkEntry? GetRandomTalkWithCondition(TalkType talkType)

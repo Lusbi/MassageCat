@@ -23,7 +23,8 @@ public class TalkManager : MonoSingleton<TalkManager>
         if (!m_isPlaying)
             return;
 
-        m_remainingDuration -= Time.deltaTime;
+        // 對話可讀時間採真實秒數，不受暫停或遊戲時間倍率影響。
+        m_remainingDuration -= Time.unscaledDeltaTime;
         if (m_remainingDuration <= 0f)
             Clear();
     }

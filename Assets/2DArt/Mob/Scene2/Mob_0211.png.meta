@@ -105,8 +105,8 @@ TextureImporter:
     maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
+    textureCompression: 2
+    compressionQuality: 100
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -146,10 +146,10 @@ TextureImporter:
       name: Mob_0211_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 8
-        width: 1005
-        height: 1003
+        x: 128
+        y: 63
+        width: 1012
+        height: 1179
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

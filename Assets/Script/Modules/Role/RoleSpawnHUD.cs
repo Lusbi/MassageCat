@@ -87,7 +87,7 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
         m_dieActionCallBack = dieActionCallBack;
     }
 
-    public void LoadRoleData(RoleData roleData)
+    public void LoadRoleData(RoleData roleData, BattleModel battleModel = BattleModel.Normal)
     {
         StopFeedbackTweens(true);
         m_enemyImage.sprite = roleData.EnemyIcon;
@@ -102,7 +102,13 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
         float rotationY = roleData.DirectionType == DirectionType.Right ? 180f : 0f;
         m_enemyRect.localEulerAngles = new Vector3(0f, rotationY, 0f);
         if (m_cardHud)
-            m_cardHud.Apply(roleData);
+            m_cardHud.Apply(roleData, battleModel);
+    }
+
+    internal void RefreshCardStatus(RoleData roleData, BattleModel battleModel, bool playObtainedFeedback)
+    {
+        if (m_cardHud)
+            m_cardHud.Apply(roleData, battleModel, playObtainedFeedback);
     }
 
     public void ApplyBattleStorageData(BattleStorageData battleStorageData)

@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ForceNewGame: 1
+  m_desktopPetMode: 0
 --- !u!4 &1676712253
 Transform:
   m_ObjectHideFlags: 0

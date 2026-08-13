@@ -8,9 +8,13 @@ using GameCore.Log;
 [System.Serializable]
 public class StorageData
 {
+    [UnityEngine.SerializeField]
     private string m_currentSceneMap;
+    [UnityEngine.SerializeField]
     private BattleStorageData m_battleStorageData = new BattleStorageData(string.Empty, 0);
+    [UnityEngine.SerializeField]
     private List<FlagStorageData> m_flagStorageDatas = new List<FlagStorageData>();
+    [UnityEngine.SerializeField]
     private List<EnemyStorageData> m_enemyStorageDatas = new List<EnemyStorageData>();
 
     // Property to get the current scene map
@@ -124,6 +128,17 @@ public class StorageData
         m_battleStorageData = new BattleStorageData(enemyKey, accumulatedHealValue);
     }
 
+    internal void EnsureInitialized()
+    {
+        // 舊版空存檔不含欄位，載入後需補齊容器，避免後續流程發生 NullReferenceException。
+        if (m_battleStorageData == null)
+            m_battleStorageData = new BattleStorageData(string.Empty, 0);
+        if (m_flagStorageDatas == null)
+            m_flagStorageDatas = new List<FlagStorageData>();
+        if (m_enemyStorageDatas == null)
+            m_enemyStorageDatas = new List<EnemyStorageData>();
+    }
+
     internal void AddCardStorageData(string key)
     {
         StorageManager.instance.StorageData.GetEnemyStorageData(key)?.GetCard();
@@ -134,7 +149,9 @@ public class StorageData
 [System.Serializable]
 public class FlagStorageData
 {
+    [UnityEngine.SerializeField]
     private string m_flagKey;
+    [UnityEngine.SerializeField]
     private int m_value;
 
     public string FlagKey => m_flagKey;
@@ -153,11 +170,17 @@ public class FlagStorageData
 [System.Serializable]
 public class EnemyStorageData
 {
+    [UnityEngine.SerializeField]
     private string m_enemyKey;
+    [UnityEngine.SerializeField]
     private int m_satisfyValue;
+    [UnityEngine.SerializeField]
     private bool m_silverClear;
+    [UnityEngine.SerializeField]
     private bool m_goldenClear;
+    [UnityEngine.SerializeField]
     private bool m_sppedClear = false;
+    [UnityEngine.SerializeField]
     private bool m_cardReward = false;
 
     public string EnemyKey => m_enemyKey;
@@ -204,7 +227,9 @@ public class EnemyStorageData
 [System.Serializable]
 public class ToyStorageData
 {
+    [UnityEngine.SerializeField]
     private string m_toyKey;
+    [UnityEngine.SerializeField]
     private int m_useableValue;
 
     public string ToyKey => m_toyKey;
@@ -223,7 +248,9 @@ public class ToyStorageData
 [System.Serializable]
 public class ItemStorageData
 {
+    [UnityEngine.SerializeField]
     private string m_itemKey;
+    [UnityEngine.SerializeField]
     private int m_itemValue;
 
     public string ItemKey => m_itemKey;
@@ -242,6 +269,7 @@ public class ItemStorageData
 [System.Serializable]
 public class BattleStorageData
 {
+    [UnityEngine.SerializeField]
     private string m_enemyKey;
     private BigNumber m_accumulatedHealValue;
 

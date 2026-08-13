@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 9a864adea0df25d4d99c18481f9a0bbe
+guid: e73caf7cd013161469abf70500f4c48b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6832753677518216061
-    second: HighTime_0
-  - first:
-      213: 3610596510142644184
-    second: HighTime_1
-  - first:
-      213: 4891224762965875832
-    second: HighTime_2
-  - first:
-      213: 758990601398007539
-    second: HighTime_3
+      213: 2166052713278023954
+    second: TomatoTimer_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -81,10 +72,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HighTime_0
+      name: TomatoTimer_0
       rect:
         serializedVersion: 2
-        x: 175
-        y: 609
-        width: 218
-        height: 218
+        x: 15
+        y: 17
+        width: 226
+        height: 223
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,74 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d7b973aa441d2de50800000000000000
-      internalID: 6832753677518216061
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HighTime_1
-      rect:
-        serializedVersion: 2
-        x: 307
-        y: 648
-        width: 491
-        height: 371
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8df315e656a6b1230800000000000000
-      internalID: 3610596510142644184
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HighTime_2
-      rect:
-        serializedVersion: 2
-        x: 631
-        y: 576
-        width: 391
-        height: 347
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 87cdc21d10f11e340800000000000000
-      internalID: 4891224762965875832
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HighTime_3
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 48
-        width: 1019
-        height: 593
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3f630304ee9788a00800000000000000
-      internalID: 758990601398007539
+      spriteID: 21925bb677d5f0e10800000000000000
+      internalID: 2166052713278023954
       vertices: []
       indices: 
       edges: []
@@ -210,10 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HighTime_0: 6832753677518216061
-      HighTime_1: 3610596510142644184
-      HighTime_2: 4891224762965875832
-      HighTime_3: 758990601398007539
+      TomatoTimer_0: 2166052713278023954
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -6,6 +6,7 @@ using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using BigInteger = System.Numerics.BigInteger;
 
 public static class HealFeedbackPrefabMigrationTool
@@ -19,27 +20,19 @@ public static class HealFeedbackPrefabMigrationTool
     private const string k_normalHealAnimationPath = "Assets/2DArt/Animation/HealValue_Normal.anim";
     private const string k_strongHealAnimationPath = "Assets/2DArt/Animation/HealValue_Strong.anim";
     private const string k_strongHealEffectAnimationPath = "Assets/2DArt/Animation/StrongHealEffect.anim";
-
-    private struct PendingPulseVisual
-    {
-        public Sprite Sprite;
-        public Material Material;
-        public Color Color;
-        public Image.Type Type;
-        public Image.FillMethod FillMethod;
-        public int FillOrigin;
-        public bool FillClockwise;
-        public float FillAmount;
-        public bool PreserveAspect;
-        public float PixelsPerUnitMultiplier;
-    }
+    private const string k_healProgressTrackPath = "Assets/2DArt/UI/MassageCatUI/HealProgressTrack.png";
+    private const string k_healProgressFillPath = "Assets/2DArt/UI/MassageCatUI/HealProgressFill.png";
 
     [MenuItem("Tools/Massage Cat/Migrate Heal Feedback UX")]
     public static void Migrate()
     {
-        PendingPulseVisual pendingPulseVisual = CapturePendingPulseVisual();
-        MigrateEnemySpawnPrefab(pendingPulseVisual);
-        MigrateInBattlePrefab();
+        ConfigureProgressSpriteImport(k_healProgressTrackPath, new Vector4(150f, 40f, 150f, 40f));
+        ConfigureProgressSpriteImport(k_healProgressFillPath, new Vector4(60f, 40f, 60f, 40f));
+
+        Sprite progressTrackSprite = LoadSprite(k_healProgressTrackPath);
+        Sprite progressFillSprite = LoadSprite(k_healProgressFillPath);
+        MigrateEnemySpawnPrefab(progressTrackSprite, progressFillSprite);
+        MigrateInBattlePrefab(progressTrackSprite, progressFillSprite);
         RenamePrefabRoot(k_healValueTextPrefabPath, "Pool_HealValueText");
         RenamePrefabRoot(k_normalHealEffectPrefabPath, "NormalHealEffect");
         RenamePrefabRoot(k_strongHealEffectPrefabPath, "StrongHealEffect");
@@ -63,37 +56,36 @@ public static class HealFeedbackPrefabMigrationTool
         Debug.Log("療癒完成度動畫 UX Prefab 驗證通過。");
     }
 
-    private static PendingPulseVisual CapturePendingPulseVisual()
+    private static void ConfigureProgressSpriteImport(string assetPath, Vector4 border)
     {
-        GameObject prefabRoot = PrefabUtility.LoadPrefabContents(k_inBattlePrefabPath);
-        try
-        {
-            Transform fadeBar = FindTransform(prefabRoot, "FadeBar");
-            Image sourceImage = fadeBar ? fadeBar.GetComponent<Image>() : null;
-            if (sourceImage == null)
-                return default;
+        AssetDatabase.ImportAsset(
+            assetPath,
+            ImportAssetOptions.ForceSynchronousImport | ImportAssetOptions.ForceUpdate);
+        TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+        if (importer == null)
+            throw new InvalidOperationException($"找不到進度條圖片：{assetPath}");
 
-            return new PendingPulseVisual
-            {
-                Sprite = sourceImage.sprite,
-                Material = sourceImage.material,
-                Color = sourceImage.color,
-                Type = sourceImage.type,
-                FillMethod = sourceImage.fillMethod,
-                FillOrigin = sourceImage.fillOrigin,
-                FillClockwise = sourceImage.fillClockwise,
-                FillAmount = sourceImage.fillAmount,
-                PreserveAspect = sourceImage.preserveAspect,
-                PixelsPerUnitMultiplier = sourceImage.pixelsPerUnitMultiplier,
-            };
-        }
-        finally
-        {
-            PrefabUtility.UnloadPrefabContents(prefabRoot);
-        }
+        importer.textureType = TextureImporterType.Sprite;
+        importer.spriteImportMode = SpriteImportMode.Single;
+        importer.spritePixelsPerUnit = 100f;
+        importer.spriteBorder = border;
+        importer.alphaIsTransparency = true;
+        importer.mipmapEnabled = false;
+        importer.filterMode = FilterMode.Bilinear;
+        importer.textureCompression = TextureImporterCompression.Uncompressed;
+        importer.maxTextureSize = 1024;
+        importer.SaveAndReimport();
     }
 
-    private static void MigrateEnemySpawnPrefab(PendingPulseVisual pendingPulseVisual)
+    private static Sprite LoadSprite(string assetPath)
+    {
+        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+        if (sprite == null)
+            throw new InvalidOperationException($"進度條圖片不是有效 Sprite：{assetPath}");
+        return sprite;
+    }
+
+    private static void MigrateEnemySpawnPrefab(Sprite progressTrackSprite, Sprite progressFillSprite)
     {
         GameObject prefabRoot = PrefabUtility.LoadPrefabContents(k_enemySpawnPrefabPath);
         try
@@ -104,18 +96,34 @@ public static class HealFeedbackPrefabMigrationTool
 
             RectTransform progressRoot = RequireTransform(prefabRoot, "HealProgressRoot", "HpBar_Bg") as RectTransform;
             progressRoot.name = "HealProgressRoot";
+            progressRoot.sizeDelta = new Vector2(400f, 64f);
             CreateOrUpdateProgressCanvas(progressRoot);
+
+            Image progressTrack = progressRoot.GetComponent<Image>();
+            if (progressTrack == null)
+                progressTrack = progressRoot.gameObject.AddComponent<Image>();
+            progressTrack.sprite = progressTrackSprite;
+            progressTrack.color = Color.white;
+            progressTrack.type = Image.Type.Sliced;
+            progressTrack.fillCenter = true;
+            progressTrack.preserveAspect = false;
+            progressTrack.raycastTarget = false;
 
             RectTransform progressFill = RequireTransform(prefabRoot, "HealProgressFill", "HpBar_Bg (1)") as RectTransform;
             progressFill.name = "HealProgressFill";
+            ConfigureProgressFill(progressFill, progressFillSprite);
 
-            Transform progressText = RequireTransform(prefabRoot, "HealProgressText", "HintText");
+            RectTransform progressText = RequireTransform(prefabRoot, "HealProgressText", "HintText") as RectTransform;
             progressText.name = "HealProgressText";
+            ConfigureProgressText(progressText);
 
             Transform feedbackAnchor = RequireTransform(prefabRoot, "HealFeedbackAnchor", "HitPanel");
             feedbackAnchor.name = "HealFeedbackAnchor";
 
-            Image pendingPulse = CreateOrUpdatePendingPulse(progressRoot, progressFill.GetComponent<Image>(), pendingPulseVisual);
+            Image pendingPulse = CreateOrUpdatePendingPulse(progressRoot, progressFillSprite);
+            progressFill.SetSiblingIndex(0);
+            pendingPulse.rectTransform.SetSiblingIndex(1);
+            progressText.SetAsLastSibling();
             SerializedObject serializedHud = new SerializedObject(roleSpawnHud);
             serializedHud.FindProperty("m_healProgressRoot").objectReferenceValue = progressRoot;
             serializedHud.FindProperty("m_pendingHealPulse").objectReferenceValue = pendingPulse;
@@ -129,10 +137,52 @@ public static class HealFeedbackPrefabMigrationTool
         }
     }
 
+    private static void ConfigureProgressFill(RectTransform progressFill, Sprite progressFillSprite)
+    {
+        progressFill.anchorMin = Vector2.zero;
+        progressFill.anchorMax = Vector2.one;
+        progressFill.pivot = new Vector2(0.5f, 0.5f);
+        progressFill.offsetMin = new Vector2(80f, 14f);
+        progressFill.offsetMax = new Vector2(-80f, -14f);
+        progressFill.localScale = Vector3.one;
+
+        Image fillImage = progressFill.GetComponent<Image>();
+        if (fillImage == null)
+            fillImage = progressFill.gameObject.AddComponent<Image>();
+        fillImage.sprite = progressFillSprite;
+        fillImage.color = Color.white;
+        fillImage.type = Image.Type.Filled;
+        fillImage.fillMethod = Image.FillMethod.Horizontal;
+        fillImage.fillOrigin = 0;
+        fillImage.fillClockwise = true;
+        fillImage.fillAmount = Mathf.Clamp01(fillImage.fillAmount);
+        fillImage.preserveAspect = false;
+        fillImage.raycastTarget = false;
+    }
+
+    private static void ConfigureProgressText(RectTransform progressText)
+    {
+        progressText.anchorMin = Vector2.zero;
+        progressText.anchorMax = Vector2.one;
+        progressText.pivot = new Vector2(0.5f, 0.5f);
+        progressText.offsetMin = new Vector2(86f, 10f);
+        progressText.offsetMax = new Vector2(-86f, -10f);
+        progressText.localScale = Vector3.one;
+
+        TextMeshProUGUI text = progressText.GetComponent<TextMeshProUGUI>();
+        if (text == null)
+            throw new InvalidOperationException("HealProgressText 缺少 TextMeshProUGUI。");
+        text.color = new Color32(82, 65, 104, 255);
+        text.fontSize = 18f;
+        text.enableAutoSizing = false;
+        text.fontStyle = FontStyles.Bold;
+        text.alignment = TextAlignmentOptions.Center;
+        text.raycastTarget = false;
+    }
+
     private static Image CreateOrUpdatePendingPulse(
         RectTransform progressRoot,
-        Image fallbackImage,
-        PendingPulseVisual pendingPulseVisual)
+        Sprite progressFillSprite)
     {
         Transform existingTransform = FindTransform(progressRoot.gameObject, "PendingHealPulse");
         GameObject pulseObject;
@@ -151,32 +201,22 @@ public static class HealFeedbackPrefabMigrationTool
 
         RectTransform pulseRect = pulseObject.GetComponent<RectTransform>();
         pulseRect.SetParent(progressRoot, false);
-        pulseRect.anchorMin = new Vector2(0f, 0.5f);
-        pulseRect.anchorMax = new Vector2(1f, 0.5f);
+        pulseRect.anchorMin = Vector2.zero;
+        pulseRect.anchorMax = Vector2.one;
         pulseRect.pivot = new Vector2(0.5f, 0.5f);
-        pulseRect.offsetMin = new Vector2(0f, -5f);
-        pulseRect.offsetMax = new Vector2(0f, 5f);
+        pulseRect.offsetMin = new Vector2(80f, 14f);
+        pulseRect.offsetMax = new Vector2(-80f, -14f);
         pulseRect.localScale = Vector3.one;
-        pulseRect.SetAsLastSibling();
 
         Image pulseImage = pulseObject.GetComponent<Image>();
         pulseImage.raycastTarget = false;
         pulseImage.maskable = true;
-        pulseImage.sprite = pendingPulseVisual.Sprite ? pendingPulseVisual.Sprite : fallbackImage.sprite;
-        pulseImage.material = pendingPulseVisual.Material ? pendingPulseVisual.Material : fallbackImage.material;
-        pulseImage.type = pendingPulseVisual.Sprite ? pendingPulseVisual.Type : fallbackImage.type;
-        pulseImage.fillMethod = pendingPulseVisual.FillMethod;
-        pulseImage.fillOrigin = pendingPulseVisual.FillOrigin;
-        pulseImage.fillClockwise = pendingPulseVisual.FillClockwise;
-        pulseImage.fillAmount = pendingPulseVisual.Sprite ? pendingPulseVisual.FillAmount : 1f;
-        pulseImage.preserveAspect = pendingPulseVisual.PreserveAspect;
-        pulseImage.pixelsPerUnitMultiplier = pendingPulseVisual.PixelsPerUnitMultiplier > 0f
-            ? pendingPulseVisual.PixelsPerUnitMultiplier
-            : 1f;
-
-        Color pulseColor = pendingPulseVisual.Sprite ? pendingPulseVisual.Color : fallbackImage.color;
-        pulseColor.a = 0f;
-        pulseImage.color = pulseColor;
+        pulseImage.sprite = progressFillSprite;
+        pulseImage.material = null;
+        pulseImage.type = Image.Type.Simple;
+        pulseImage.preserveAspect = false;
+        pulseImage.pixelsPerUnitMultiplier = 1f;
+        pulseImage.color = new Color(1f, 1f, 1f, 0f);
         return pulseImage;
     }
 
@@ -202,7 +242,7 @@ public static class HealFeedbackPrefabMigrationTool
             UnityEngine.Object.DestroyImmediate(graphicRaycaster);
     }
 
-    private static void MigrateInBattlePrefab()
+    private static void MigrateInBattlePrefab(Sprite progressTrackSprite, Sprite progressFillSprite)
     {
         GameObject prefabRoot = PrefabUtility.LoadPrefabContents(k_inBattlePrefabPath);
         try
@@ -214,6 +254,30 @@ public static class HealFeedbackPrefabMigrationTool
             RoleSpawnHUD roleSpawnHud = prefabRoot.GetComponentInChildren<RoleSpawnHUD>(true);
             if (roleSpawnHud == null)
                 throw new InvalidOperationException("InBattle.prefab 缺少 RoleSpawnHUD。");
+
+            // 舊 Prefab Variant 曾把底框 Image 的 RGB 覆寫為黑色；需在最終 InBattle 直接覆蓋為新素材設定。
+            RectTransform progressRoot = RequireTransform(prefabRoot, "HealProgressRoot", "HpBar_Bg") as RectTransform;
+            Image progressTrack = progressRoot.GetComponent<Image>();
+            progressTrack.sprite = progressTrackSprite;
+            progressTrack.color = Color.white;
+            progressTrack.type = Image.Type.Sliced;
+            progressTrack.raycastTarget = false;
+
+            RectTransform progressFill = RequireTransform(prefabRoot, "HealProgressFill", "HpBar_Bg (1)") as RectTransform;
+            Image fillImage = progressFill.GetComponent<Image>();
+            fillImage.sprite = progressFillSprite;
+            fillImage.color = Color.white;
+            fillImage.type = Image.Type.Filled;
+            fillImage.fillMethod = Image.FillMethod.Horizontal;
+            fillImage.fillOrigin = 0;
+            fillImage.fillClockwise = true;
+
+            Transform pendingPulseTransform = FindTransform(prefabRoot, "PendingHealPulse");
+            Image pendingPulse = pendingPulseTransform ? pendingPulseTransform.GetComponent<Image>() : null;
+            if (pendingPulse == null)
+                throw new InvalidOperationException("InBattle.prefab 缺少 PendingHealPulse。");
+            pendingPulse.sprite = progressFillSprite;
+            pendingPulse.color = new Color(1f, 1f, 1f, 0f);
 
             Animation obsoleteAnimation = roleSpawnHud.GetComponent<Animation>();
             if (obsoleteAnimation)
@@ -363,12 +427,59 @@ public static class HealFeedbackPrefabMigrationTool
             throw new InvalidOperationException("EnemySpawn.prefab 尚有療癒語意節點未完成遷移。");
         }
 
+        Image progressTrack = progressRoot.GetComponent<Image>();
+        Image progressFill = FindTransform(enemySpawnPrefab, "HealProgressFill").GetComponent<Image>();
+        Image pendingPulse = FindTransform(enemySpawnPrefab, "PendingHealPulse").GetComponent<Image>();
+        RectTransform progressRootRect = progressRoot as RectTransform;
+        RectTransform progressFillRect = progressFill ? progressFill.rectTransform : null;
+        RectTransform pendingPulseRect = pendingPulse ? pendingPulse.rectTransform : null;
+        RectTransform progressTextRect = FindTransform(enemySpawnPrefab, "HealProgressText") as RectTransform;
+        if (progressTrack == null
+            || string.Equals(AssetDatabase.GetAssetPath(progressTrack.sprite), k_healProgressTrackPath, StringComparison.Ordinal) == false
+            || progressTrack.type != Image.Type.Sliced
+            || progressTrack.raycastTarget
+            || progressFill == null
+            || string.Equals(AssetDatabase.GetAssetPath(progressFill.sprite), k_healProgressFillPath, StringComparison.Ordinal) == false
+            || progressFill.type != Image.Type.Filled
+            || progressFill.fillMethod != Image.FillMethod.Horizontal
+            || pendingPulse == null
+            || string.Equals(AssetDatabase.GetAssetPath(pendingPulse.sprite), k_healProgressFillPath, StringComparison.Ordinal) == false)
+        {
+            throw new InvalidOperationException("EnemySpawn.prefab 未完整套用新療癒進度條素材與設定。");
+        }
+
+        ValidateProgressLayout(
+            progressRootRect,
+            progressFillRect,
+            pendingPulseRect,
+            progressTextRect,
+            "EnemySpawn.prefab");
+
         GameObject inBattlePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(k_inBattlePrefabPath);
         RoleSpawnHUD nestedHud = inBattlePrefab ? inBattlePrefab.GetComponentInChildren<RoleSpawnHUD>(true) : null;
         if (nestedHud == null || nestedHud.GetComponent<Animation>() != null)
             throw new InvalidOperationException("InBattle.prefab 仍有舊完成度 Animation override。");
         if (FindTransform(inBattlePrefab, "FadeBar") != null)
             throw new InvalidOperationException("InBattle.prefab 仍有舊 FadeBar override。");
+
+        Image nestedProgressTrack = FindTransform(inBattlePrefab, "HealProgressRoot").GetComponent<Image>();
+        Image nestedProgressFill = FindTransform(inBattlePrefab, "HealProgressFill").GetComponent<Image>();
+        if (nestedProgressTrack == null
+            || nestedProgressTrack.color != Color.white
+            || string.Equals(AssetDatabase.GetAssetPath(nestedProgressTrack.sprite), k_healProgressTrackPath, StringComparison.Ordinal) == false
+            || nestedProgressFill == null
+            || nestedProgressFill.color != Color.white
+            || string.Equals(AssetDatabase.GetAssetPath(nestedProgressFill.sprite), k_healProgressFillPath, StringComparison.Ordinal) == false)
+        {
+            throw new InvalidOperationException("InBattle.prefab 仍有舊療癒進度條顏色或素材 override。");
+        }
+
+        ValidateProgressLayout(
+            nestedProgressTrack.rectTransform,
+            nestedProgressFill.rectTransform,
+            FindTransform(inBattlePrefab, "PendingHealPulse") as RectTransform,
+            FindTransform(inBattlePrefab, "HealProgressText") as RectTransform,
+            "InBattle.prefab");
 
         ValidateAsset<HealValueHUD>(k_healValueTextPrefabPath);
         ValidateAsset<NormalHealEffect>(k_normalHealEffectPrefabPath);
@@ -379,6 +490,43 @@ public static class HealFeedbackPrefabMigrationTool
         ValidateAddressableKey(k_normalHealEffectPrefabPath, "NormalHit");
         ValidateAddressableKey(k_strongHealEffectPrefabPath, "CriticleHit");
         ValidateScaledRatioCalculations();
+    }
+
+    private static void ValidateProgressLayout(
+        RectTransform progressRoot,
+        RectTransform progressFill,
+        RectTransform pendingPulse,
+        RectTransform progressText,
+        string prefabName)
+    {
+        if (progressRoot == null
+            || progressFill == null
+            || pendingPulse == null
+            || progressText == null
+            || Vector2Approximately(progressRoot.sizeDelta, new Vector2(400f, 64f)) == false
+            || HasExpectedStretchLayout(progressFill, new Vector2(80f, 14f), new Vector2(-80f, -14f)) == false
+            || HasExpectedStretchLayout(pendingPulse, new Vector2(80f, 14f), new Vector2(-80f, -14f)) == false
+            || HasExpectedStretchLayout(progressText, new Vector2(86f, 10f), new Vector2(-86f, -10f)) == false)
+        {
+            throw new InvalidOperationException($"{prefabName} 的完成度條版面未對齊。");
+        }
+    }
+
+    private static bool HasExpectedStretchLayout(
+        RectTransform rectTransform,
+        Vector2 expectedOffsetMin,
+        Vector2 expectedOffsetMax)
+    {
+        return rectTransform.anchorMin == Vector2.zero
+            && rectTransform.anchorMax == Vector2.one
+            && Vector2Approximately(rectTransform.offsetMin, expectedOffsetMin)
+            && Vector2Approximately(rectTransform.offsetMax, expectedOffsetMax);
+    }
+
+    private static bool Vector2Approximately(Vector2 left, Vector2 right)
+    {
+        return Mathf.Approximately(left.x, right.x)
+            && Mathf.Approximately(left.y, right.y);
     }
 
     private static void ValidateScaledRatioCalculations()

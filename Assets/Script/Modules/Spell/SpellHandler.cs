@@ -288,7 +288,10 @@ public class SpellHandler : MonoBehaviour, IInitlization
             return;
 
         if (TalkManager.instance)
-            TalkManager.instance.Play(m_chineseQuest, Mathf.Max(m_durationTime, 0.1f));
+        {
+            // 拼字中文需持續顯示到換題或離開模式，不套用一般對話的自動消失規則。
+            TalkManager.instance.Play(m_chineseQuest, float.PositiveInfinity);
+        }
     }
 
     private void ClearTranslationText()

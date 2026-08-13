@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameProcess : MonoBehaviour
 {
     public static GameProcess Instance { get; private set; }
-    public bool ForceNewGame = true;
+    public bool ForceNewGame = false;
     [SerializeField] private bool m_desktopPetMode = true;
 
     public bool DesktopPetMode => m_desktopPetMode;

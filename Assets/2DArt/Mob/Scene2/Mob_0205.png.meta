@@ -153,11 +153,11 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
+    textureCompression: 2
+    compressionQuality: 100
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -197,10 +197,10 @@ TextureImporter:
       name: Mob_0205_0
       rect:
         serializedVersion: 2
-        x: 107
-        y: 255
-        width: 822
-        height: 531
+        x: 96
+        y: 65
+        width: 1062
+        height: 1122
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
