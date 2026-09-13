@@ -39,7 +39,7 @@ namespace GameCore.Database
         public virtual string GetErrorLog() => string.Empty;
 
 
-        /// <summary>µ¹µ{¦¡CI¦Û°Ê¤Æ³]©w¨Ï¥Î</summary>
+        /// <summary>çµ¦ç¨‹å¼CIè‡ªå‹•åŒ–è¨­å®šä½¿ç”¨</summary>
         public void ModifyTitleAndComment(string title, string comment)
         {
             m_titlePath = title;

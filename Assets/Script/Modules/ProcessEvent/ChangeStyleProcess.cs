@@ -15,7 +15,7 @@ public class ChangeStyleProcess : IProcessEvent
         {
             return false;
         }
-        // �o�e�ƥ�A�󴫼ĤH�t�X
+        // 發送事件，更換敵人演出
         processType = ProcessType.Processing;
         return true;
     }

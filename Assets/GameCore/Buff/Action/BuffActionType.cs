@@ -7,7 +7,7 @@ namespace GameCore.Buff
 {
     public enum BuffActionType
     {
-        [Description("¤@¯ëÄÝ©Ê")]
+        [Description("ä¸€èˆ¬å±¬æ€§")]
         attributes,
     }
 }

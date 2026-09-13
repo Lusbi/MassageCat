@@ -21,9 +21,7 @@ public class UILoadProcess
             return;
         }
 
-        m_reloadCount = 2;
-
-        new UITitle(UILoadFinished, UIEnum.Title);
+        m_reloadCount = 1;
         new UIGameMain(UILoadFinished, UIEnum.GameMain);
     }
 

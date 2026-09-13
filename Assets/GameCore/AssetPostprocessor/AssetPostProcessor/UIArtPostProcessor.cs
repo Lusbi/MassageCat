@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GameCore.AssetPostProcessor
 {
     /// <summary>
-    /// ±N TextureSettings ¸ê®ÆÂà¦¨ Sprite
+    /// å°‡ TextureSettings è³‡æ–™è½‰æˆ Sprite
     /// </summary>
     public class UIArtPostProcessor : GameCoreAssetPostprocessor
     {
@@ -25,10 +25,10 @@ namespace GameCore.AssetPostProcessor
         {
             TextureImporter importer = assetImporter as TextureImporter;
 
-            // ±N©Ò¦³¹Ï¤ùªº Texture Type ³]¸m¬° Sprite
+            // å°‡æ‰€æœ‰åœ–ç‰‡çš„ Texture Type è¨­ç½®ç‚º Sprite
             importer.textureType = TextureImporterType.Sprite;
 
-            Debug.Log($"¦Û°Ê½Õ¾ã¶µ¥Ø¡G{importer.name} -> {AssetDatabase.GetAssetPath(importer)}");
+            Debug.Log($"è‡ªå‹•èª¿æ•´é …ç›®ï¼š{importer.name} -> {AssetDatabase.GetAssetPath(importer)}");
         }
     }
 }

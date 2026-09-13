@@ -78,18 +78,37 @@ namespace GameCore.Database
 
         public void SetSprite()
         {
-            string[] guids = AssetDatabase.FindAssets($"t:Sprite {m_imgBgKey}");
-            if (guids.Length > 0)
+            // 背景限定使用正式路徑，避免同名搜尋先選到 Foreground 圖片或其 Prefab。
+            string path = $"Assets/2DArt/Scene/{m_imgBgKey}.png";
+            Sprite background = m_imgBgReference;
+            if (background == null || AssetDatabase.GetAssetPath(background) != path)
             {
-                string path = AssetDatabase.GUIDToAssetPath(guids[0]);
-                m_imgBgReference = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-                m_levelSelectionThumbnail = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+                background = null;
+                UnityEngine.Object[] assets = AssetDatabase.LoadAllAssetsAtPath(path);
+                float largestArea = 0f;
+                for (int i = 0; i < assets.Length; i++)
+                {
+                    if (assets[i] is Sprite sprite)
+                    {
+                        float area = sprite.rect.width * sprite.rect.height;
+                        if (area > largestArea)
+                        {
+                            background = sprite;
+                            largestArea = area;
+                        }
+                    }
+                }
             }
-            else
+
+            if (background == null)
             {
-                Debug.LogWarning($"No sprite found for key: {m_imgBgKey}");
-                m_imgBgReference = null;
+                Debug.LogWarning("[Codex驗證] 正式背景路徑沒有可用 Sprite，保留原引用；請檢查場景背景素材。", this);
+                return;
             }
+
+            m_imgBgReference = background;
+            m_levelSelectionThumbnail = background;
+            Debug.Log("[Codex驗證] 場景背景與縮圖已對應正式背景路徑；請確認前景仍使用獨立 Prefab。", this);
         }
 
         public override string GetTitle([CallerMemberName] string memberName = null)

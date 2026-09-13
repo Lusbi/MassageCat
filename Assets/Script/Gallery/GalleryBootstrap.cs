@@ -59,6 +59,7 @@ namespace MassageCat.Gallery
         private Action<GalleryRoleEntry> m_onRoleClicked;
         private DesktopPetWindowController m_windowController;
         private BattlePanel m_battlePanel;
+        private GameMainView m_gameMainView;
         private RectTransform m_root;
         private bool m_integratedMode;
         private bool m_integratedInitialized;
@@ -92,6 +93,7 @@ namespace MassageCat.Gallery
             m_integratedMode = true;
             m_windowController = windowController;
             m_battlePanel = FindFirstObjectByType<BattlePanel>();
+            m_gameMainView = m_battlePanel != null ? m_battlePanel.GetComponentInParent<GameMainView>() : null;
             TextMeshProUGUI existingText = UIManager.instance != null
                 ? UIManager.instance.GetComponentInChildren<TextMeshProUGUI>(true)
                 : null;
@@ -112,6 +114,7 @@ namespace MassageCat.Gallery
             }
 
             m_windowController.SetGalleryExpanded(true);
+            SetIntegratedGameplayVisible(false);
             if (m_canvas == null)
                 BuildUi();
             else
@@ -120,6 +123,9 @@ namespace MassageCat.Gallery
             ApplyIntegratedRootPosition();
             ApplySnapshot(GalleryStateUtility.Capture(GetCurrentBattleModel()));
             SetConnectionState(true);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            UnityEngine.Debug.Log("[Codex驗證] 圖鑑已開啟，請確認紙框邊角、文字可讀性、篩選與角色切換。", this);
+#endif
             return true;
         }
 
@@ -128,6 +134,22 @@ namespace MassageCat.Gallery
             if (m_canvas != null)
                 m_canvas.gameObject.SetActive(false);
             m_windowController.SetGalleryExpanded(false);
+            SetIntegratedGameplayVisible(true);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            UnityEngine.Debug.Log("[Codex驗證] 圖鑑已關閉，請確認主畫面恢復顯示。", this);
+#endif
+        }
+
+        private void SetIntegratedGameplayVisible(bool isVisible)
+        {
+            if (m_integratedMode == false)
+                return;
+
+            m_gameMainView ??= m_battlePanel != null ? m_battlePanel.GetComponentInParent<GameMainView>() : null;
+            if (m_gameMainView != null)
+                m_gameMainView.SetGalleryVisible(isVisible == false);
+
+            GameInputGate.SetGameplayInputPaused(isVisible == false);
         }
 
         private void ApplyIntegratedRootPosition()
@@ -287,7 +309,7 @@ namespace MassageCat.Gallery
                 scaler.scaleFactor = m_windowController.WindowScale;
                 root = CreateRect("Root", canvasObject.transform, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero);
                 root.pivot = Vector2.zero;
-                root.sizeDelta = new Vector2(k_defaultWindowWidth, k_defaultWindowHeight);
+                root.sizeDelta = m_windowController.GameViewportSize;
                 root.anchoredPosition = m_windowController.GalleryViewportOrigin;
             }
             else
@@ -301,32 +323,40 @@ namespace MassageCat.Gallery
             Image rootImage = AddImage(root.gameObject, Color.white);
             Sprite panelSprite = MassageCatUiArt.GalleryPanel;
             if (panelSprite != null)
+            {
                 rootImage.sprite = panelSprite;
+                rootImage.type = Image.Type.Sliced;
+                rootImage.pixelsPerUnitMultiplier = 6f;
+            }
             else
-                rootImage.color = new Color(0.055f, 0.065f, 0.085f, 1f);
+                rootImage.color = new Color32(246, 234, 197, 255);
 
-            RectTransform topBar = CreateRect("TopBar", root, new Vector2(0f, 1f), Vector2.one, new Vector2(16f, -64f), new Vector2(-16f, -12f));
-            TextMeshProUGUI title = CreateText("Title", topBar, 27f, TextAlignmentOptions.MidlineLeft);
+            Vector2 topBarMin = m_integratedMode ? new Vector2(8f, -42f) : new Vector2(16f, -64f);
+            Vector2 topBarMax = m_integratedMode ? new Vector2(-8f, -8f) : new Vector2(-16f, -12f);
+            RectTransform topBar = CreateRect("TopBar", root, new Vector2(0f, 1f), Vector2.one, topBarMin, topBarMax);
+            TextMeshProUGUI title = CreateText("Title", topBar, m_integratedMode ? 20f : 27f, TextAlignmentOptions.MidlineLeft);
             title.SetText(Localize("Gallery.Title", "對象圖鑑"));
             SetRect(title.rectTransform, new Vector2(0f, 0f), new Vector2(0.35f, 1f), Vector2.zero, Vector2.zero);
 
             m_connectionText = CreateText("Connection", topBar, 14f, TextAlignmentOptions.MidlineRight);
             SetRect(
                 m_connectionText.rectTransform,
-                new Vector2(m_integratedMode ? 0.55f : 0.72f, 0f),
-                new Vector2(m_integratedMode ? 0.84f : 1f, 1f),
+                new Vector2(m_integratedMode ? 0.42f : 0.72f, 0f),
+                new Vector2(m_integratedMode ? 0.74f : 1f, 1f),
                 Vector2.zero,
                 Vector2.zero);
 
             if (m_integratedMode)
             {
                 Button closeButton = CreateButton("CloseGallery", topBar, "關閉圖鑑", out TextMeshProUGUI closeText);
-                SetRect((RectTransform)closeButton.transform, new Vector2(0.85f, 0f), Vector2.one, Vector2.zero, Vector2.zero);
+                SetRect((RectTransform)closeButton.transform, new Vector2(0.76f, 0f), Vector2.one, Vector2.zero, Vector2.zero);
                 AddButtonIcon(closeButton, closeText, MassageCatUiArt.GalleryClose);
                 closeButton.onClick.AddListener(CloseIntegrated);
             }
 
-            RectTransform controls = CreateRect("Controls", root, new Vector2(0f, 1f), Vector2.one, new Vector2(16f, -112f), new Vector2(-16f, -70f));
+            Vector2 controlsMin = m_integratedMode ? new Vector2(8f, -78f) : new Vector2(16f, -112f);
+            Vector2 controlsMax = m_integratedMode ? new Vector2(-8f, -48f) : new Vector2(-16f, -70f);
+            RectTransform controls = CreateRect("Controls", root, new Vector2(0f, 1f), Vector2.one, controlsMin, controlsMax);
             Button sortButton = CreateButton("SortButton", controls, string.Empty, out m_sortButtonText);
             SetRect((RectTransform)sortButton.transform, new Vector2(0f, 0f), new Vector2(0.34f, 1f), Vector2.zero, new Vector2(-6f, 0f));
             sortButton.onClick.AddListener(CycleSortMode);
@@ -348,7 +378,9 @@ namespace MassageCat.Gallery
 
         private void CreateSceneTabs(RectTransform root)
         {
-            RectTransform scrollRoot = CreateRect("SceneTabs", root, new Vector2(0f, 1f), Vector2.one, new Vector2(16f, -164f), new Vector2(-16f, -118f));
+            Vector2 min = m_integratedMode ? new Vector2(8f, -116f) : new Vector2(16f, -164f);
+            Vector2 max = m_integratedMode ? new Vector2(-8f, -86f) : new Vector2(-16f, -118f);
+            RectTransform scrollRoot = CreateRect("SceneTabs", root, new Vector2(0f, 1f), Vector2.one, min, max);
             ScrollRect scrollRect = scrollRoot.gameObject.AddComponent<ScrollRect>();
             scrollRect.horizontal = true;
             scrollRect.vertical = false;
@@ -376,8 +408,10 @@ namespace MassageCat.Gallery
 
         private void CreateGrid(RectTransform root)
         {
-            RectTransform gridRoot = CreateRect("RoleGrid", root, Vector2.zero, Vector2.one, new Vector2(16f, 16f), new Vector2(-294f, -172f));
-            AddImage(gridRoot.gameObject, new Color(0.055f, 0.065f, 0.11f, 0.9f));
+            Vector2 min = m_integratedMode ? new Vector2(8f, 8f) : new Vector2(16f, 16f);
+            Vector2 max = m_integratedMode ? new Vector2(-156f, -124f) : new Vector2(-294f, -172f);
+            RectTransform gridRoot = CreateRect("RoleGrid", root, Vector2.zero, Vector2.one, min, max);
+            AddImage(gridRoot.gameObject, new Color32(225, 221, 178, 235));
             ScrollRect scrollRect = gridRoot.gameObject.AddComponent<ScrollRect>();
             scrollRect.horizontal = false;
             scrollRect.vertical = true;
@@ -409,7 +443,7 @@ namespace MassageCat.Gallery
                 mItemPadding = new Vector2(8f, 8f),
                 mPadding = new RectOffset(8, 8, 8, 8),
                 mGridFixedType = GridFixedType.ColumnCountFixed,
-                mFixedRowOrColumnCount = 4,
+                mFixedRowOrColumnCount = m_integratedMode ? 2 : 4,
             };
             m_gridView.InitGridView(0, GetGridItemByIndex, settings);
 
@@ -420,33 +454,35 @@ namespace MassageCat.Gallery
 
         private void CreatePreview(RectTransform root)
         {
-            RectTransform preview = CreateRect("Preview", root, new Vector2(1f, 0f), Vector2.one, new Vector2(-280f, 16f), new Vector2(-16f, -172f));
-            AddImage(preview.gameObject, new Color(0.075f, 0.085f, 0.135f, 0.9f));
+            Vector2 min = m_integratedMode ? new Vector2(-148f, 8f) : new Vector2(-280f, 16f);
+            Vector2 max = m_integratedMode ? new Vector2(-8f, -124f) : new Vector2(-16f, -172f);
+            RectTransform preview = CreateRect("Preview", root, new Vector2(1f, 0f), Vector2.one, min, max);
+            AddImage(preview.gameObject, new Color32(250, 239, 206, 235));
 
             m_previewImage = CreateImage("PreviewImage", preview);
             RectTransform imageRect = m_previewImage.rectTransform;
             imageRect.anchorMin = new Vector2(0.5f, 1f);
             imageRect.anchorMax = new Vector2(0.5f, 1f);
             imageRect.pivot = new Vector2(0.5f, 1f);
-            imageRect.anchoredPosition = new Vector2(0f, -22f);
-            imageRect.sizeDelta = new Vector2(158f, 158f);
+            imageRect.anchoredPosition = new Vector2(0f, m_integratedMode ? -8f : -22f);
+            imageRect.sizeDelta = m_integratedMode ? new Vector2(72f, 72f) : new Vector2(158f, 158f);
             m_previewImage.preserveAspect = true;
 
-            m_previewName = CreateText("PreviewName", preview, 23f, TextAlignmentOptions.Center);
-            SetRect(m_previewName.rectTransform, new Vector2(0f, 1f), Vector2.one, new Vector2(14f, -226f), new Vector2(-14f, -184f));
+            m_previewName = CreateText("PreviewName", preview, m_integratedMode ? 15f : 23f, TextAlignmentOptions.Center);
+            SetRect(m_previewName.rectTransform, new Vector2(0f, 1f), Vector2.one, m_integratedMode ? new Vector2(6f, -104f) : new Vector2(14f, -226f), m_integratedMode ? new Vector2(-6f, -84f) : new Vector2(-14f, -184f));
 
-            m_previewCardState = CreateText("PreviewCardState", preview, 17f, TextAlignmentOptions.Center);
-            SetRect(m_previewCardState.rectTransform, new Vector2(0f, 1f), Vector2.one, new Vector2(14f, -270f), new Vector2(-14f, -228f));
+            m_previewCardState = CreateText("PreviewCardState", preview, m_integratedMode ? 12f : 17f, TextAlignmentOptions.Center);
+            SetRect(m_previewCardState.rectTransform, new Vector2(0f, 1f), Vector2.one, m_integratedMode ? new Vector2(6f, -124f) : new Vector2(14f, -270f), m_integratedMode ? new Vector2(-6f, -104f) : new Vector2(-14f, -228f));
 
-            m_previewScene = CreateText("PreviewScene", preview, 15f, TextAlignmentOptions.Center);
-            SetRect(m_previewScene.rectTransform, new Vector2(0f, 1f), Vector2.one, new Vector2(14f, -316f), new Vector2(-14f, -272f));
+            m_previewScene = CreateText("PreviewScene", preview, m_integratedMode ? 11f : 15f, TextAlignmentOptions.Center);
+            SetRect(m_previewScene.rectTransform, new Vector2(0f, 1f), Vector2.one, m_integratedMode ? new Vector2(6f, -144f) : new Vector2(14f, -316f), m_integratedMode ? new Vector2(-6f, -124f) : new Vector2(-14f, -272f));
 
             m_resultText = CreateText("Result", preview, 14f, TextAlignmentOptions.Center);
             m_resultText.textWrappingMode = TextWrappingModes.Normal;
-            SetRect(m_resultText.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(12f, 72f), new Vector2(-12f, 130f));
+            SetRect(m_resultText.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 0f), m_integratedMode ? new Vector2(6f, 42f) : new Vector2(12f, 72f), m_integratedMode ? new Vector2(-6f, 62f) : new Vector2(-12f, 130f));
 
             m_confirmButton = CreateButton("Confirm", preview, string.Empty, out m_confirmButtonText);
-            SetRect((RectTransform)m_confirmButton.transform, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(18f, 18f), new Vector2(-18f, 64f));
+            SetRect((RectTransform)m_confirmButton.transform, new Vector2(0f, 0f), new Vector2(1f, 0f), m_integratedMode ? new Vector2(8f, 8f) : new Vector2(18f, 18f), m_integratedMode ? new Vector2(-8f, 36f) : new Vector2(-18f, 64f));
             m_confirmButton.onClick.AddListener(ConfirmSelection);
             m_confirmButtonText.SetText(Localize("Gallery.Confirm", "確認切換"));
         }
@@ -558,7 +594,7 @@ namespace MassageCat.Gallery
         {
             Image image = button.targetGraphic as Image;
             if (image != null)
-                image.color = selected ? new Color(0.19f, 0.46f, 0.59f, 1f) : new Color(0.15f, 0.17f, 0.22f, 1f);
+                image.color = selected ? new Color32(176, 191, 129, 255) : new Color32(246, 234, 197, 255);
         }
 
         private void OnRoleClicked(GalleryRoleEntry entry)
@@ -658,6 +694,7 @@ namespace MassageCat.Gallery
         {
             string message = reason switch
             {
+                "role_transition" => "對象正在進退場，請稍後再切換。",
                 "normal_mode_only" => Localize("Gallery.NormalModeOnly", "只能在一般模式切換對象。"),
                 "role_locked" => Localize("Gallery.RoleLocked", "此對象目前尚未解鎖。"),
                 "role_not_found" => Localize("Gallery.RoleNotFound", "找不到此對象資料。"),
@@ -728,8 +765,8 @@ namespace MassageCat.Gallery
                     ? Localize("Gallery.Online", "● 桌寵已連線")
                     : Localize("Gallery.Offline", "○ 離線瀏覽"));
             m_connectionText.color = connected
-                ? new Color(0.35f, 0.85f, 0.52f, 1f)
-                : new Color(0.72f, 0.72f, 0.76f, 1f);
+                ? new Color32(72, 104, 44, 255)
+                : new Color32(113, 93, 67, 255);
         }
 
         private void SetResult(string message, bool isError)
@@ -737,7 +774,7 @@ namespace MassageCat.Gallery
             if (m_resultText == null)
                 return;
             m_resultText.SetText(message ?? string.Empty);
-            m_resultText.color = isError ? new Color(1f, 0.46f, 0.42f, 1f) : Color.white;
+            m_resultText.color = isError ? new Color32(160, 57, 32, 255) : new Color32(70, 40, 23, 255);
             RefreshPreview();
         }
 
@@ -814,7 +851,7 @@ namespace MassageCat.Gallery
                 text.font = m_fontAsset;
             text.fontSize = fontSize;
             text.alignment = alignment;
-            text.color = Color.white;
+            text.color = new Color32(70, 40, 23, 255);
             text.raycastTarget = false;
             text.textWrappingMode = TextWrappingModes.NoWrap;
             text.overflowMode = TextOverflowModes.Ellipsis;
@@ -831,15 +868,15 @@ namespace MassageCat.Gallery
             RectTransform rectTransform = (RectTransform)gameObject.transform;
             rectTransform.SetParent(parent, false);
             Image image = gameObject.GetComponent<Image>();
-            image.color = new Color(0.15f, 0.17f, 0.22f, 1f);
+            image.color = new Color32(246, 234, 197, 255);
             Button button = gameObject.GetComponent<Button>();
             button.targetGraphic = image;
             gameObject.AddComponent<UIButton>();
             ColorBlock colors = button.colors;
-            colors.highlightedColor = new Color(0.23f, 0.27f, 0.34f, 1f);
-            colors.pressedColor = new Color(0.10f, 0.12f, 0.16f, 1f);
-            colors.selectedColor = new Color(0.28f, 0.34f, 0.44f, 1f);
-            colors.disabledColor = new Color(0.1f, 0.1f, 0.11f, 0.55f);
+            colors.highlightedColor = new Color32(255, 248, 222, 255);
+            colors.pressedColor = new Color32(204, 186, 143, 255);
+            colors.selectedColor = new Color32(196, 207, 158, 255);
+            colors.disabledColor = new Color32(192, 180, 155, 140);
             colors.fadeDuration = 0.08f;
             button.colors = colors;
 
@@ -933,7 +970,10 @@ namespace MassageCat.Gallery
                 if (IntegratedInstance == this)
                     IntegratedInstance = null;
                 if (m_windowController != null && m_windowController.GalleryExpanded)
+                {
                     m_windowController.SetGalleryExpanded(false);
+                    SetIntegratedGameplayVisible(true);
+                }
             }
             m_endpoint?.Dispose();
         }

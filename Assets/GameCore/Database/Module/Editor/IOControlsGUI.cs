@@ -15,7 +15,7 @@ namespace GameCore.Database.Editor
 
         [FoldoutGroup("External")]
         [ButtonGroup("External/IO")]
-        [Button("¶×¤JÀÉ®×", ButtonSizes.Medium)]
+        [Button("åŒ¯å…¥æª”æ¡ˆ", ButtonSizes.Medium)]
         private static async void ImportFromFile()
         {
             string filePath = EditorUtility.OpenFilePanel("Select CSV File", string.Empty, "csv");
@@ -36,7 +36,7 @@ namespace GameCore.Database.Editor
         }
 
         [ButtonGroup("External/IO")]
-        [Button("¶×¤JÀÉ®× (beta)", ButtonSizes.Medium)]
+        [Button("åŒ¯å…¥æª”æ¡ˆ (beta)", ButtonSizes.Medium)]
         private async void ImportFromCsv()
         {
             string filePath = EditorUtility.OpenFilePanel("Select CSV File", string.Empty, "csv");
@@ -57,7 +57,7 @@ namespace GameCore.Database.Editor
         }
 
         [ButtonGroup("External/IO")]
-        [Button("¶×¥XÀÉ®×", ButtonSizes.Medium)]
+        [Button("åŒ¯å‡ºæª”æ¡ˆ", ButtonSizes.Medium)]
         private static async void ExportToFile()
         {
             string dataName = DatabaseEditorUtils.ConvertDataName<T>(string.Empty);
@@ -75,7 +75,7 @@ namespace GameCore.Database.Editor
         }
 
         [FoldoutGroup("External")]
-        [Button("¶×¥XÀÉ®× (¿z¿ï)", ButtonSizes.Medium, Style = ButtonStyle.FoldoutButton, Expanded = true)]
+        [Button("åŒ¯å‡ºæª”æ¡ˆ (ç¯©é¸)", ButtonSizes.Medium, Style = ButtonStyle.FoldoutButton, Expanded = true)]
         private static async void ExportToFileByFilter(string filter)
         {
             string dataName = DatabaseEditorUtils.ConvertDataName<T>(string.Empty);

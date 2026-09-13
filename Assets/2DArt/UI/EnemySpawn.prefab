@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1821325096683523402}
   - component: {fileID: 8155487580120400831}
   m_Layer: 5
-  m_Name: HealProgressRoot
+  m_Name: HealProgressRoot_療癒進度列容器
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ce0a5091d69fb8a41b1a7d1e7d2b4415, type: 3}
+  m_Sprite: {fileID: 595635827, guid: c6e5515d6e4a2dc4db3fd2fab8e77040, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 5238040291423215811}
   - component: {fileID: 3787688837930681286}
   m_Layer: 5
-  m_Name: enemySprite
+  m_Name: enemySprite_敵人角色圖像
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,11 +135,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 111364145367873925}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -82}
-  m_SizeDelta: {x: 256, y: 256}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 27}
+  m_SizeDelta: {x: 300, y: 225}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5238040291423215811
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 727433396523725883}
   m_Layer: 5
-  m_Name: HealFeedbackAnchor
+  m_Name: HealFeedbackAnchor_治療飄字定位點
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 1230242087693480891}
   - component: {fileID: 2327948644867177187}
   m_Layer: 5
-  m_Name: HealProgressText
+  m_Name: HealProgressText_療癒進度文字
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 3929989771873014565}
   - component: {fileID: 3289758949553659655}
   m_Layer: 5
-  m_Name: HealProgressFill
+  m_Name: HealProgressFill_療癒進度填充條
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: be2eacae4f8eac247af9a65f901b9a74, type: 3}
+  m_Sprite: {fileID: -1349598115, guid: c6e5515d6e4a2dc4db3fd2fab8e77040, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 6736423793517314864}
   - component: {fileID: 7361943078609734642}
   m_Layer: 5
-  m_Name: EnemySpawn
+  m_Name: EnemySpawn_敵人生成與血量面板
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -465,7 +465,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 640, y: 480}
+  m_SizeDelta: {x: 480, y: 320}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6736423793517314864
 MonoBehaviour:
@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 3630825125055725220}
   - component: {fileID: 5454782403756780957}
   m_Layer: 5
-  m_Name: RoleTalkText
+  m_Name: RoleTalkText_角色對話文字
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -648,7 +648,7 @@ GameObject:
   - component: {fileID: 2165268415179673481}
   - component: {fileID: 2563023114919269160}
   m_Layer: 0
-  m_Name: PendingHealPulse
+  m_Name: PendingHealPulse_待結算療癒提示
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -701,7 +701,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: be2eacae4f8eac247af9a65f901b9a74, type: 3}
+  m_Sprite: {fileID: -1349598115, guid: c6e5515d6e4a2dc4db3fd2fab8e77040, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

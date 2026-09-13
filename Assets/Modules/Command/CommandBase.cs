@@ -9,7 +9,7 @@ public class CommandBase : MonoBehaviour , ICommand
     public virtual void Execute()
     {
         Debug.Log("Executing Base Command");
-        // ¦b³o¸Ì²K¥[ Base «ü¥Oªº¨ãÅéÅŞ¿è
+        // åœ¨é€™è£¡æ·»åŠ  Base æŒ‡ä»¤çš„å…·é«”é‚è¼¯
     }
 
 

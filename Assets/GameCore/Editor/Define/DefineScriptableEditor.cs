@@ -26,12 +26,12 @@ namespace GameCore.Define
         {
             EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.LabelField("·í«e Define¡G", m_currentDefine);
+            EditorGUILayout.LabelField("ç•¶å‰ Defineï¼š", m_currentDefine);
             //base.OnInspectorGUI();
             if (GUILayout.Button("Create"))
             {
                 DefineInfo defineInfo = new DefineInfo();
-                defineInfo.description = $"<i>¶ñ¤J Define ¥Î³~´y­z</i>";
+                defineInfo.description = $"<i>å¡«å…¥ Define ç”¨é€”æè¿°</i>";
                 defineInfo.defineString = $"<i>New_Define_Key</i>";
                 defineInfo.state = false;
                 defineScriptable.defineInfos.Add(defineInfo);

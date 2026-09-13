@@ -9,10 +9,10 @@ namespace MassageCat.Gallery
 {
     public sealed class GalleryRoleItemView : MonoBehaviour
     {
-        private static readonly Color s_normalColor = new Color(0.13f, 0.15f, 0.19f, 1f);
-        private static readonly Color s_selectedColor = new Color(0.18f, 0.42f, 0.55f, 1f);
-        private static readonly Color s_completeColor = new Color(0.26f, 0.68f, 0.42f, 1f);
-        private static readonly Color s_incompleteColor = new Color(0.42f, 0.42f, 0.46f, 1f);
+        private static readonly Color s_normalColor = new Color32(248, 238, 204, 255);
+        private static readonly Color s_selectedColor = new Color32(182, 197, 140, 255);
+        private static readonly Color s_completeColor = new Color32(62, 95, 38, 255);
+        private static readonly Color s_incompleteColor = new Color32(121, 98, 68, 255);
 
         private Image m_background;
         private Image m_roleIcon;
@@ -39,7 +39,7 @@ namespace MassageCat.Gallery
             m_roleIcon.enabled = m_roleIcon.sprite != null;
             m_roleName.SetText(roleData.RoleName);
             m_cardBadge.SetText(entry.CardReward ? "卡✓" : "缺卡");
-            m_cardBadge.color = entry.CardReward ? s_completeColor : Color.white;
+            m_cardBadge.color = entry.CardReward ? s_completeColor : s_incompleteColor;
             m_tomatoBadge.SetText(entry.TomatoClear ? "番✓" : "番—");
             m_tomatoBadge.color = entry.TomatoClear ? s_completeColor : s_incompleteColor;
             ApplyButtonColors(string.Equals(roleData.key, selectedRoleKey, StringComparison.Ordinal));
@@ -137,7 +137,7 @@ namespace MassageCat.Gallery
                 text.font = fontAsset;
             text.fontSize = fontSize;
             text.alignment = alignment;
-            text.color = Color.white;
+            text.color = new Color32(70, 40, 23, 255);
             text.textWrappingMode = TextWrappingModes.NoWrap;
             text.overflowMode = TextOverflowModes.Ellipsis;
             text.raycastTarget = false;

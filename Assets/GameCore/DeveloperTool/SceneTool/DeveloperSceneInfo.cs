@@ -6,25 +6,25 @@ using UnityEngine;
 [System.Serializable]
 public struct DeveloperSceneInfo
 {
-    [LabelText("µùÄÀ")]
+    [LabelText("è¨»é‡‹")]
     public string comment;
 
-    [LabelText("³õ´º¸ô®|"), FilePath(Extensions = ".unity" , ParentFolder = "Assets/")]
+    [LabelText("å ´æ™¯è·¯å¾‘"), FilePath(Extensions = ".unity" , ParentFolder = "Assets/")]
     public string scenePath;
 
-    [Button("¶}±Ò³õ´º")]
+    [Button("é–‹å•Ÿå ´æ™¯")]
     private void OpenScene()
     {
         if (string.IsNullOrEmpty(scenePath))
         {
-            Debug.LogError("³õ´º¸ô®|¬°ªÅ");
+            Debug.LogError("å ´æ™¯è·¯å¾‘ç‚ºç©º");
             return;
         }
 
         if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
         {
             EditorSceneManager.OpenScene(scenePath);
-            Debug.Log($"¤w¶}±Ò³õ´º: {scenePath}");
+            Debug.Log($"å·²é–‹å•Ÿå ´æ™¯: {scenePath}");
         }
     }
 }

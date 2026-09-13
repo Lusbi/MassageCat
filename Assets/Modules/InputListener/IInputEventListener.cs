@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IInputEventListener
 {
-    void OnKeyDown(KeyCode keyCode); // Áä½L«ö¤U¨Æ¥ó
-    void OnKeyUp(KeyCode keyCode);   // Áä½LÄÀ©ñ¨Æ¥ó
-    void OnMouseClick(int button, Vector3 position); // ·Æ¹«ÂIÀ»¨Æ¥ó
+    void OnKeyDown(KeyCode keyCode); // éµç›¤æŒ‰ä¸‹äº‹ä»¶
+    void OnKeyUp(KeyCode keyCode);   // éµç›¤é‡‹æ”¾äº‹ä»¶
+    void OnMouseClick(int button, Vector3 position); // æ»‘é¼ é»æ“Šäº‹ä»¶
 }

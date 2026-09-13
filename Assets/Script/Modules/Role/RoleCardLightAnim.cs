@@ -70,7 +70,7 @@ public class RoleCardLightAnim : MonoBehaviour
             newColor = m_currentColor;
         }
 
-        // ¥ß§Y§ó·s¸Ó§÷½è²yªº¸ê®Æ
+        // ç«‹å³æ›´æ–°è©²æè³ªçƒçš„è³‡æ–™
         OnUpdateLight(newColor);
 
     }

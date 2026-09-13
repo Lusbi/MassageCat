@@ -22,7 +22,7 @@ public static class Formula
 
         BigNumber bigNumber = baseHeal;
         int bonusHeal = 0;
-        // ?∠????瑕拿
+        // 彙總已取得卡片提供的治療加成。
         
         foreach (var role in roleDatas)
         {
@@ -71,7 +71,7 @@ public static class Formula
     }
 
     /// <summary>
-    /// ?脣?暺?暺??瑕拿??
+    /// 計算基礎治療量，包含滿意度與番茄鐘完成加成。
     /// </summary>
     /// <returns></returns>
     public static BigNumber GetDefaultHealValue()
@@ -105,7 +105,7 @@ public static class Formula
     public static float GetCardDropRate(RoleData roleData , BattleModel battleModel)
     {
         Initlization();
-        // ?其遢閫?∠??????憭???
+        // 彙總已取得卡片提供的卡片掉落率加成。
         float result = gameDefaultSetting.defaultCardDropRate ;
         
         foreach (var role in roleDatas)

@@ -8,7 +8,7 @@ public enum BgmClipType
     BossTheme,
     TomatoModeTheme,
     SpellTheme,
-    //ºë­^
+    //ç²¾è‹±
     EliteEnemyTheme,
 }
 

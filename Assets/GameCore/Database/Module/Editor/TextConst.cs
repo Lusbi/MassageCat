@@ -2,22 +2,22 @@ namespace GameCore.Database.Editor
 {
     public static class TextConst
     {
-        public const string CANCEL = "¨ú®ø";
+        public const string CANCEL = "å–æ¶ˆ";
         public const string DELETE_DECISION_KEY = "GameCore.Database.DeleteDialog";
-        public const string DELETE_TITLE = "§R°£©Ò¿ï¸ê®Æ?";
-        public const string DELETE_MSG_FORMAT = "§A§Y±N§R°£{0}ªº¸ê®Æ {1}.";
-        public const string DELETE_OK = "§R°£";
+        public const string DELETE_TITLE = "åˆªé™¤æ‰€é¸è³‡æ–™?";
+        public const string DELETE_MSG_FORMAT = "ä½ å³å°‡åˆªé™¤{0}çš„è³‡æ–™ {1}.";
+        public const string DELETE_OK = "åˆªé™¤";
         public const string DEPENDENCY_RM_TITLE = "Dependencies Removal";
         public const string DEPENDENCY_RM_MESSAGE = "Are you sure you want to remove all dependencies for this Data?";
-        public const string ERRLOG_TITLE = "¾Ş§@¥¢±Ñ";
-        public const string ERRLOG_MSG_FORMAT = "¦¹¸ê®Æ§t¦³¿ù»~°T®§ (error logs)!\n\nError Messages:\n{0}";
-        public const string DATA_EXIST_TITLE = "¸ê®Æ¤w¦s¦b";
-        public const string DATA_EXIST_MSG_FORMAT = "{0}ªº®w{1}¤w¦s¦b¦¹¸ê®Æ¡A¬O§_§ó·s¥¦?\n¸ê®ÆKey: {2} - {3}";
-        public const string DATA_EXIST_OK = "§ó·s";
+        public const string ERRLOG_TITLE = "æ“ä½œå¤±æ•—";
+        public const string ERRLOG_MSG_FORMAT = "æ­¤è³‡æ–™å«æœ‰éŒ¯èª¤è¨Šæ¯ (error logs)!\n\nError Messages:\n{0}";
+        public const string DATA_EXIST_TITLE = "è³‡æ–™å·²å­˜åœ¨";
+        public const string DATA_EXIST_MSG_FORMAT = "{0}çš„åº«{1}å·²å­˜åœ¨æ­¤è³‡æ–™ï¼Œæ˜¯å¦æ›´æ–°å®ƒ?\nè³‡æ–™Key: {2} - {3}";
+        public const string DATA_EXIST_OK = "æ›´æ–°";
         public const string OK = "OK";
-        public const string SAVE_CHANGES_MESSAGE = "Â÷¶}«e¬O§_Àx¦s½s¿è¤¤ªº¸ê®Æ?";
-        public const string WARNLOG_TITLE = "Äµ§i!";
-        public const string WARNLOG_MSG_FORMAT = "¦¹¸ê®Æ§t¦³Äµ§i°T®§ (warning logs)!\n¬O§_Ä~Äò?\n\nWarning Messages:\n{0}";
-        public const string WARNLOG_OK = "Ä~Äò";
+        public const string SAVE_CHANGES_MESSAGE = "é›¢é–‹å‰æ˜¯å¦å„²å­˜ç·¨è¼¯ä¸­çš„è³‡æ–™?";
+        public const string WARNLOG_TITLE = "è­¦å‘Š!";
+        public const string WARNLOG_MSG_FORMAT = "æ­¤è³‡æ–™å«æœ‰è­¦å‘Šè¨Šæ¯ (warning logs)!\næ˜¯å¦ç¹¼çºŒ?\n\nWarning Messages:\n{0}";
+        public const string WARNLOG_OK = "ç¹¼çºŒ";
     }
 }

@@ -50,13 +50,13 @@ namespace GameCore.Database.Editor
                 EditorGUILayout.Space();
                 using EditorGUI.ChangeCheckScope check = new();
 
-                m_defaultFilter = EditorGUILayout.TextField(EditorGUIUtility.TrTextContent("¹w³]¿z¿ïµü", "±Ò°Ê®É¦Û°Ê¶ñ¤Jªº·j´M¤å¦r"), m_defaultFilter);
+                m_defaultFilter = EditorGUILayout.TextField(EditorGUIUtility.TrTextContent("é è¨­ç¯©é¸è©", "å•Ÿå‹•æ™‚è‡ªå‹•å¡«å…¥çš„æœå°‹æ–‡å­—"), m_defaultFilter);
 
-                EditorGUILayout.LabelField("¸ê®Æ·s¼W", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("è³‡æ–™æ–°å¢", EditorStyles.boldLabel);
                 using (new EditorGUI.IndentLevelScope())
                 {
-                    m_serialNumber = Mathf.Max(EditorGUILayout.IntField("±q½s¸¹...¶}©l", m_serialNumber), 1);
-                    m_serialNumberInterval = Mathf.Max(EditorGUILayout.IntField("½s¸¹¶¡¹j", m_serialNumberInterval), 1);
+                    m_serialNumber = Mathf.Max(EditorGUILayout.IntField("å¾ç·¨è™Ÿ...é–‹å§‹", m_serialNumber), 1);
+                    m_serialNumberInterval = Mathf.Max(EditorGUILayout.IntField("ç·¨è™Ÿé–“éš”", m_serialNumberInterval), 1);
                 }
 
                 if (check.changed)

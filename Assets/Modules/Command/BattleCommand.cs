@@ -7,6 +7,6 @@ public class BattleCommand : CommandBase, ICommand
     public override void Execute()
     {
         Debug.Log("Executing Battle Command");
-        // ¦b³o¸Ì²K¥[ Battle «ü¥Oªº¨ãÅéÅŞ¿è
+        // åœ¨é€™è£¡æ·»åŠ  Battle æŒ‡ä»¤çš„å…·é«”é‚è¼¯
     }
 }

@@ -9,15 +9,15 @@ using UnityEngine;
 
 namespace GameCore.Database
 {
-    [CreateAssetMenu(fileName = "TagFactory", menuName = "JSL ≥q•Œ/TagFactory")]
+    [CreateAssetMenu(fileName = "TagFactory", menuName = "JSL ÈÄöÁî®/TagFactory")]
     public class TagFactory : ScriptableObject
     {
         private const string TEMPLATE_TAG = "Assets/JSLCore/Modules/Database/Editor/Templates/Template_Tag.txt";
         public GoogleSheetDownloaderReference googleSheetDownloaderReference = new GoogleSheetDownloaderReference();
-        [FolderPath, LabelText("¿x¶s¶Ï∏m")]
+        [FolderPath, LabelText("ÂÑ≤Â≠ò‰ΩçÁΩÆ")]
         public string saveFolder;
 
-        [Button("∞ı¶Ê")]
+        [Button("Âü∑Ë°å")]
         public void Execute()
         {
             googleSheetDownloaderReference.Setup(OnDownloadProgressChanaged, OnDownloadFinish);
@@ -26,7 +26,7 @@ namespace GameCore.Database
 
         private void OnDownloadProgressChanaged(float obj)
         {
-            EditorUtility.DisplayProgressBar("ΩsøËæππBß@•Œ", "∏ÍÆ∆§U∏¸§§°K", obj);
+            EditorUtility.DisplayProgressBar("Á∑®ËºØÂô®ÈÅã‰ΩúÁî®", "Ë≥áÊñô‰∏ãËºâ‰∏≠‚Ä¶", obj);
         }
 
         private void OnDownloadFinish(string obj)
@@ -66,7 +66,7 @@ namespace GameCore.Database
 
         private void CreateEnum(string values)
         {
-            // CSV ÆÊ¶°
+            // CSV Ê†ºÂºè
             string[] fields = values.Split(",");
             string enumName = fields[0];
             string enumValue = string.Empty;
@@ -82,7 +82,7 @@ namespace GameCore.Database
             }
             enumValue += $"\t\tAll ={allValue.Substring(0, allValue.Length - 1)}";
 
-            // ´ÿ•ﬂ
+            // Âª∫Á´ã
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(m_originalTexts);
             stringBuilder.Replace("$ENUM_NAME", enumName);

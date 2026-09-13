@@ -125,9 +125,9 @@ namespace GameCore.Database.Editor
         private VisualTreeAsset m_inspectorXml;
 
         private const char BACKSLASH = '\\';
-        private const string INVALID_CHARS_MSG_FORMAT = "¿é¤J­È¤£¯à§t¦³¥H¤U¦r¤¸: \"{0}\"";
-        private const string DUPLICATE_KEY_MSG = "Key¥²¶·¬O°ß¤@";
-        private const string EMPTY_KEY_MSG = "Key¤£¯à¬°ªÅ­È©ÎªÅ¥Õ¦r¤¸";
+        private const string INVALID_CHARS_MSG_FORMAT = "è¼¸å…¥å€¼ä¸èƒ½å«æœ‰ä»¥ä¸‹å­—å…ƒ: \"{0}\"";
+        private const string DUPLICATE_KEY_MSG = "Keyå¿…é ˆæ˜¯å”¯ä¸€";
+        private const string EMPTY_KEY_MSG = "Keyä¸èƒ½ç‚ºç©ºå€¼æˆ–ç©ºç™½å­—å…ƒ";
         private const int HIGHLIGHT_DURATION_MS = 1500;
         private SerializedProperty m_propKey;
         private SerializedProperty m_propPath;

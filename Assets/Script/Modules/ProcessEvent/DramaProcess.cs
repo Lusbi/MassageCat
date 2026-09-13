@@ -9,7 +9,7 @@ public class DramaProcess : IProcessEvent
     }
     public bool Execute()
     {
-        // µo°e¨Æ¥ó¡Aºt¥X¼@±¡
+        // ç™¼é€äº‹ä»¶ï¼Œæ¼”å‡ºåŠ‡æƒ…
         processType = ProcessType.Processing;
         return true;
     }

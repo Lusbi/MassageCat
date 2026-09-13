@@ -20,7 +20,7 @@ public class GoogleSheetsPackage
     }
 }
 
-[CreateAssetMenu(fileName = "GoogleSheets_Reference" , menuName = "Editor Tool/¶³ºİ¤U¸ü³]©wÀÉ")]
+[CreateAssetMenu(fileName = "GoogleSheets_Reference" , menuName = "Editor Tool/é›²ç«¯ä¸‹è¼‰è¨­å®šæª”")]
 public class GoogleSheetsSO : ScriptableObject
 {
     public List<GoogleSheetsPackage> googleSheetsPackages = new List<GoogleSheetsPackage>();
@@ -41,7 +41,7 @@ public class GoogleSheetsSO : ScriptableObject
     public void Download()
     {
         m_waiitCount = googleSheetsPackages.Count;
-        Debug.LogError($"¦¹ª«¥ó {this.name} Á`¼Æ¶q¬°¡G{m_waiitCount}");
+        Debug.LogError($"æ­¤ç‰©ä»¶ {this.name} ç¸½æ•¸é‡ç‚ºï¼š{m_waiitCount}");
         foreach (GoogleSheetsPackage googleSheetsPackage in googleSheetsPackages)
         {
             if (googleSheetsPackage == null)
@@ -61,7 +61,7 @@ public class GoogleSheetsSO : ScriptableObject
     private void Finished()
     {
         m_waiitCount--;
-        Debug.LogError($"¦¹ª«¥ó {this.name} ³Ñ¾l¤U¸ü¼Æ¶q¡G{m_waiitCount}");
+        Debug.LogError($"æ­¤ç‰©ä»¶ {this.name} å‰©é¤˜ä¸‹è¼‰æ•¸é‡ï¼š{m_waiitCount}");
     }
 }
 

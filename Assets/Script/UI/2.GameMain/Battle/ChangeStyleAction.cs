@@ -9,6 +9,6 @@ public class ChangeStyleAction : IDieAction
     }
     public void Execute()
     {
-        // �ĤH�ܨ�
+        // 敵人變身
     }
 }

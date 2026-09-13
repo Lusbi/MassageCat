@@ -27,11 +27,11 @@ public enum AutoModel
 
 public class BattlePanel : PanelBase
 {
-    private const string k_enemySpawnAnimation = "SpawnEnemyAnim";
     [SerializeField] private RectTransform m_enemyParent;
     [SerializeField] private Image m_bgImage;
     [SerializeField] private RectTransform m_foregroundRoot;
     [SerializeField] private SceneVisualToggleButton m_sceneVisualToggleButton;
+    [SerializeField] private GameSettingsMenu m_gameSettingsMenu;
     [SerializeField] private RoleSpawnHUD m_enemySpawn;
     [SerializeField] private Animation m_ani;
     [SerializeField] private TomatoButton m_tomatoBtn;
@@ -43,6 +43,7 @@ public class BattlePanel : PanelBase
     [SerializeField] private SpellButton m_spellButton;
     [SerializeField] private SpellHandler m_spellHandler;
     [SerializeField] private SystemMessageView m_systemMessageView;
+    [SerializeField] private DesktopPetModeDock m_modeDock;
     [FormerlySerializedAs("normalHitTemplate")]
     [SerializeField] private NormalHealEffect m_normalHealEffectTemplate;
     [FormerlySerializedAs("criticleHitTemplate")]
@@ -73,6 +74,10 @@ public class BattlePanel : PanelBase
     private bool m_sceneVisualsVisible = true;
     private GameObject m_activeForeground;
     private bool m_isDefeatTransitionActive;
+    private Action m_roleEntranceCompleted;
+    private Action m_handoffMidpoint;
+    private DesktopPetProgressHud m_desktopPetProgressHud;
+    private Image m_desktopPetRegionImage;
 
     public event Action OnSpellForceStopped;
     public event Action OnSpellTimeoutStopped;
@@ -82,7 +87,11 @@ public class BattlePanel : PanelBase
     public override void Initlization(Action callBack = null)
     {
         base.Initlization(callBack);
+        m_roleEntranceCompleted ??= OnRoleEntranceCompleted;
+        m_handoffMidpoint ??= CreateBattleEnemyAfterDefeat;
         EnsureSceneVisualUI();
+        if (m_modeDock)
+            m_modeDock.Apply(m_battleModel, true);
 
         if (m_enemySpawn)
         {
@@ -90,7 +99,15 @@ public class BattlePanel : PanelBase
             m_enemySpawn.ApplyDieAction(DieAction);
 
             if (TalkManager.instance)
+            {
                 TalkManager.instance.BindRoleTalkText(m_enemySpawn.RoleTalkText);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                if (m_enemySpawn.RoleTalkText != null)
+                    Debug.Log("[Codex驗證] GameMain 對話已綁定角色文字元件，請確認角色說話與拼字提示正常。", this);
+                else
+                    Debug.LogWarning("[Codex驗證] GameMain 角色文字元件未設定，請檢查 EnemySpawn 的對話引用。", this);
+#endif
+            }
         }
 
         if (m_eventListener == null)
@@ -157,39 +174,24 @@ public class BattlePanel : PanelBase
 
     private void EnsureGeneralSettingsMenu()
     {
-        if (GameProcess.Instance != null && GameProcess.Instance.DesktopPetMode)
+        if (m_gameSettingsMenu == null)
+        {
+            Debug.LogError("InBattle Prefab 缺少桌寵設定選單。", this);
             return;
+        }
 
-        GameSettingsMenu.CreateRuntime(transform, m_autoNextButton);
-        if (m_bgmStateButton)
-            m_bgmStateButton.gameObject.SetActive(false);
-        if (m_audioStateButton)
-            m_audioStateButton.gameObject.SetActive(false);
+        m_gameSettingsMenu.Initialize(m_autoNextButton);
     }
 
     private void EnsureSceneVisualUI()
     {
         if (m_foregroundRoot == null)
         {
-            GameObject foregroundRootObject = new GameObject("ForegroundRoot", typeof(RectTransform));
-            foregroundRootObject.layer = gameObject.layer;
-            m_foregroundRoot = foregroundRootObject.GetComponent<RectTransform>();
-            m_foregroundRoot.SetParent(transform, false);
-            m_foregroundRoot.anchorMin = Vector2.zero;
-            m_foregroundRoot.anchorMax = Vector2.one;
-            m_foregroundRoot.offsetMin = Vector2.zero;
-            m_foregroundRoot.offsetMax = Vector2.zero;
-            m_foregroundRoot.pivot = new Vector2(0.5f, 0.5f);
-
-            if (m_bgImage)
-                m_bgImage.transform.SetSiblingIndex(0);
-            if (m_enemyParent)
-                m_enemyParent.SetSiblingIndex(1);
-            m_foregroundRoot.SetSiblingIndex(2);
+            Debug.LogError("InBattle Prefab 缺少場景前景容器。", this);
         }
 
         if (m_sceneVisualToggleButton == null)
-            m_sceneVisualToggleButton = SceneVisualToggleButton.CreateRuntime(transform);
+            Debug.LogError("InBattle Prefab 缺少場景顯示切換按鈕。", this);
     }
 
 
@@ -200,6 +202,8 @@ public class BattlePanel : PanelBase
 
         m_battleModel = model;
         ReupdateBattleState(spellStopReason);
+        if (m_modeDock)
+            m_modeDock.Apply(m_battleModel);
         GalleryStateChangeNotifier.Notify();
     }
 
@@ -235,7 +239,6 @@ public class BattlePanel : PanelBase
                 break;
             case BattleModel.Spell:
                 CreateDefaultEnemy();
-                // 角色資料套用會清除對話框，拼字題目必須在角色建立後才顯示翻譯。
                 if (m_spellHandler)
                     m_spellHandler.SpellStart();
 
@@ -334,6 +337,8 @@ public class BattlePanel : PanelBase
 
     private void OnSetBattleRoleEvent(SetBattleRoleEvent eventData)
     {
+        if (m_isDefeatTransitionActive)
+            return;
         if (Database<RoleData>.TryLoad(eventData.roleKey, out var data))
             ApplyBattleRoleData(data, 0);
     }
@@ -343,10 +348,15 @@ public class BattlePanel : PanelBase
         StorageManager.instance.StorageData.ApplyBattleProgressData(data.key, accumulatedHealValue);
         m_curBattleRole = data;
         HitValueUpdate();
+        if (m_ani)
+            m_ani.Stop();
         m_enemySpawn.LoadRoleData(data, m_battleModel);
         m_enemySpawn.ApplyAccumulatedHealValue(accumulatedHealValue);
+        SetRoleTransitionActive(true);
+        m_enemySpawn.BeginEntrance(m_roleEntranceCompleted);
         UpdateSceneVisuals(data.SceneReference.Load());
         m_roleTalkHandler.Apply(data);
+        m_desktopPetProgressHud?.Refresh();
         TomatoTimeHint(data);
         PlayBgm();
 
@@ -356,6 +366,11 @@ public class BattlePanel : PanelBase
 
     internal bool TrySelectRoleFromGallery(string roleKey, out string reason)
     {
+        if (m_isDefeatTransitionActive)
+        {
+            reason = "role_transition";
+            return false;
+        }
         if (m_battleModel != BattleModel.Normal)
         {
             reason = "normal_mode_only";
@@ -383,7 +398,14 @@ public class BattlePanel : PanelBase
     private void UpdateSceneVisuals(ScenemapData scenemapData)
     {
         if (scenemapData == null)
+        {
+            if (m_bgImage)
+                m_bgImage.enabled = false;
+
+            if (m_activeForeground)
+                m_activeForeground.SetActive(false);
             return;
+        }
 
         if (m_bgImage)
         {
@@ -393,6 +415,19 @@ public class BattlePanel : PanelBase
 
         UpdateSceneForeground(scenemapData.SpawnObjectReference, scenemapData.SceneMapNo);
         ApplySceneVisualVisibility();
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        Debug.Log(m_bgImage && m_bgImage.sprite ? "[Codex驗證] 場景背景貼圖已設定；請確認背景可見，場景顯示開關可正常切換。" : "[Codex驗證] 場景背景缺少圖片元件或貼圖引用。", this);
+#endif
+    }
+
+    private void UpdateDesktopPetRegionVisual(ScenemapData scenemapData)
+    {
+        if (m_desktopPetRegionImage == null)
+            return;
+
+        Sprite regionSprite = scenemapData != null ? scenemapData.ImgBgReference : null;
+        m_desktopPetRegionImage.sprite = regionSprite;
+        m_desktopPetRegionImage.enabled = regionSprite != null;
     }
 
     private void UpdateSceneForeground(GameObject foregroundPrefab, int sceneMapNo)
@@ -458,7 +493,10 @@ public class BattlePanel : PanelBase
     private void ApplySceneVisualVisibility()
     {
         if (m_bgImage)
-            m_bgImage.enabled = m_sceneVisualsVisible;
+        {
+            m_bgImage.gameObject.SetActive(m_sceneVisualsVisible);
+            m_bgImage.enabled = m_sceneVisualsVisible && m_bgImage.sprite != null;
+        }
 
         if (m_foregroundRoot)
             m_foregroundRoot.gameObject.SetActive(m_sceneVisualsVisible);
@@ -512,6 +550,10 @@ public class BattlePanel : PanelBase
             m_sceneVisualToggleButton.gameObject.SetActive(false);
 
         BattleManager.instance.Register(null);
+        if (m_enemySpawn)
+            m_enemySpawn.CancelRoleMotion();
+        SetRoleTransitionActive(false);
+        m_isAlive = false;
     }
 
     private void CreateDefaultEnemy()
@@ -527,6 +569,9 @@ public class BattlePanel : PanelBase
 
     private void CreateBattleEnemyAfterDefeat()
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        Debug.Log("[Codex驗證] 舊角色退場到一半，新角色開始進場；此時應同時看到兩個角色。", this);
+#endif
         CreateBattleEnemy(true);
     }
 
@@ -557,28 +602,34 @@ public class BattlePanel : PanelBase
         {
             nextRoleData = m_curBattleRole;
         }
-        if (m_spellHandler && m_spellHandler.isSpelling && nextRoleData != null && m_curBattleRole != null && nextRoleData.roleSortId > m_curBattleRole.roleSortId)
-        {
-            var enemyStorageData = StorageManager.instance.StorageData.GetEnemyStorageData(nextRoleData.key);
-            bool hasSilverClear = enemyStorageData != null && enemyStorageData.silverClear;
-            if (!hasSilverClear)
-            {
-                UpdateBattleModel(BattleModel.Normal, SpellStopReason.Forced);
-            }
-        }
+        // 拼字交接延續目前挑戰，不因下一角色的完成紀錄而強制中斷。
 
         if (nextRoleData == null)
             nextRoleData = m_curBattleRole;
 
-        OnSetBattleRoleEvent(new SetBattleRoleEvent(nextRoleData.key));
-        PlayAnimation(k_enemySpawnAnimation, () =>
-        {
-            m_isAlive = true;
-            m_isDefeatTransitionActive = false;
-            UpdateRoleArrowInteraction();
-        });
+        // 內部交接直接載入；外部選角事件在此期間會被擋下。
+        ApplyBattleRoleData(nextRoleData, 0);
 
         PlaySFX(AudioClipType.BossAppearSFX);
+    }
+
+    private void SetRoleTransitionActive(bool isActive)
+    {
+        m_isDefeatTransitionActive = isActive;
+        m_isAlive = !isActive;
+        if (m_spellHandler)
+            m_spellHandler.SetTransitionPaused(isActive);
+        if (m_spellButton)
+            m_spellButton.SetTransitionPaused(isActive);
+        UpdateRoleArrowInteraction();
+    }
+
+    private void OnRoleEntranceCompleted()
+    {
+        SetRoleTransitionActive(false);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        Debug.Log("[Codex驗證] 新角色已到定點且舊角色已離場，恢復輸入、拼字與選角；交接按鍵不補算。", this);
+#endif
     }
 
     private void EnsureSortedRoleDatas()
@@ -627,9 +678,12 @@ public class BattlePanel : PanelBase
 
     private void DieAction()
     {
-        m_isAlive = false;
-        m_isDefeatTransitionActive = true;
-        UpdateRoleArrowInteraction();
+        if (m_isDefeatTransitionActive)
+            return;
+        SetRoleTransitionActive(true);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        Debug.Log("[Codex驗證] 療癒完成，開始約兩秒交接；輸入不計算、拼字暫停、番茄鐘照常。", this);
+#endif
 
         TutorialFlowDiagnostics.Log(
             $"敵人擊倒：roleKey={m_curBattleRole?.key}, battleModel={m_battleModel}",
@@ -638,7 +692,8 @@ public class BattlePanel : PanelBase
         PlaySFX(AudioClipType.SatisfySFX);
 
         StorageManager.instance.StorageData.AddEnemySatisfyCount(m_curBattleRole.key, m_battleModel);
-        // 寫入完成狀態後立即刷新，確保自動切換角色前至少繪製一次新徽章。
+        m_desktopPetProgressHud?.Refresh();
+        // 先刷新桌寵進度，避免自動切換角色前仍顯示舊狀態。
         uiGameMainView.ApplyRoleRect();
         if (m_curBattleRole.SatisfyToAddFlagReference != null)
         {
@@ -677,11 +732,11 @@ public class BattlePanel : PanelBase
             }
         }
         GalleryStateChangeNotifier.Notify();
-        PlayHealCompleteAnimation(CreateBattleEnemyAfterDefeat);
+        m_enemySpawn.BeginHandoff(m_handoffMidpoint);
     }
     public void Hit(string hit)
     {
-        if (active == false)
+        if (active == false || m_isDefeatTransitionActive || !m_isAlive)
             return;
 
         switch (m_battleModel)
@@ -702,17 +757,14 @@ public class BattlePanel : PanelBase
     {
         if (m_enemySpawn && m_spellHandler)
         {
+            m_enemySpawn.PlaySoftHit();
             bool spellInputChar = m_spellHandler.InputChar(hit);
             if (m_isAlive == false)
                 return;
 
             if (spellInputChar)
             {
-                Tween.Delay(
-                    this,
-                    0.15f,
-                    static panel => panel.ApplySpellHeal(),
-                    warnIfTargetDestroyed: false);
+                ApplySpellHeal();
             }
         }
     }
@@ -734,6 +786,7 @@ public class BattlePanel : PanelBase
 
         m_tomatoHitStack++;
         m_enemySpawn.PlayPendingHealFeedback();
+        m_enemySpawn.PlaySoftHit();
     }
 
     private void HandleNormalInput(string hit)
@@ -773,21 +826,6 @@ public class BattlePanel : PanelBase
             m_tomatoBtn.TomatoTimeHint(roleData);
     }
 
-
-    private void PlayHealCompleteAnimation(Action callBack = null)
-    {
-        m_enemySpawn.PlayHealCompleteAnimation(callBack);
-    }
-
-    private void PlayAnimation(string ClipName, Action callBack = null)
-    {
-        AnimationClip clip = m_ani.GetClip(ClipName);
-        m_ani.Play(ClipName);
-        PrimeTween.Tween.Delay(clip.length, () =>
-        {
-            callBack?.Invoke();
-        });
-    }
 
     public override void Tick(float deltaTime)
     {
@@ -879,6 +917,8 @@ public class BattlePanel : PanelBase
     {
         m_desktopPetMode = true;
 
+        ApplySceneVisualVisibility();
+
         if (m_galleryButton)
             DesktopPetWindowController.RegisterGalleryButton(m_galleryButton);
 
@@ -888,15 +928,5 @@ public class BattlePanel : PanelBase
         if (m_autoNextButton)
             DesktopPetWindowController.RegisterAutoNextButton(m_autoNextButton);
 
-        SetDesktopHidden(m_autoNextButton);
-        // Desktop Pet 仍保留拼字按鈕與挑戰介面，顯示狀態交由解鎖旗標控制。
-        SetDesktopHidden(m_bgmStateButton);
-        SetDesktopHidden(m_audioStateButton);
-    }
-
-    private static void SetDesktopHidden(Component component)
-    {
-        if (component)
-            component.gameObject.SetActive(false);
     }
 }

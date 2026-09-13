@@ -5,9 +5,9 @@ namespace GameCore.AssetPostProcessor
     [System.Serializable]
     public class AssetPostProcessorInfo
     {
-        [LabelText("Ãş«¬")] public AssetPostProcessorType assetPostProcessorType;
-        [Title("Â²­z¥\¯à¡BºŞ²z¶µ¥Ø"), HideLabel, MultiLineProperty(3)] public string assetPostprocessorName;
-        [LabelText("¬O§_±Ò¥Î")] public bool isWork = true;
-        [LabelText("«ü©wÀË¬d¸ô®|") , FolderPath] public string[] folderPaths;
+        [LabelText("é¡å‹")] public AssetPostProcessorType assetPostProcessorType;
+        [Title("ç°¡è¿°åŠŸèƒ½ã€ç®¡ç†é …ç›®"), HideLabel, MultiLineProperty(3)] public string assetPostprocessorName;
+        [LabelText("æ˜¯å¦å•Ÿç”¨")] public bool isWork = true;
+        [LabelText("æŒ‡å®šæª¢æŸ¥è·¯å¾‘") , FolderPath] public string[] folderPaths;
     }
 }

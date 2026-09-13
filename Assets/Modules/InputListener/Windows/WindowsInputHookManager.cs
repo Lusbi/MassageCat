@@ -1,20 +1,60 @@
 #if UNITY_STANDALONE_WIN
 
 using System;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
 
 public sealed class WindowsInputHookManager : MonoBehaviour
 {
+    public readonly struct PointerEvent
+    {
+        public readonly int Button;
+        public readonly Vector2 ScreenPosition;
+
+        internal PointerEvent(int button, Vector2 screenPosition)
+        {
+            Button = button;
+            ScreenPosition = screenPosition;
+        }
+    }
+
+    private enum InputEventType : byte
+    {
+        KeyDown,
+        MouseDown,
+        MouseUp,
+        MouseMove,
+    }
+
+    private readonly struct InputEvent
+    {
+        public readonly InputEventType Type;
+        public readonly int Value;
+        public readonly Vector2 ScreenPosition;
+
+        public InputEvent(InputEventType type, int value, Vector2 screenPosition)
+        {
+            Type = type;
+            Value = value;
+            ScreenPosition = screenPosition;
+        }
+    }
+
     private static readonly LowLevelProc s_keyboardProc = KeyboardHookCallback;
     private static readonly LowLevelProc s_mouseProc = MouseHookCallback;
     private static readonly bool[] s_pressedKeys = new bool[256];
+    private static readonly ConcurrentQueue<InputEvent> s_inputEvents = new();
+    private static bool s_leftMouseButtonDown;
     private static IntPtr s_keyboardHookId = IntPtr.Zero;
     private static IntPtr s_mouseHookId = IntPtr.Zero;
 
     public static event Action<int> OnGlobalKeyDown;
     public static event Action<int> OnGlobalMouseDown;
+    public static event Action<PointerEvent> OnGlobalPointerDown;
+    public static event Action<PointerEvent> OnGlobalPointerUp;
+    public static event Action<PointerEvent> OnGlobalPointerMove;
 
     private Thread m_hookThread;
     private ManualResetEventSlim m_hookReady;
@@ -22,6 +62,33 @@ public sealed class WindowsInputHookManager : MonoBehaviour
     private volatile uint m_hookThreadId;
     private int m_keyboardHookError;
     private int m_mouseHookError;
+
+    private void Update()
+    {
+        int processedCount = 0;
+        while (processedCount++ < k_maxInputEventsPerFrame && s_inputEvents.TryDequeue(out InputEvent inputEvent))
+        {
+            switch (inputEvent.Type)
+            {
+                case InputEventType.KeyDown:
+                    OnGlobalKeyDown?.Invoke(inputEvent.Value);
+                    break;
+                case InputEventType.MouseDown:
+                {
+                    PointerEvent pointerEvent = new PointerEvent(inputEvent.Value, inputEvent.ScreenPosition);
+                    OnGlobalPointerDown?.Invoke(pointerEvent);
+                    OnGlobalMouseDown?.Invoke(inputEvent.Value);
+                    break;
+                }
+                case InputEventType.MouseUp:
+                    OnGlobalPointerUp?.Invoke(new PointerEvent(inputEvent.Value, inputEvent.ScreenPosition));
+                    break;
+                case InputEventType.MouseMove:
+                    OnGlobalPointerMove?.Invoke(new PointerEvent(-1, inputEvent.ScreenPosition));
+                    break;
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -172,7 +239,7 @@ public sealed class WindowsInputHookManager : MonoBehaviour
                 if ((uint)virtualKey < s_pressedKeys.Length && s_pressedKeys[virtualKey] == false)
                 {
                     s_pressedKeys[virtualKey] = true;
-                    UnityMainThreadDispatcher.Enqueue(() => OnGlobalKeyDown?.Invoke(virtualKey));
+                    s_inputEvents.Enqueue(new InputEvent(InputEventType.KeyDown, virtualKey, Vector2.zero));
                 }
             }
             else if (wParam == (IntPtr)k_wmKeyUp && (uint)virtualKey < s_pressedKeys.Length)
@@ -188,16 +255,53 @@ public sealed class WindowsInputHookManager : MonoBehaviour
     {
         if (nCode >= 0)
         {
+            NativeMouseHookStruct mouseHookStruct = Marshal.PtrToStructure<NativeMouseHookStruct>(lParam);
+            Vector2 screenPosition = new Vector2(mouseHookStruct.Point.X, mouseHookStruct.Point.Y);
             int button = -1;
+            InputEventType inputEventType = InputEventType.MouseMove;
             if (wParam == (IntPtr)k_wmLeftButtonDown)
+            {
                 button = 0;
+                inputEventType = InputEventType.MouseDown;
+            }
             else if (wParam == (IntPtr)k_wmRightButtonDown)
+            {
                 button = 1;
+                inputEventType = InputEventType.MouseDown;
+            }
             else if (wParam == (IntPtr)k_wmMiddleButtonDown)
+            {
                 button = 2;
+                inputEventType = InputEventType.MouseDown;
+            }
+            else if (wParam == (IntPtr)k_wmLeftButtonUp)
+            {
+                button = 0;
+                inputEventType = InputEventType.MouseUp;
+            }
+            else if (wParam == (IntPtr)k_wmRightButtonUp)
+            {
+                button = 1;
+                inputEventType = InputEventType.MouseUp;
+            }
+            else if (wParam == (IntPtr)k_wmMiddleButtonUp)
+            {
+                button = 2;
+                inputEventType = InputEventType.MouseUp;
+            }
+            else if (wParam != (IntPtr)k_wmMouseMove)
+            {
+                return CallNextHookEx(s_mouseHookId, nCode, wParam, lParam);
+            }
 
-            if (button >= 0)
-                UnityMainThreadDispatcher.Enqueue(() => OnGlobalMouseDown?.Invoke(button));
+            if (inputEventType == InputEventType.MouseDown && button == 0)
+                s_leftMouseButtonDown = true;
+            else if (inputEventType == InputEventType.MouseUp && button == 0)
+                s_leftMouseButtonDown = false;
+            else if (inputEventType == InputEventType.MouseMove && s_leftMouseButtonDown == false)
+                return CallNextHookEx(s_mouseHookId, nCode, wParam, lParam);
+
+            s_inputEvents.Enqueue(new InputEvent(inputEventType, button, screenPosition));
         }
 
         return CallNextHookEx(s_mouseHookId, nCode, wParam, lParam);
@@ -208,6 +312,16 @@ public sealed class WindowsInputHookManager : MonoBehaviour
     {
         public int X;
         public int Y;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativeMouseHookStruct
+    {
+        public NativePoint Point;
+        public uint MouseData;
+        public uint Flags;
+        public uint Time;
+        public IntPtr ExtraInfo;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -227,12 +341,17 @@ public sealed class WindowsInputHookManager : MonoBehaviour
     private const int k_wmKeyDown = 0x0100;
     private const int k_wmKeyUp = 0x0101;
     private const int k_wmLeftButtonDown = 0x0201;
+    private const int k_wmLeftButtonUp = 0x0202;
     private const int k_wmRightButtonDown = 0x0204;
+    private const int k_wmRightButtonUp = 0x0205;
     private const int k_wmMiddleButtonDown = 0x0207;
+    private const int k_wmMiddleButtonUp = 0x0208;
+    private const int k_wmMouseMove = 0x0200;
     private const uint k_wmQuit = 0x0012;
     private const uint k_pmNoRemove = 0x0000;
     private const int k_hookStartupTimeoutMilliseconds = 2000;
     private const int k_hookShutdownTimeoutMilliseconds = 2000;
+    private const int k_maxInputEventsPerFrame = 64;
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr SetWindowsHookEx(

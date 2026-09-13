@@ -19,7 +19,7 @@ namespace GameCore.Database.Editor
         [BoxGroup("Asset")]
         [ButtonGroup("Asset/CRUD")]
         [Button("", ButtonSizes.Large, Icon = SdfIconType.FileEarmarkPlusFill)]
-        [Tooltip("·s¼W")]
+        [Tooltip("æ–°å¢ž")]
         private void Create()
         {
             m_editor.NewEditingCopy();
@@ -30,7 +30,7 @@ namespace GameCore.Database.Editor
         [ButtonGroup("Asset/CRUD")]
         [GUIColor(0.3f, 1f, 0.3f)]
         [Button("", ButtonSizes.Large, Icon = SdfIconType.FileEarmarkPost)]
-        [Tooltip("Àx¦s")]
+        [Tooltip("å„²å­˜")]
         private void Save()
         {
             m_editor.Save();
@@ -41,7 +41,7 @@ namespace GameCore.Database.Editor
         [ButtonGroup("Asset/CRUD")]
         [GUIColor(0, 0.5f, 1)]
         [Button("", ButtonSizes.Large, Icon = SdfIconType.Arrow90degLeft)]
-        [Tooltip("´_­ì")]
+        [Tooltip("å¾©åŽŸ")]
         private void Revert()
         {
             m_editor.Revert();
@@ -52,7 +52,7 @@ namespace GameCore.Database.Editor
         [ButtonGroup("Asset/CRUD")]
         [GUIColor(1, 0, 0)]
         [Button("", ButtonSizes.Large, Icon = SdfIconType.TrashFill)]
-        [Tooltip("§R°£")]
+        [Tooltip("åˆªé™¤")]
         private void Delete()
         {
             m_editor.Delete();
@@ -61,7 +61,7 @@ namespace GameCore.Database.Editor
         [EnableIf(nameof(HasEditableData))]
         [BoxGroup("Asset")]
         [ButtonGroup("Asset/Copy")]
-        [Button("·s¼W°Æ¥»")]
+        [Button("æ–°å¢žå‰¯æœ¬")]
         private void Duplicate()
         {
             m_editor.Duplicate();
@@ -72,7 +72,7 @@ namespace GameCore.Database.Editor
         [EnableIf(nameof(HasEditableData))]
         [BoxGroup("Asset")]
         [ButtonGroup("Asset/Copy")]
-        [Button("½Æ»s")]
+        [Button("è¤‡è£½")]
         private void Copy()
         {
             m_editor.Copy(ref m_copiedData);
@@ -81,7 +81,7 @@ namespace GameCore.Database.Editor
         [EnableIf(nameof(CanPaste))]
         [BoxGroup("Asset")]
         [ButtonGroup("Asset/Copy")]
-        [Button("¶K¤W")]
+        [Button("è²¼ä¸Š")]
         private void Paste()
         {
             if (!m_copiedData)

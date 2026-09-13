@@ -139,15 +139,15 @@ namespace MPUIKIT.Editor {
             }
         }
         
-        private static Sprite _emptySprite;
+        private static Sprite s_emptySprite;
 
         internal static Sprite EmptySprite {
             get {
-                if (_emptySprite == null) {
-                    _emptySprite = Resources.Load<Sprite>("mpui_default_empty_sprite");
+                if (s_emptySprite == null) {
+                    s_emptySprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/2DArt/Support/MPUIKit/mpui_default_empty_sprite.png");
                 }
 
-                return _emptySprite;
+                return s_emptySprite;
             }
         }
         

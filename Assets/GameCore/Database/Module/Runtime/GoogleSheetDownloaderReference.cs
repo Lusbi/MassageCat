@@ -57,12 +57,12 @@ namespace GameCore.Database
             m_OnDownloadFinish = OnDownloadFinish;
         }
 
-        [Button("¨Ï¥Î¦¹²Õ¶i¦æ¤U¸ü")]
+        [Button("ä½¿ç”¨æ­¤çµ„é€²è¡Œä¸‹è¼‰")]
         public void DownLoad()
         {
             if (m_OnDownloadFinish == null || m_OnDownloadProgressChanged == null)
             {
-                Debug.LogError("¸ê®Æ¥¼ªì©l¤Æ");
+                Debug.LogError("è³‡æ–™æœªåˆå§‹åŒ–");
                 return;
             }
             m_googleSheetDownloader = new GoogleSheetDownloader(m_key, m_gid, m_OnDownloadProgressChanged , m_OnDownloadFinish);

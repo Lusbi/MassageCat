@@ -8,8 +8,8 @@ namespace GameCore.UI
         public static readonly Vector2 V_CAMERA_SIZE = new Vector2(1080, 1920);
         public static readonly Vector2 H_CAMERA_SIZE_4K = new Vector2(2560, 1440);
         public static readonly Vector2 H_CAMERA_SIZE_2K = new Vector2(1920, 1680);
-        public const float DESIGNER_WIDTH = 640;
-        public const float DESIGNER_HEIGHT = 480f;
+        public const float DESIGNER_WIDTH = 480;
+        public const float DESIGNER_HEIGHT = 320f;
         public static readonly Vector2 DESIGNER_SIZE = new Vector2(DESIGNER_WIDTH, DESIGNER_HEIGHT);
 
         public static long GetStateID(params Enum[] enums)

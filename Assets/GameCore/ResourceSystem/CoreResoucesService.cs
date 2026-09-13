@@ -13,10 +13,10 @@ namespace GameCore.Resources
     public static class CoreResoucesService 
     {
         /// <summary>
-        /// Task-based ¸ü¤J¸ê·½
+        /// Task-based è¼‰å…¥è³‡æº
         /// </summary>
-        /// <typeparam name="T">­YÄİ©ó<see cref="Component"/>«h¶·¥ı¸ü¤J<see cref="GameObject"/>¦A¨ú±o<typeparamref name="T"/></typeparam>
-        /// <param name="address">¸ê·½¦a§}</param>
+        /// <typeparam name="T">è‹¥å±¬æ–¼<see cref="Component"/>å‰‡é ˆå…ˆè¼‰å…¥<see cref="GameObject"/>å†å–å¾—<typeparamref name="T"/></typeparam>
+        /// <param name="address">è³‡æºåœ°å€</param>
         public static async Task<AsyncOperationHandle<T>> LoadAssetAsync<T>(string address) where T : UnityEngine.Object
         {
             if (string.IsNullOrEmpty(address))
@@ -61,7 +61,7 @@ namespace GameCore.Resources
         }
 
         /// <summary>
-        /// ¤Ş¥Î«á¥ß§YÄÀ©ñ
+        /// å¼•ç”¨å¾Œç«‹å³é‡‹æ”¾
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="address"></param>
@@ -99,13 +99,13 @@ namespace GameCore.Resources
         
 
         /// <summary>
-        /// ¨Ï¥Î<see cref="UnityEngine.Coroutine"/>¸ü¤J¸ê·½
+        /// ä½¿ç”¨<see cref="UnityEngine.Coroutine"/>è¼‰å…¥è³‡æº
         /// </summary>
-        /// <typeparam name="T">­YÄİ©ó<see cref="Component"/>«h¶·¥ı¸ü¤J<see cref="GameObject"/>¦A¨ú±o<typeparamref name="T"/></typeparam>
-        /// <param name="address">¸ê·½¦a§}</param>
-        /// <param name="onComplete">§¹¦¨callback</param>
-        /// <param name="onProgress">¶i«×callback</param>
-        /// <returns>§¹¦¨®Écallback±N¶Ç»¼<see cref="AsyncOperationHandle{TObject}"/></returns>
+        /// <typeparam name="T">è‹¥å±¬æ–¼<see cref="Component"/>å‰‡é ˆå…ˆè¼‰å…¥<see cref="GameObject"/>å†å–å¾—<typeparamref name="T"/></typeparam>
+        /// <param name="address">è³‡æºåœ°å€</param>
+        /// <param name="onComplete">å®Œæˆcallback</param>
+        /// <param name="onProgress">é€²åº¦callback</param>
+        /// <returns>å®Œæˆæ™‚callbackå°‡å‚³é<see cref="AsyncOperationHandle{TObject}"/></returns>
         public static IEnumerator LoadAssetAsync<T>(string address, Action<AsyncOperationHandle<T>> onComplete, Action<float> onProgress) where T : UnityEngine.Object
         {
             if (string.IsNullOrEmpty(address))

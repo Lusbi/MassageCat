@@ -11,7 +11,7 @@ public class CustomWindow : EditorWindow
 
     private const string EDITORPREFS_CACHE_GUID = "Custom_Cache_Guids";
 
-    [MenuItem("Assets/¦Û©w¸qµøµ¡/·s¼W")]
+    [MenuItem("Assets/è‡ªå®šç¾©è¦–çª—/æ–°å¢ž")]
     private static void AddToCustomWindow()
     {
         if (Selection.activeObject == null)
@@ -41,7 +41,7 @@ public class CustomWindow : EditorWindow
         guids.Remove(guid);
     }
 
-    [MenuItem("Assets/¦Û©w¸qµøµ¡/¶}±Òµøµ¡")]
+    [MenuItem("Assets/è‡ªå®šç¾©è¦–çª—/é–‹å•Ÿè¦–çª—")]
     private static void OpenWindow()
     {
         CustomWindow customWindow = GetWindow<CustomWindow>();
@@ -94,7 +94,7 @@ public class CustomWindow : EditorWindow
                     Selection.activeObject = objects[i];
                 }
             }
-            if (GUILayout.Button("²¾°£", GUILayout.Width(50)))
+            if (GUILayout.Button("ç§»é™¤", GUILayout.Width(50)))
             {
                 objects.Remove(objects[i]);
                 i--;

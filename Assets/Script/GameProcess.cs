@@ -20,6 +20,9 @@ public class GameProcess : MonoBehaviour
         DontDestroyOnLoad(this);
         Instance = this;
 
+        if (TryGetComponent(out GameInputGate _) == false)
+            gameObject.AddComponent<GameInputGate>();
+
         if (m_desktopPetMode && TryGetComponent(out DesktopPetWindowController _) == false)
         {
             gameObject.AddComponent<DesktopPetWindowController>();
@@ -51,7 +54,10 @@ public class GameProcess : MonoBehaviour
 
     private void ChangeToInitialView()
     {
-        UIManager.instance.ChangeView(UIEnum.Title);
+        UIManager.instance.ChangeView(UIEnum.GameMain);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        Debug.Log(m_desktopPetMode ? "[Codex驗證] 已切換至桌寵主畫面，請檢查角色、設定入口與場景切換圖示。" : "[Codex驗證] 已切換至一般主畫面，請檢查場景背景與紙繪 UI。", this);
+#endif
 
         if (m_desktopPetMode && TryGetComponent(out DesktopPetWindowController desktopPetWindowController))
         {

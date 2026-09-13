@@ -27,15 +27,15 @@ namespace GameCore.Database
 
         private string GetFormatLocalization() => cardFormulaInfoType switch
         {
-            CardFormulaInfoType.BaseModel => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.¤@¯ë¼Ò¦¡¥[¦¨"),
-            CardFormulaInfoType.SpellModel => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.«÷¦r¼Ò¦¡¥[¦¨"),
-            CardFormulaInfoType.TomatoModel => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.¿»­XÄÁ¼Ò¦¡¥[¦¨"),
-            CardFormulaInfoType.BaseMob => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.¤@¯ë¼Ä¤H¥[¦¨"),
-            CardFormulaInfoType.MiniBossMob => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.ºë­^¼Ä¤H¥[¦¨"),
-            CardFormulaInfoType.BossMob => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.Å]¤ý¼Ä¤H¥[¦¨"),
-            CardFormulaInfoType.BaseMobCardDropRate => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.¤@¯ë¼Ä¤H¥d¤ù±¼¸¨²v¥[¦¨"),
-            CardFormulaInfoType.MiniBossMobCardDropRate => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.ºë­^¼Ä¤H¥d¤ù±¼¸¨²v¥[¦¨"),
-            CardFormulaInfoType.BossMobCardDropRate => LocalizationManager.instance.GetLocalization("¥d¤ù¯à¤O.Å]¤ý¼Ä¤H¥d¤ù±¼¸¨²v¥[¦¨"),
+            CardFormulaInfoType.BaseModel => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.ä¸€èˆ¬æ¨¡å¼åŠ æˆ"),
+            CardFormulaInfoType.SpellModel => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.æ‹¼å­—æ¨¡å¼åŠ æˆ"),
+            CardFormulaInfoType.TomatoModel => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.è•ƒèŒ„é˜æ¨¡å¼åŠ æˆ"),
+            CardFormulaInfoType.BaseMob => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.ä¸€èˆ¬æ•µäººåŠ æˆ"),
+            CardFormulaInfoType.MiniBossMob => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.ç²¾è‹±æ•µäººåŠ æˆ"),
+            CardFormulaInfoType.BossMob => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.é­”çŽ‹æ•µäººåŠ æˆ"),
+            CardFormulaInfoType.BaseMobCardDropRate => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.ä¸€èˆ¬æ•µäººå¡ç‰‡æŽ‰è½çŽ‡åŠ æˆ"),
+            CardFormulaInfoType.MiniBossMobCardDropRate => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.ç²¾è‹±æ•µäººå¡ç‰‡æŽ‰è½çŽ‡åŠ æˆ"),
+            CardFormulaInfoType.BossMobCardDropRate => LocalizationManager.instance.GetLocalization("å¡ç‰‡èƒ½åŠ›.é­”çŽ‹æ•µäººå¡ç‰‡æŽ‰è½çŽ‡åŠ æˆ"),
             _ => string.Empty,
         };
     }

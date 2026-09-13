@@ -79,8 +79,8 @@ namespace GameCore.Database.Editor
 
         private const double SEARCH_DELAY_SECONDS = 0.35D;
         private const int MAX_INPUT_BUFFER_COUNT = 20;
-        private const string QUERIED_COUNT_FORMAT = "{0} µ§¶µ¥Ø";
-        private const string PREVIEW_COUNT_FORMAT = "{0} µ§µ²ªG";
+        private const string QUERIED_COUNT_FORMAT = "{0} ç­†é …ç›®";
+        private const string PREVIEW_COUNT_FORMAT = "{0} ç­†çµæœ";
         private readonly SearchField m_searchField = new();
         private readonly LinkedList<string> m_inputBuffer = new();
         private readonly Tree<Entry> m_tree = new();
@@ -157,7 +157,7 @@ namespace GameCore.Database.Editor
                         QueryText = entered;
                     }
 
-                    GUIContent content = EditorGUIUtility.TrIconContent(m_areSearchOptionsExpanded ? "d_icon dropdown" : "d_back", "¶i¶¥·j´M¿ï¶µ");
+                    GUIContent content = EditorGUIUtility.TrIconContent(m_areSearchOptionsExpanded ? "d_icon dropdown" : "d_back", "é€²éšæœå°‹é¸é …");
                     if (EditorGUILayout.DropdownButton(content, FocusType.Keyboard, EditorStyles.miniButton, GUILayout.Width(26f)))
                     {
                         m_areSearchOptionsExpanded ^= true;
@@ -177,7 +177,7 @@ namespace GameCore.Database.Editor
                         {
                             DrawQueryResultLabel(m_previewCount, PREVIEW_COUNT_FORMAT, Styles.queryPreview);
                             GUILayout.FlexibleSpace();
-                            GUIContent content = EditorGUIUtility.TrTextContent("²M°£", "­«³]·j´M¿ï¶µ");
+                            GUIContent content = EditorGUIUtility.TrTextContent("æ¸…é™¤", "é‡è¨­æœå°‹é¸é …");
                             if (EditorGUILayout.DropdownButton(content, FocusType.Keyboard, EditorStyles.miniButton, GUILayout.Width(54f)))
                             {
                                 if (m_previewCount > -1)
@@ -189,7 +189,7 @@ namespace GameCore.Database.Editor
                                     m_updates = true;
                                 }
                             }
-                            content = EditorGUIUtility.TrTextContent("®M¥Î", "¨Ì·j´M¿ï¶µ¿z¿ï");
+                            content = EditorGUIUtility.TrTextContent("å¥—ç”¨", "ä¾æœå°‹é¸é …ç¯©é¸");
                             if (EditorGUILayout.DropdownButton(content, FocusType.Keyboard, EditorStyles.miniButton, GUILayout.Width(54f)))
                                 m_updates = true;
                         }
@@ -204,7 +204,7 @@ namespace GameCore.Database.Editor
                     GUILayout.FlexibleSpace();
                     if (m_hasFolder)
                     {
-                        GUIContent content = m_isAnyEntryCollapsed ? EditorGUIUtility.TrTextContent("¥ş³¡®i¶}", "®i¶}©Ò¦³¶µ¥Ø") : EditorGUIUtility.TrTextContent("¥ş³¡¦¬°_", "§éÅ|©Ò¦³¶µ¥Ø");
+                        GUIContent content = m_isAnyEntryCollapsed ? EditorGUIUtility.TrTextContent("å…¨éƒ¨å±•é–‹", "å±•é–‹æ‰€æœ‰é …ç›®") : EditorGUIUtility.TrTextContent("å…¨éƒ¨æ”¶èµ·", "æŠ˜ç–Šæ‰€æœ‰é …ç›®");
                         if (EditorGUILayout.DropdownButton(content, FocusType.Keyboard, EditorStyles.miniButton, GUILayout.Width(72f)))
                         {
                             Entry entry;

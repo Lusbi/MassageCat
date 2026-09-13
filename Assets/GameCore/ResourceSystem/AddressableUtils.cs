@@ -3,7 +3,7 @@ namespace GameCore.Resources.Utils
     public static class AddressableUtils
     {
         /// <summary>
-        /// ¦^¶Ç Group Name
+        /// å›å‚³ Group Name
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>
@@ -14,7 +14,7 @@ namespace GameCore.Resources.Utils
         }
 
         /// <summary>
-        /// ¦^¶Ç ª«¥ó¦WºÙ
+        /// å›å‚³ ç‰©ä»¶åç¨±
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>

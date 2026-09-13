@@ -86,23 +86,23 @@ public class TalkScriptableObjectNameDrawer : PropertyDrawer
     {
         if (string.IsNullOrEmpty(key))
         {
-            return "<空�??>";
+            return "<空白鍵值>";
         }
 
         StringTable table = LocalizationTableCache.Table;
         if (table == null)
         {
-            return "<??��????��??�?>";
+            return "<找不到本地化資料表>";
         }
 
         var entry = table.GetEntry(key);
         if (entry == null)
         {
-            return "<??��????��?????>";
+            return "<找不到本地化項目>";
         }
 
         string localizedValue = entry.GetLocalizedString();
-        return string.IsNullOrEmpty(localizedValue) ? "<??�容??�空>" : localizedValue;
+        return string.IsNullOrEmpty(localizedValue) ? "<本地化內容為空>" : localizedValue;
     }
 
     private static class LocalizationTableCache

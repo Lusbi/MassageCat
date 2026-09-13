@@ -7,6 +7,6 @@ public class StageCommand : CommandBase, ICommand
     public override void Execute()
     {
         Debug.Log("Executing Stage Command");
-        // ¦b³o¸Ì²K¥[ Stage «ü¥Oªº¨ãÅéÅŞ¿è
+        // åœ¨é€™è£¡æ·»åŠ  Stage æŒ‡ä»¤çš„å…·é«”é‚è¼¯
     }
 }

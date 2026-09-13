@@ -12,7 +12,7 @@ namespace GameCore.AssetPostProcessor
     {
         public override AssetPostProcessorType AssetPostProcessorType => AssetPostProcessorType.Addressable;
 
-        // ¦b¸ê·½¾É¤J«á¶i¦æ³B²z
+        // åœ¨è³‡æºå°å…¥å¾Œé€²è¡Œè™•ç†
         void OnPreprocessAsset()
         {
             if (Valid(assetImporter) == false)
@@ -24,7 +24,7 @@ namespace GameCore.AssetPostProcessor
         }
 
         /// <summary>
-        /// ¹w³]¬° AssetResources
+        /// é è¨­ç‚º AssetResources
         /// </summary>
         /// <param name="settings"></param>
         /// <param name="groupName"></param>

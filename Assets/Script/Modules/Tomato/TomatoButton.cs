@@ -4,6 +4,7 @@ using GameCore.Event;
 using GameCore.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TomatoButton : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class TomatoButton : MonoBehaviour
     [SerializeField] private FlagReference m_flagReference;
     private TomatoManager m_tomatoManager;
     private EventListener m_eventListener;
+    private bool m_desktopPetCompactLayout = true;
+    private readonly char[] m_timeBuffer = new char[5];
+    private int m_lastDisplayedSecond = -1;
     public void Initlization()
     {
         m_tomatoManager ??= TomatoManager.instance;
@@ -62,13 +66,20 @@ public class TomatoButton : MonoBehaviour
 
     public void SetTrigger(bool trigger)
     {
+        if (m_desktopPetCompactLayout)
+        {
+            m_enableObj.SetActive(true);
+            m_disableObj.SetActive(false);
+            return;
+        }
+
         m_enableObj.SetActive(trigger);
         m_disableObj.SetActive(!trigger);
     }
 
     public void ApplyTomatoTime()
     {
-        m_minuteText.text = m_tomatoManager.curTomatoTimeString;
+        SetDisplayedTime(m_tomatoManager.curTomatoTime);
     }
 
     private void TriggerTomatoTime(UIButton uIButton)
@@ -85,7 +96,7 @@ public class TomatoButton : MonoBehaviour
 
     private void TomatoState(bool state)
     {
-        m_canvasGroup.alpha = state ? 1 : 0;
+        m_canvasGroup.alpha = m_desktopPetCompactLayout || state ? 1f : 0f;
         m_canvasGroup.blocksRaycasts = state;
         TutorialFlowDiagnostics.Log(
             $"更新蕃茄鐘按鈕解鎖狀態：unlocked={state}, alpha={m_canvasGroup.alpha}, blocksRaycasts={m_canvasGroup.blocksRaycasts}",
@@ -95,8 +106,24 @@ public class TomatoButton : MonoBehaviour
     internal void TomatoTimeHint(RoleData roleData)
     {
         var curTomatoTime = m_tomatoManager.setting.GetMinute(roleData.key) * 60;
-        int minutes = Mathf.FloorToInt(curTomatoTime / 60);
-        int sec = Mathf.FloorToInt(curTomatoTime % 60);
-        m_minuteText.text = string.Format("{0:00}:{1:00}", minutes, sec);
+        SetDisplayedTime(curTomatoTime);
     }
+
+    private void SetDisplayedTime(float remainingTime)
+    {
+        int seconds = Mathf.Clamp(Mathf.CeilToInt(remainingTime), 0, 5999);
+        if (!m_minuteText || seconds == m_lastDisplayedSecond)
+            return;
+
+        m_lastDisplayedSecond = seconds;
+        int minutes = seconds / 60;
+        seconds %= 60;
+        m_timeBuffer[0] = (char)('0' + minutes / 10);
+        m_timeBuffer[1] = (char)('0' + minutes % 10);
+        m_timeBuffer[2] = ':';
+        m_timeBuffer[3] = (char)('0' + seconds / 10);
+        m_timeBuffer[4] = (char)('0' + seconds % 10);
+        m_minuteText.SetCharArray(m_timeBuffer, 0, m_timeBuffer.Length);
+    }
+
 }

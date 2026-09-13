@@ -1,5 +1,4 @@
 using System;
-using UnityEngine.EventSystems;
 
 public class BattleManager : GameCore.Singleton<BattleManager>
 {
@@ -14,36 +13,18 @@ public class BattleManager : GameCore.Singleton<BattleManager>
 
         if (onHitEvent != null)
         {
-            WindowsInputHookManager.OnGlobalKeyDown += OnGlobalKeyDown;
-            WindowsInputHookManager.OnGlobalMouseDown += OnGlobalMouseDown;
+            GameInputGate.OnGameplayInput += OnGameplayInput;
         }
         else
         {
-            WindowsInputHookManager.OnGlobalKeyDown -= OnGlobalKeyDown;
-            WindowsInputHookManager.OnGlobalMouseDown -= OnGlobalMouseDown;
+            GameInputGate.OnGameplayInput -= OnGameplayInput;
         }
         m_onHitEvent = onHitEvent;
     }
-    private void OnGlobalMouseDown(int obj)
+
+    private void OnGameplayInput(string input)
     {
-        if (DesktopPetWindowController.IsPointerInRuntimeControlArea())
-            return;
-
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
-
-        Hit();
-    }
-
-    private void OnGlobalKeyDown(int virtualKey)
-    {
-        if (virtualKey is >= 0x41 and <= 0x5A)
-        {
-            Hit(char.ToLowerInvariant((char)virtualKey).ToString());
-            return;
-        }
-
-        Hit();
+        Hit(input);
     }
 
     private void Hit(string key = null)

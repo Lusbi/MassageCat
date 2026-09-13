@@ -27,12 +27,12 @@ public class TomatoSetting : ScriptableObject
     }
 
 #if UNITY_EDITOR
-    [Button("¤U¸ü¸ê®Æ")]
+    [Button("ä¸‹è¼‰è³‡æ–™")]
     private void Downloaded()
     {
         googleSheetDownloaderReference?.Setup((p) =>
         {
-            EditorUtility.DisplayProgressBar("Tomato Settings...", "¸ê®Æ¤U¸ü¤¤¡K", p);
+            EditorUtility.DisplayProgressBar("Tomato Settings...", "è³‡æ–™ä¸‹è¼‰ä¸­â€¦", p);
 
         }, OnDownloadFinish);
         googleSheetDownloaderReference.DownLoad();

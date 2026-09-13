@@ -4,13 +4,13 @@ using UnityEditor;
 
 public class SpriteUpdate
 {
-    [MenuItem("Tools/¨¤¦â¹Ï¤ù¸ü¤J")]
+    [MenuItem("Tools/è§’è‰²åœ–ç‰‡è¼‰å…¥")]
     private static void RoleTransfer()
     {
         var roles = DatabaseEditorUtils.GetDatas<RoleData>();
         foreach (var role in roles)
         {
-            // Âà´«¨¤¦â¹Ï¤ù
+            // è½‰æ›è§’è‰²åœ–ç‰‡
             role.SetSprite();
             DatabaseEditorUtils.SaveData(role);
         }
@@ -18,13 +18,13 @@ public class SpriteUpdate
         AssetDatabase.Refresh();
     }
 
-    [MenuItem("Tools/³õ´º¹Ï¤ù¸ü¤J")]
+    [MenuItem("Tools/å ´æ™¯åœ–ç‰‡è¼‰å…¥")]
     private static void SceneMapTransfer()
     {
         var sceneMaps = DatabaseEditorUtils.GetDatas<ScenemapData>();
         foreach (var sceneMap in sceneMaps)
         {
-            // Âà´«¨¤¦â¹Ï¤ù
+            // è½‰æ›è§’è‰²åœ–ç‰‡
             sceneMap.SetSprite();
             DatabaseEditorUtils.SaveData(sceneMap);
         }

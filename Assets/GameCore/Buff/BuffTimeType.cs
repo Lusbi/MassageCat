@@ -7,11 +7,11 @@ namespace GameCore.Buff
 {
     public enum BuffTimeType
     {
-        [Description("¥ß§Y©Ê")]
+        [Description("ç«‹å³æ€§")]
         Immediately,
-        [Description("«ùÄò©Ê")]
+        [Description("æŒçºŒæ€§")]
         Interval,
-        [Description("±`¾n«¬")]
+        [Description("å¸¸é§å‹")]
         Permanent,
     }
 }

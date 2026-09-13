@@ -10,13 +10,13 @@ using UnityEngine.SceneManagement;
 
 public class DeveloperScene : DeveloperToolBase
 {
-    public override string DeveloperName => "§Ö³t³õ´º¤u¨ã";
+    public override string DeveloperName => "å¿«é€Ÿå ´æ™¯å·¥å…·";
 
     private const string DATA_PATH = "Assets/GameCore/DeveloperTool/SceneTool/SceneToolData.asset";
 
     private DeveloperSceneToolData _sceneToolData;
 
-    [TitleGroup("³õ´º¦Cªí")]
+    [TitleGroup("å ´æ™¯åˆ—è¡¨")]
     [TableList, ShowInInspector]
     public List<DeveloperSceneInfo> developerSceneInfos
     {
@@ -39,12 +39,12 @@ public class DeveloperScene : DeveloperToolBase
         {
             _sceneToolData = AssetDatabase.LoadAssetAtPath<DeveloperSceneToolData>(DATA_PATH);
 
-            // ¦pªG¼Æ¾Ú¸ê²£¤£¦s¦b¡A«h³Ğ«Ø¤@­Ó
+            // å¦‚æœæ•¸æ“šè³‡ç”¢ä¸å­˜åœ¨ï¼Œå‰‡å‰µå»ºä¸€å€‹
             if (_sceneToolData == null)
             {
                 _sceneToolData = ScriptableObject.CreateInstance<DeveloperSceneToolData>();
 
-                // ½T«O¥Ø¿ı¦s¦b
+                // ç¢ºä¿ç›®éŒ„å­˜åœ¨
                 string directory = Path.GetDirectoryName(DATA_PATH);
                 if (!Directory.Exists(directory))
                 {
@@ -66,15 +66,15 @@ public class DeveloperScene : DeveloperToolBase
         }
     }
 
-    [TitleGroup("±`¥Î³õ´º")]
-    [Button("¶}±Ò¥D³õ´º", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1)]
+    [TitleGroup("å¸¸ç”¨å ´æ™¯")]
+    [Button("é–‹å•Ÿä¸»å ´æ™¯", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1)]
     public void OpenMainScene()
     {
         OpenScenePath("Assets/Scenes/Main.unity");
     }
 
-    [TitleGroup("³õ´º¾Ş§@")]
-    [Button("²K¥[·í«e³õ´º"), GUIColor(0.7f, 1, 0.7f)]
+    [TitleGroup("å ´æ™¯æ“ä½œ")]
+    [Button("æ·»åŠ ç•¶å‰å ´æ™¯"), GUIColor(0.7f, 1, 0.7f)]
     public void AddCurrentScene()
     {
         LoadData();
@@ -82,7 +82,7 @@ public class DeveloperScene : DeveloperToolBase
         Scene currentScene = SceneManager.GetActiveScene();
         if (!string.IsNullOrEmpty(currentScene.path))
         {
-            // ÀË¬d¬O§_¤w¦s¦b¬Û¦P¸ô®|ªº³õ´º
+            // æª¢æŸ¥æ˜¯å¦å·²å­˜åœ¨ç›¸åŒè·¯å¾‘çš„å ´æ™¯
             bool exists = _sceneToolData.developerSceneInfos.Exists(info => info.scenePath == currentScene.path);
 
             if (!exists)
@@ -95,29 +95,29 @@ public class DeveloperScene : DeveloperToolBase
 
                 _sceneToolData.developerSceneInfos.Add(newInfo);
                 SaveData();
-                Debug.Log($"¤w²K¥[³õ´º: {currentScene.name}");
+                Debug.Log($"å·²æ·»åŠ å ´æ™¯: {currentScene.name}");
             }
             else
             {
-                Debug.Log($"³õ´º {currentScene.name} ¤w¦b¦Cªí¤¤");
+                Debug.Log($"å ´æ™¯ {currentScene.name} å·²åœ¨åˆ—è¡¨ä¸­");
             }
         }
         else
         {
-            Debug.LogWarning("·í«e³õ´º¥¼«O¦s¡AµLªk²K¥[");
+            Debug.LogWarning("ç•¶å‰å ´æ™¯æœªä¿å­˜ï¼Œç„¡æ³•æ·»åŠ ");
         }
     }
 
-    [TitleGroup("³õ´º¾Ş§@")]
-    [Button("²MªÅ³õ´º¦Cªí"), GUIColor(1, 0.7f, 0.7f)]
+    [TitleGroup("å ´æ™¯æ“ä½œ")]
+    [Button("æ¸…ç©ºå ´æ™¯åˆ—è¡¨"), GUIColor(1, 0.7f, 0.7f)]
     public void ClearSceneList()
     {
-        if (EditorUtility.DisplayDialog("½T»{²MªÅ", "½T©w­n²MªÅ©Ò¦³³õ´º¦Cªí¶Ü¡H", "½T©w", "¨ú®ø"))
+        if (EditorUtility.DisplayDialog("ç¢ºèªæ¸…ç©º", "ç¢ºå®šè¦æ¸…ç©ºæ‰€æœ‰å ´æ™¯åˆ—è¡¨å—ï¼Ÿ", "ç¢ºå®š", "å–æ¶ˆ"))
         {
             LoadData();
             _sceneToolData.developerSceneInfos.Clear();
             SaveData();
-            Debug.Log("³õ´º¦Cªí¤w²MªÅ");
+            Debug.Log("å ´æ™¯åˆ—è¡¨å·²æ¸…ç©º");
         }
     }
 
@@ -125,14 +125,14 @@ public class DeveloperScene : DeveloperToolBase
     {
         if (string.IsNullOrEmpty(path))
         {
-            Debug.LogError("³õ´º¸ô®|¬°ªÅ");
+            Debug.LogError("å ´æ™¯è·¯å¾‘ç‚ºç©º");
             return;
         }
 
         if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
         {
             EditorSceneManager.OpenScene(path);
-            Debug.Log($"¤w¶}±Ò³õ´º: {path}");
+            Debug.Log($"å·²é–‹å•Ÿå ´æ™¯: {path}");
         }
     }
 }

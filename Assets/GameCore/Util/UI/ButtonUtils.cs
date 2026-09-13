@@ -7,7 +7,7 @@ public static class ButtonUtils
     {
         if (uIButton.onClicked != null)
         {
-            Debug.LogWarning($"{uIButton.gameObject.name} OnClick �ƥ󭫽Ƶ��U�C");
+            Debug.LogWarning($"{uIButton.gameObject.name} OnClick 事件重複註冊。");
             return;
         }
         uIButton.onClicked = clickAction;
@@ -22,7 +22,7 @@ public static class ButtonUtils
     {
         if (uIButton.onHover != null)
         {
-            Debug.LogWarning($"{uIButton.gameObject.name} OnHover �ƥ󭫽Ƶ��U�C");
+            Debug.LogWarning($"{uIButton.gameObject.name} OnHover 事件重複註冊。");
             return;
         }
         uIButton.onHover = hoverAction;

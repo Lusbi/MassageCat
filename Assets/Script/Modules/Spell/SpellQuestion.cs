@@ -49,7 +49,7 @@ public class SpellQuestion : ScriptableObject
             (progress) =>
             {
 
-                EditorUtility.DisplayProgressBar("SpellQuestion Settings...", "∏ÍÆ∆§U∏¸§§°K", progress);
+                EditorUtility.DisplayProgressBar("SpellQuestion Settings...", "Ë≥áÊñô‰∏ãËºâ‰∏≠‚Ä¶", progress);
 
             }, OnDownloadFinished);
 
@@ -62,13 +62,13 @@ public class SpellQuestion : ScriptableObject
 #if UNITY_EDITOR
         EditorUtility.ClearProgressBar();
 #endif
-        // ∏—™R CSV ∏ÍÆ∆
+        // Ëß£Êûê CSV Ë≥áÊñô
         string[] lines = text.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
         levelQuestionInfos.Clear();
         foreach (var line in lines)
         {
             if (line.Contains("//"))
-                continue; // ∏ıπLµ˘∏—¶Ê
+                continue; // Ë∑≥ÈÅéË®ªËß£Ë°å
 
             // Key	Level	English	Chinese	SFI Rank	SFI	Adjusted Frequency per Million (U)
             string[] columns = line.Split(new[] { '\t', ',' }, StringSplitOptions.None);

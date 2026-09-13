@@ -43,6 +43,9 @@ crashlytics-build.properties
 *.orig
 *.rej
 
+# 專案遷移與維護工具產生的本機備份／暫存輸出
+/Artifacts/
+
 # 僅供本機代理與內部維護使用，不發布至公開 Repository
 /AGENTS.md
 /Docs/MassageCat_ProjectArchitecture.md

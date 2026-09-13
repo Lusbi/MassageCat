@@ -1,7 +1,7 @@
 using GameCore.Event;
 
 /// <summary>
-/// ³]©w¾Ô°«¨¤¦â
+/// è¨­å®šæˆ°é¬¥è§’è‰²
 /// </summary>
 public struct SetBattleRoleEvent : IEventBase
 {
@@ -10,7 +10,7 @@ public struct SetBattleRoleEvent : IEventBase
 }
 
 /// <summary>
-/// ¿»­XÄÁ¶}©l
+/// è•ƒèŒ„é˜é–‹å§‹
 /// </summary>
 public struct TomatoTriggerEvent : IEventBase 
 {

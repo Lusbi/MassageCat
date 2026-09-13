@@ -18,14 +18,12 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
     private const float k_healProgressScaleReciprocal = 1f / k_healProgressScale;
     private const float k_progressFillDuration = 0.18f;
     private const float k_progressPulseDuration = 0.22f;
-    private const float k_rolePulseDuration = 0.18f;
+    private const float k_rolePulseDuration = 0.35f;
     private const float k_pendingPulseDuration = 0.2f;
-    private const float k_completeHoldDuration = 0.7f;
-    private const float k_completeExitDuration = 0.3f;
+    private const float k_completeHoldDuration = 0.4f;
+    private const float k_completeExitDuration = 1.2f;
 
     private static readonly Vector3 s_progressPulseStrength = new Vector3(0.015f, 0.12f, 0f);
-    private static readonly Vector3 s_rolePulseStrength = new Vector3(0.025f, 0.025f, 0f);
-    private static readonly Vector3 s_completePulseStrength = new Vector3(0.05f, 0.05f, 0f);
 
     [Header("UI Components")]
     [SerializeField] private Image m_enemyImage;
@@ -56,9 +54,22 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
     private Color m_pendingPulseBaseColor;
     private Tween m_progressFillTween;
     private Tween m_progressPulseTween;
-    private Tween m_rolePulseTween;
     private Sequence m_pendingPulseSequence;
-    private Sequence m_completeSequence;
+    private Image m_departingImage;
+    private RectTransform m_departingRect;
+    private Vector2 m_enemyBasePosition;
+    private Color m_enemyBaseColor;
+    private float m_exitElapsed;
+    private float m_enterElapsed;
+    private float m_hitElapsed;
+    private Vector3 m_hitStartScale;
+    private Vector2 m_hitStartPosition;
+    private bool m_isExiting;
+    private bool m_isEntering;
+    private bool m_isBouncing;
+    private Action m_exitMidpoint;
+    private Action m_exitCompleted;
+    private Action m_enterCompleted;
 
     internal BigNumber AccumulatedHealValue => m_accumulatedHealValue;
     internal TextMeshProUGUI RoleTalkText => m_roleTalkText;
@@ -70,9 +81,43 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
         m_isHealCompleted = false;
         m_enemyImage.sprite = null;
         m_enemyRect = m_enemyImage.GetComponent<RectTransform>();
+        m_enemyBasePosition = m_enemyRect.anchoredPosition;
+        m_enemyBaseColor = m_enemyImage.color;
+        if (!m_departingImage)
+        {
+            // 僅建立一次純顯示副本，交接時不複製角色狀態與事件。
+            m_departingImage = Instantiate(m_enemyImage, m_enemyRect.parent);
+            m_departingImage.name = "DepartingRoleVisual";
+            m_departingImage.raycastTarget = false;
+            m_departingRect = m_departingImage.rectTransform;
+            m_departingImage.gameObject.SetActive(false);
+        }
         if (m_roleTalkText)
+        {
+            // 對話不跟隨進度列縮窄或脈衝縮放，固定在主版型上方的安全區。
+            RectTransform talkRect = m_roleTalkText.rectTransform;
+            talkRect.SetParent(transform, false);
+            talkRect.anchorMin = new Vector2(0.5f, 1f);
+            talkRect.anchorMax = new Vector2(0.5f, 1f);
+            talkRect.pivot = new Vector2(0.5f, 1f);
+            talkRect.anchoredPosition = new Vector2(0f, -8f);
+            talkRect.sizeDelta = new Vector2(336f, 54f);
+            talkRect.localRotation = Quaternion.identity;
+            talkRect.localScale = Vector3.one;
+            m_roleTalkText.margin = new Vector4(6f, 2f, 6f, 2f);
+            m_roleTalkText.alignment = TextAlignmentOptions.Center;
+            m_roleTalkText.enableAutoSizing = true;
+            m_roleTalkText.fontSizeMin = 14f;
+            m_roleTalkText.fontSizeMax = 20f;
+            m_roleTalkText.textWrappingMode = TextWrappingModes.Normal;
+            m_roleTalkText.overflowMode = TextOverflowModes.Ellipsis;
             m_roleTalkText.gameObject.SetActive(false);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            Debug.Log("[Codex驗證] 對話已改為上方橫向安全區；請確認長句換行且未超出遊戲邊界。", this);
+#endif
+        }
 
+        ConfigureHealProgressLayout();
         CacheVisualState();
         StopFeedbackTweens(true);
         UpdateHealProgressImmediate();
@@ -80,6 +125,50 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
 
         if (m_cardHud)
             m_cardHud.Initlization();
+    }
+
+    private void ConfigureHealProgressLayout()
+    {
+        if (!m_healProgressRoot)
+            return;
+
+        // 配合 480×320 主版型，進度列位於角色下方、模式面板上方。
+        m_healProgressRoot.gameObject.SetActive(true);
+        m_healProgressRoot.anchorMin = new Vector2(0.5f, 1f);
+        m_healProgressRoot.anchorMax = new Vector2(0.5f, 1f);
+        m_healProgressRoot.pivot = new Vector2(0.5f, 1f);
+        m_healProgressRoot.anchoredPosition = new Vector2(0f, -204f);
+        m_healProgressRoot.sizeDelta = new Vector2(260f, 22f);
+        m_healProgressRoot.localScale = Vector3.one;
+        StretchProgressElement(m_enemyHealProgressBar.rectTransform, new Vector2(-8f, -6f));
+        m_enemyHealProgressBar.gameObject.SetActive(true);
+        m_enemyHealProgressBar.enabled = true;
+        m_enemyHealProgressBar.type = Image.Type.Filled;
+        m_enemyHealProgressBar.fillMethod = Image.FillMethod.Horizontal;
+        m_enemyHealProgressBar.fillOrigin = 0;
+        m_enemyHealProgressBar.color = new Color32(133, 176, 94, 255);
+        StretchProgressElement(m_enemyHealProgressText.rectTransform, Vector2.zero);
+        m_enemyHealProgressText.fontSize = 14f;
+        m_enemyHealProgressText.enableAutoSizing = false;
+        m_enemyHealProgressText.margin = Vector4.zero;
+        m_enemyHealProgressText.alignment = TextAlignmentOptions.Center;
+        m_enemyHealProgressText.color = new Color32(63, 43, 27, 255);
+        m_enemyHealProgressText.gameObject.SetActive(true);
+        if (m_pendingHealPulse)
+            StretchProgressElement(m_pendingHealPulse.rectTransform, Vector2.zero);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        Debug.Log("[Codex驗證] 療癒進度列已啟用並定位於角色下方；請確認百分比與填充隨療癒增加。", this);
+#endif
+    }
+
+    private static void StretchProgressElement(RectTransform rect, Vector2 size)
+    {
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.anchoredPosition = Vector2.zero;
+        rect.sizeDelta = size;
+        rect.localScale = Vector3.one;
     }
 
     public void ApplyDieAction(Action dieActionCallBack)
@@ -194,29 +283,140 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
 
     public void PlayHealCompleteAnimation(Action callBack)
     {
-        StopCompletionFeedback();
+        BeginExit(null, callBack);
+    }
+
+    internal void BeginHandoff(Action midpoint)
+    {
+        BeginExit(midpoint, null);
+    }
+
+    private void BeginExit(Action midpoint, Action completed)
+    {
+        m_isBouncing = false;
+        m_isEntering = false;
+        m_enterCompleted = null;
         StopPendingHealFeedback();
+        m_enemyRect.localScale = m_enemyBaseScale;
+        m_enemyRect.anchoredPosition = m_enemyBasePosition;
+        m_departingImage.sprite = m_enemyImage.sprite;
+        m_departingImage.color = m_enemyBaseColor;
+        m_departingImage.fillAmount = 1f;
+        m_departingImage.enabled = true;
+        m_departingRect.anchorMin = m_enemyRect.anchorMin;
+        m_departingRect.anchorMax = m_enemyRect.anchorMax;
+        m_departingRect.pivot = m_enemyRect.pivot;
+        m_departingRect.sizeDelta = m_enemyRect.sizeDelta;
+        m_departingRect.anchoredPosition = m_enemyBasePosition;
+        m_departingRect.localScale = m_enemyBaseScale;
+        m_departingRect.localRotation = m_enemyRect.localRotation;
+        m_departingImage.gameObject.SetActive(true);
+        m_enemyImage.enabled = false;
+        m_exitElapsed = 0f;
+        m_isExiting = true;
+        m_exitMidpoint = midpoint;
+        m_exitCompleted = completed;
+    }
 
-        if (m_progressFillTween.isAlive == false)
-            m_enemyHealProgressBar.fillAmount = 1f;
+    internal void BeginEntrance(Action completed)
+    {
+        m_isBouncing = false;
+        m_isEntering = true;
+        m_enterElapsed = 0f;
+        m_enterCompleted = completed;
+        m_enemyImage.enabled = m_enemyImage.sprite != null;
+        m_enemyRect.localScale = m_enemyBaseScale;
+        ApplyMovingVisual(m_enemyImage, m_enemyRect, 1f, 0f);
+    }
 
-        m_completeSequence = Sequence.Create()
-            .ChainDelay(k_progressFillDuration + k_completeHoldDuration)
-            .Chain(Tween.PunchScale(
-                m_enemyRect,
-                s_completePulseStrength,
-                k_completeExitDuration,
-                frequency: 3f,
-                easeBetweenShakes: Ease.OutSine))
-            .Group(Tween.UIFillAmount(
-                m_enemyImage,
-                m_enemyImage.fillAmount,
-                0f,
-                k_completeExitDuration,
-                Ease.InCubic));
+    internal void PlaySoftHit()
+    {
+        if (m_isExiting || m_isEntering)
+            return;
 
-        if (callBack != null)
-            m_completeSequence.OnComplete(callBack, static action => action.Invoke(), false);
+        m_hitStartScale = m_enemyRect.localScale;
+        m_hitStartPosition = m_enemyRect.anchoredPosition;
+        m_hitElapsed = 0f;
+        m_isBouncing = true;
+    }
+
+    private void ApplyMovingVisual(Image image, RectTransform rect, float distance, float alpha)
+    {
+        // 緩慢向右移動並上下起伏，保持面向與圖像完整，不以填充裁切退場。
+        rect.anchoredPosition = m_enemyBasePosition + new Vector2(
+            100f * distance, Mathf.Sin(distance * Mathf.PI * 2f) * 8f);
+        Color color = m_enemyBaseColor;
+        color.a *= alpha;
+        image.color = color;
+    }
+
+    private void Update()
+    {
+        float deltaTime = Time.unscaledDeltaTime;
+        bool wasEntering = m_isEntering;
+        if (m_isExiting)
+        {
+            m_exitElapsed += deltaTime;
+            float progress = Mathf.Clamp01((m_exitElapsed - k_completeHoldDuration) / k_completeExitDuration);
+            float eased = Mathf.SmoothStep(0f, 1f, progress);
+            ApplyMovingVisual(m_departingImage, m_departingRect, eased, 1f - eased);
+            if (progress >= 0.5f && m_exitMidpoint != null)
+            {
+                Action midpoint = m_exitMidpoint;
+                m_exitMidpoint = null;
+                midpoint.Invoke();
+            }
+            if (progress >= 1f)
+            {
+                m_isExiting = false;
+                m_departingImage.gameObject.SetActive(false);
+                Action completed = m_exitCompleted;
+                m_exitCompleted = null;
+                completed?.Invoke();
+            }
+        }
+
+        if (m_isEntering)
+        {
+            // 在同一幀由退場回呼開始進場時，不重複計入整幀時間。
+            m_enterElapsed += wasEntering ? deltaTime : 0f;
+            float progress = Mathf.Clamp01(m_enterElapsed);
+            float eased = Mathf.SmoothStep(0f, 1f, progress);
+            ApplyMovingVisual(m_enemyImage, m_enemyRect, 1f - eased, eased);
+            if (progress >= 1f && !m_isExiting)
+            {
+                m_isEntering = false;
+                Action completed = m_enterCompleted;
+                m_enterCompleted = null;
+                completed?.Invoke();
+            }
+        }
+        else if (m_isBouncing)
+        {
+            m_hitElapsed += deltaTime;
+            float progress = Mathf.Clamp01(m_hitElapsed / k_rolePulseDuration);
+            if (progress < 0.25f)
+            {
+                float eased = Mathf.SmoothStep(0f, 1f, progress * 4f);
+                m_enemyRect.localScale = Vector3.Lerp(m_hitStartScale,
+                    Vector3.Scale(m_enemyBaseScale, new Vector3(1.08f, 0.92f, 1f)), eased);
+                m_enemyRect.anchoredPosition = Vector2.Lerp(m_hitStartPosition, m_enemyBasePosition, eased);
+            }
+            else
+            {
+                float spring = (progress - 0.25f) / 0.75f;
+                float wave = Mathf.Cos(spring * Mathf.PI * 2f) * (1f - spring) * (1f - spring);
+                m_enemyRect.localScale = Vector3.Scale(m_enemyBaseScale,
+                    new Vector3(1f + 0.08f * wave, 1f - 0.08f * wave, 1f));
+                m_enemyRect.anchoredPosition = m_enemyBasePosition + Vector2.up * (6f * Mathf.Sin(spring * Mathf.PI));
+            }
+            if (progress >= 1f)
+            {
+                m_isBouncing = false;
+                m_enemyRect.localScale = m_enemyBaseScale;
+                m_enemyRect.anchoredPosition = m_enemyBasePosition;
+            }
+        }
     }
 
     private void UpdateHealProgressImmediate()
@@ -303,15 +503,7 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
                 easeBetweenShakes: Ease.OutSine);
         }
 
-        if (m_rolePulseTween.isAlive)
-            m_rolePulseTween.Stop();
-        m_enemyRect.localScale = m_enemyBaseScale;
-        m_rolePulseTween = Tween.PunchScale(
-            m_enemyRect,
-            s_rolePulseStrength,
-            k_rolePulseDuration,
-            frequency: 3f,
-            easeBetweenShakes: Ease.OutSine);
+        PlaySoftHit();
     }
 
     private void CacheVisualState()
@@ -341,11 +533,9 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
             m_progressFillTween.Stop();
         if (m_progressPulseTween.isAlive)
             m_progressPulseTween.Stop();
-        if (m_rolePulseTween.isAlive)
-            m_rolePulseTween.Stop();
 
         StopPendingHealFeedback();
-        StopCompletionFeedback();
+
 
         if (restoreVisualState == false || m_hasCachedVisualState == false)
             return;
@@ -354,8 +544,14 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
             m_healProgressRoot.localScale = m_healProgressBaseScale;
         if (m_enemyRect)
             m_enemyRect.localScale = m_enemyBaseScale;
+        m_isBouncing = false;
+        if (m_enemyRect)
+            m_enemyRect.anchoredPosition = m_enemyBasePosition;
         if (m_enemyImage)
+        {
             m_enemyImage.fillAmount = 1f;
+            m_enemyImage.color = m_enemyBaseColor;
+        }
         if (m_enemyHealProgressBar)
             m_enemyHealProgressBar.fillAmount = GetNormalizedHealProgress();
         ResetPendingHealVisual();
@@ -368,11 +564,6 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
         ResetPendingHealVisual();
     }
 
-    private void StopCompletionFeedback()
-    {
-        if (m_completeSequence.isAlive)
-            m_completeSequence.Stop();
-    }
 
     private void ResetPendingHealVisual()
     {
@@ -385,8 +576,22 @@ public class RoleSpawnHUD : MonoBehaviour, IInitlization
         m_pendingHealPulse.color = color;
     }
 
+    internal void CancelRoleMotion()
+    {
+        m_isExiting = false;
+        m_isEntering = false;
+        m_exitMidpoint = null;
+        m_exitCompleted = null;
+        m_enterCompleted = null;
+        if (m_departingImage)
+            m_departingImage.gameObject.SetActive(false);
+        StopFeedbackTweens(true);
+        if (m_enemyImage)
+            m_enemyImage.enabled = m_enemyImage.sprite != null;
+    }
+
     private void OnDisable()
     {
-        StopFeedbackTweens(true);
+        CancelRoleMotion();
     }
 }

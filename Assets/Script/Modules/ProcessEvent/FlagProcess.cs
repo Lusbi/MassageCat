@@ -22,7 +22,7 @@ public class FlagProcess : IProcessEvent
     {
         if (Database<FlagData>.Exists(m_flagKey) == false)
         {
-            eLog.Error("ºX¼Ğ¸ê®Æ¦³¿ù¡A½Ğ­«·sÀË¬d");
+            eLog.Error("æ——æ¨™è³‡æ–™æœ‰éŒ¯ï¼Œè«‹é‡æ–°æª¢æŸ¥");
             return false;
         }
 

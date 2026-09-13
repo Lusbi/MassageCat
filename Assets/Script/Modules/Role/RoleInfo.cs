@@ -5,5 +5,5 @@ public class RoleInfo : ItemDataBase
 {
     public RoleData roleData;
     public bool isNew;
-    // À»±þ¦¸¼Æ
+    // æ“Šæ®ºæ¬¡æ•¸
 }

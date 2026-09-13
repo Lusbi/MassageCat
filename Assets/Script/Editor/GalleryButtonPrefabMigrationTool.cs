@@ -11,7 +11,7 @@ using UnityEngine.UI;
 internal static class GalleryButtonPrefabMigrationTool
 {
     private const string k_inBattlePrefabPath = "Assets/2DArt/UI/InBattle.prefab";
-    private const string k_galleryIconPath = "Assets/2DArt/UI/kenney_game-icons/PNG/White/2x/menuGrid.png";
+    private const string k_galleryIconPath = "Assets/2DArt/DesktopPet/ChibiPaper/gallery_icon_v1.png";
     private const string k_localizationCollectionName = "LocalizationCollection";
     private const string k_galleryButtonTypeName = "MassageCat.Gallery.GalleryButton, Assembly-CSharp";
     private const string k_unlockFlagKey = "擊殺_紙箱";
@@ -31,9 +31,9 @@ internal static class GalleryButtonPrefabMigrationTool
             if (tomatoButton == null || battlePanel == null)
                 throw new InvalidOperationException("InBattle Prefab 缺少蕃茄鐘按鈕或 BattlePanel。");
 
-            Type galleryButtonType = Type.GetType(k_galleryButtonTypeName, true);
             Transform buttonParent = tomatoButton.transform.parent;
-            Transform previousGallery = buttonParent.Find("Gallery");
+            Type galleryButtonType = Type.GetType(k_galleryButtonTypeName, true);
+            Transform previousGallery = buttonParent.GetComponentInChildren(galleryButtonType, true)?.transform;
             if (previousGallery != null)
                 UnityEngine.Object.DestroyImmediate(previousGallery.gameObject);
 
@@ -85,7 +85,10 @@ internal static class GalleryButtonPrefabMigrationTool
         try
         {
             TomatoButton tomatoButton = prefabRoot.GetComponentInChildren<TomatoButton>(true);
-            Transform gallery = tomatoButton != null ? tomatoButton.transform.parent.Find("Gallery") : null;
+            Type galleryButtonType = Type.GetType(k_galleryButtonTypeName, true);
+            Transform gallery = tomatoButton != null
+                ? tomatoButton.transform.parent.GetComponentInChildren(galleryButtonType, true)?.transform
+                : null;
             if (tomatoButton == null || gallery == null)
                 throw new InvalidOperationException("找不到蕃茄鐘右側的 Gallery 按鈕。");
 
@@ -110,7 +113,6 @@ internal static class GalleryButtonPrefabMigrationTool
             if (canvasGroup == null || button == null || hasNonRaycastIcon == false || hasRaycastTarget == false)
                 throw new InvalidOperationException("Gallery 按鈕的顯示或點擊元件不完整。");
 
-            Type galleryButtonType = Type.GetType(k_galleryButtonTypeName, true);
             Component galleryButton = gallery.GetComponent(galleryButtonType);
             BattlePanel battlePanel = prefabRoot.GetComponent<BattlePanel>();
             SerializedObject battlePanelObject = new SerializedObject(battlePanel);
@@ -142,16 +144,13 @@ internal static class GalleryButtonPrefabMigrationTool
         if (importer == null)
             throw new FileNotFoundException("找不到圖鑑圖示。", k_galleryIconPath);
 
-        if (importer.spriteImportMode == SpriteImportMode.Single)
-            return;
-
-        importer.spriteImportMode = SpriteImportMode.Single;
-        importer.SaveAndReimport();
+        // 保留紙繪素材原有的 Sprite GUID 與切片。
+        ChibiPaperArtMigration.LoadNamedSprite(k_galleryIconPath);
     }
 
     private static Image CreateIcon(RectTransform parent)
     {
-        Sprite iconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(k_galleryIconPath);
+        Sprite iconSprite = ChibiPaperArtMigration.LoadNamedSprite(k_galleryIconPath);
         if (iconSprite == null)
             throw new InvalidOperationException("無法載入圖鑑圖示 Sprite。");
 

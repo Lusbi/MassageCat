@@ -42,16 +42,16 @@ public class SpellHandler : MonoBehaviour, IInitlization
     private const float k_errorColorDuration = 0.16f;
     private const int k_warningSecondThreshold = 30;
     private const int k_dangerSecondThreshold = 10;
-    private const string k_typedColorTag = "<color=#91E6B2>";
-    private const string k_nextColorTag = "<color=#FFD36A>";
-    private const string k_remainingColorTag = "<color=#FFF4E5>";
+    private const string k_typedColorTag = "<color=#24502A>";
+    private const string k_nextColorTag = "<color=#9B2914>";
+    private const string k_remainingColorTag = "<color=#2A1C12>";
     private const string k_colorEndTag = "</color>";
 
     private static readonly Color s_promptBorderColor = new Color32(143, 165, 217, 153);
     private static readonly Color s_errorColor = new Color32(255, 141, 136, 255);
-    private static readonly Color s_timerNormalColor = new Color32(220, 229, 255, 255);
-    private static readonly Color s_timerWarningColor = new Color32(255, 211, 106, 255);
-    private static readonly Color s_timerDangerColor = new Color32(255, 141, 136, 255);
+    private static readonly Color s_timerNormalColor = new Color32(75, 43, 27, 255);
+    private static readonly Color s_timerWarningColor = new Color32(160, 89, 18, 255);
+    private static readonly Color s_timerDangerColor = new Color32(184, 45, 38, 255);
     private static readonly Vector3 s_timerPulseStrength = new Vector3(0.08f, 0.08f, 0f);
     private static readonly Vector2[] s_sparkleEndOffsets =
     {
@@ -107,6 +107,25 @@ public class SpellHandler : MonoBehaviour, IInitlization
     public int CompletedQuestCount => m_completedQuestCount;
 
     public bool isSpelling { get; private set; }
+    private bool m_transitionPaused;
+
+    internal void SetTransitionPaused(bool paused)
+    {
+        m_transitionPaused = paused;
+        if (m_nextQuestTween.isAlive)
+            m_nextQuestTween.isPaused = paused;
+        if (m_promptShakeTween.isAlive)
+            m_promptShakeTween.isPaused = paused;
+        if (m_promptColorTween.isAlive)
+            m_promptColorTween.isPaused = paused;
+        if (m_timerPulseTween.isAlive)
+            m_timerPulseTween.isPaused = paused;
+        for (int i = 0; i < m_completionSequences.Length; i++)
+        {
+            if (m_completionSequences[i].isAlive)
+                m_completionSequences[i].isPaused = paused;
+        }
+    }
 
     public event Action<SpellStopReason> SpellStopped;
 
@@ -125,9 +144,9 @@ public class SpellHandler : MonoBehaviour, IInitlization
         Clear();
         ClearTranslationText();
 
-        // 舊翻譯欄位只保留序列化相容；實際內容改由角色說話位置呈現。
-        if (m_translationText && m_translationText.gameObject.activeSelf)
-            m_translationText.gameObject.SetActive(false);
+        // 翻譯沿用既有文字元件，與題目並列在展開面板中。
+        if (m_translationText)
+            m_translationText.gameObject.SetActive(true);
     }
 
     public void SpellStart()
@@ -209,6 +228,8 @@ public class SpellHandler : MonoBehaviour, IInitlization
 
     public bool InputChar(string inputChar)
     {
+        if (m_transitionPaused || !isSpelling)
+            return false;
         if (string.IsNullOrEmpty(inputChar) || string.IsNullOrEmpty(m_quest))
             return false;
 
@@ -284,6 +305,12 @@ public class SpellHandler : MonoBehaviour, IInitlization
 
     private void UpdateQuestTranslationText()
     {
+        if (m_translationText)
+        {
+            m_translationText.SetText(m_chineseQuest);
+            return;
+        }
+
         if (string.IsNullOrEmpty(m_chineseQuest))
             return;
 
@@ -365,7 +392,7 @@ public class SpellHandler : MonoBehaviour, IInitlization
 
     public void Tick(float deltaTime)
     {
-        if (!isSpelling)
+        if (!isSpelling || m_transitionPaused)
             return;
 
         m_durationTime -= deltaTime;
@@ -542,9 +569,6 @@ public class SpellHandler : MonoBehaviour, IInitlization
 
         if (m_timerPulseTween.isAlive)
             m_timerPulseTween.Stop();
-        if (m_nextQuestTween.isAlive)
-            m_nextQuestTween.Stop();
-
         m_timerRoot.localScale = m_timerBaseScale;
         m_timerPulseTween = Tween.PunchScale(
             m_timerRoot,
@@ -594,6 +618,9 @@ public class SpellHandler : MonoBehaviour, IInitlization
     private void StopVisualFeedback()
     {
         CacheVisualState();
+
+        if (m_nextQuestTween.isAlive)
+            m_nextQuestTween.Stop();
 
         if (m_promptShakeTween.isAlive)
             m_promptShakeTween.Stop();

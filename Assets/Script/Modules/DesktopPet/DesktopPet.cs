@@ -3,7 +3,7 @@ using UnityEngine;
 public class DesktopPet : MonoBehaviour
 {
     public float moveSpeed = 2f;
-    public float moveInterval = 2f; // ¨C¦¸¦æ°Êªº¶¡¹j®É¶¡
+    public float moveInterval = 2f; // æ¯æ¬¡è¡Œå‹•çš„é–“éš”æ™‚é–“
     private Vector3 targetPosition;
     private float moveTimer;
 
@@ -43,7 +43,7 @@ public class DesktopPet : MonoBehaviour
 
     void OnMouseDown()
     {
-        // ·íÂIÀ»Ãdª«®É¡A°õ¦æ¤@¨Ç¤¬°Ê¦æ¬°
-        Debug.Log("Ãdª«³QÂIÀ»¤F¡I");
+        // ç•¶é»æ“Šå¯µç‰©æ™‚ï¼ŒåŸ·è¡Œä¸€äº›äº’å‹•è¡Œç‚º
+        Debug.Log("å¯µç‰©è¢«é»æ“Šäº†ï¼");
     }
 }

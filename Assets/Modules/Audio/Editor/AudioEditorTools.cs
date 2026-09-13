@@ -24,7 +24,7 @@ namespace Modules.Audio.Editor
 
         private static void CreateAudioDataForSelection(string targetFolder, string typeName)
         {
-            // ½T«O¥Ø¿ı¦s¦b
+            // ç¢ºä¿ç›®éŒ„å­˜åœ¨
             if (!Directory.Exists(targetFolder))
             {
                 Directory.CreateDirectory(targetFolder);
@@ -39,19 +39,19 @@ namespace Modules.Audio.Editor
                     string assetName = $"Data_{clip.name}";
                     string fullPath = $"{targetFolder}/{assetName}.asset";
 
-                    // ÀË¬d¬O§_¤w¦s¦b
+                    // æª¢æŸ¥æ˜¯å¦å·²å­˜åœ¨
                     if (File.Exists(fullPath))
                     {
-                        Debug.LogWarning($"[AudioEditor] ÀÉ®×¤w¦s¦b¡A¸õ¹L: {fullPath}");
+                        Debug.LogWarning($"[AudioEditor] æª”æ¡ˆå·²å­˜åœ¨ï¼Œè·³é: {fullPath}");
                         continue;
                     }
 
-                    // «Ø¥ß AudioData
+                    // å»ºç«‹ AudioData
                     AudioData data = ScriptableObject.CreateInstance<AudioData>();
                     data.clip = clip;
                     
-                    // ¹Á¸Õ¦Û°Ê³]©w Mixer Group (­Y¦³¹ïÀ³¦WºÙªº Group)
-                    // ³o¸Ì¶È§@Â²³æ¹w³]¡A¹ê»Ú Group »İ¥Ñ¨Ï¥ÎªÌ¤â°Ê«ü©w©Î¶i¶¥ÅŞ¿è
+                    // å˜—è©¦è‡ªå‹•è¨­å®š Mixer Group (è‹¥æœ‰å°æ‡‰åç¨±çš„ Group)
+                    // é€™è£¡åƒ…ä½œç°¡å–®é è¨­ï¼Œå¯¦éš› Group éœ€ç”±ä½¿ç”¨è€…æ‰‹å‹•æŒ‡å®šæˆ–é€²éšé‚è¼¯
                     // data.outputGroup = ... 
 
                     AssetDatabase.CreateAsset(data, fullPath);
@@ -61,10 +61,10 @@ namespace Modules.Audio.Editor
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            Debug.Log($"[AudioEditor] ¤w«Ø¥ß {count} ­Ó {typeName} AudioData ©ó {targetFolder}");
+            Debug.Log($"[AudioEditor] å·²å»ºç«‹ {count} å€‹ {typeName} AudioData æ–¼ {targetFolder}");
         }
 
-        // ÅçÃÒ¨ç¦¡¡G¥u¦³¿ï¨ú AudioClip ®É¤~±Ò¥Î¿ï³æ
+        // é©—è­‰å‡½å¼ï¼šåªæœ‰é¸å– AudioClip æ™‚æ‰å•Ÿç”¨é¸å–®
         [MenuItem("CI/Audio/BGM", true)]
         [MenuItem("CI/Audio/SFX", true)]
         private static bool ValidateCreateAudioData()

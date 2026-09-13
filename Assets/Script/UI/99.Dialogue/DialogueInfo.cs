@@ -3,19 +3,19 @@ using UnityEngine;
 public struct DialogueInfo
 {
     /// <summary>
-    /// »¡¸ÜªÌ¦WºÙ
+    /// èªªè©±è€…åç¨±
     /// </summary>
     public string talkName;
     /// <summary>
-    /// ¹ï¸Ü¤º®e
+    /// å°è©±å…§å®¹
     /// </summary>
     public string content;
     /// <summary>
-    /// «ùÄò®É¶¡
+    /// æŒçºŒæ™‚é–“
     /// </summary>
     public float durationTime;
     /// <summary>
-    /// ¬O§_¥i¥HÂIÀ»¨ú®ø
+    /// æ˜¯å¦å¯ä»¥é»æ“Šå–æ¶ˆ
     /// </summary>
     public bool blockClick;
 }

@@ -8,6 +8,7 @@ using UnityEngine;
 public class RoleScrollRect : MonoBehaviour
 {
     private const float k_idleArrowAlpha = 0.35f;
+    private const float k_disabledArrowAlpha = 0.18f;
 
     [SerializeField] private UIButton m_leftArrowButton;
     [SerializeField] private UIButton m_rightArrowButton;
@@ -22,6 +23,7 @@ public class RoleScrollRect : MonoBehaviour
     private int m_currentRoleIndex = -1;
     private bool m_isArrowInteractionEnabled = true;
     private bool m_isInitialized;
+    private bool m_desktopPetCompactLayout = true;
 
     private void Awake()
     {
@@ -172,7 +174,8 @@ public class RoleScrollRect : MonoBehaviour
                 m_leftArrowButton,
                 m_leftArrowCanvasGroup,
                 CanSelectRole(m_currentRoleIndex - 1),
-                m_isArrowInteractionEnabled);
+                m_isArrowInteractionEnabled,
+                m_desktopPetCompactLayout);
         }
 
         if (m_rightArrowButton != null)
@@ -181,7 +184,8 @@ public class RoleScrollRect : MonoBehaviour
                 m_rightArrowButton,
                 m_rightArrowCanvasGroup,
                 CanSelectRole(m_currentRoleIndex + 1),
-                m_isArrowInteractionEnabled);
+                m_isArrowInteractionEnabled,
+                m_desktopPetCompactLayout);
         }
     }
 
@@ -189,12 +193,16 @@ public class RoleScrollRect : MonoBehaviour
         UIButton button,
         CanvasGroup canvasGroup,
         bool isVisible,
-        bool isInteractionEnabled)
+        bool isInteractionEnabled,
+        bool keepVisibleWhenDisabled)
     {
         if (isVisible == false)
         {
             button.hover = false;
-            button.Show(false);
+            button.locked = true;
+            if (canvasGroup != null)
+                canvasGroup.alpha = k_disabledArrowAlpha;
+            button.Show(keepVisibleWhenDisabled);
             return;
         }
 

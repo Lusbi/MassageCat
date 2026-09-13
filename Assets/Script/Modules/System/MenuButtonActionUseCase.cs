@@ -34,7 +34,7 @@ public class MenuButtonActionUseCase
     }
 
     /// <summary>
-    /// ªğ¦^¥D­¶­±
+    /// è¿”å›ä¸»é é¢
     /// </summary>
     private void Action_Main()
     {
@@ -42,7 +42,7 @@ public class MenuButtonActionUseCase
     }
 
     /// <summary>
-    /// ¤Á´«ª¬ºA­¶
+    /// åˆ‡æ›ç‹€æ…‹é 
     /// </summary>
     private void Action_Status()
     {
@@ -50,7 +50,7 @@ public class MenuButtonActionUseCase
     }
 
     /// <summary>
-    /// ¤Á´«¸Ë³Æ­¶
+    /// åˆ‡æ›è£å‚™é 
     /// </summary>
     private void Action_Equipment()
     {
@@ -58,21 +58,21 @@ public class MenuButtonActionUseCase
     }
 
     /// <summary>
-    /// ¤Á´«§Ş¯à­¶
+    /// åˆ‡æ›æŠ€èƒ½é 
     /// </summary>
     private void Action_Skill() 
     {
     }
 
     /// <summary>
-    /// ¤Á´«°Ó©±­¶
+    /// åˆ‡æ›å•†åº—é 
     /// </summary>
     private void Action_Shop() 
     {
     }
 
     /// <summary>
-    /// ¤Á´«¥ô°È­¶
+    /// åˆ‡æ›ä»»å‹™é 
     /// </summary>
     private void Action_Mission()
     {
@@ -80,14 +80,14 @@ public class MenuButtonActionUseCase
     }
 
     /// <summary>
-    /// ¤Á´«¼@±¡­¶
+    /// åˆ‡æ›åŠ‡æƒ…é 
     /// </summary>
     private void Action_Story() 
     { 
     }
 
     /// <summary>
-    /// ¤Á´«¿ï¶µ­¶
+    /// åˆ‡æ›é¸é …é 
     /// </summary>
     private void Action_Options()
     {

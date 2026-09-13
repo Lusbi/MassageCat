@@ -25,7 +25,7 @@ public class LocalizationManager : Singleton<LocalizationManager>, IInitlization
 
         if (localizationOperation.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Failed)
         {
-            eLog.Error($"{GetType().ToString()}¸ü¤J¦h°ê»y¨t¥¢±Ñ");
+            eLog.Error($"{GetType().ToString()}è¼‰å…¥å¤šåœ‹èªç³»å¤±æ•—");
             m_initlizationCallBack?.Invoke();
             return;
         }
@@ -35,7 +35,7 @@ public class LocalizationManager : Singleton<LocalizationManager>, IInitlization
     }
 
     /// <summary>
-    /// ¨ú¦h°ê­È
+    /// å–å¤šåœ‹å€¼
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
@@ -43,7 +43,7 @@ public class LocalizationManager : Singleton<LocalizationManager>, IInitlization
     {
         if (m_localizationStringTable == null)
         {
-            return "¦h°ê»y¨t¸ü¤J¥¢±Ñ¡AµLªkÅª¨ú¡C";
+            return "å¤šåœ‹èªç³»è¼‰å…¥å¤±æ•—ï¼Œç„¡æ³•è®€å–ã€‚";
         }
 
         string result = m_localizationStringTable.GetEntry(key)?.GetLocalizedString();

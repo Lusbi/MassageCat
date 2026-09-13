@@ -4,7 +4,7 @@ using Modules.Audio;
 namespace Modules.Audio.Tests
 {
     /// <summary>
-    /// ­µ®Ä¨t²Î´ú¸Õ¸}¥»
+    /// éŸ³æ•ˆç³»çµ±æ¸¬è©¦è…³æœ¬
     /// </summary>
     public class AudioTest : MonoBehaviour
     {
@@ -22,21 +22,21 @@ namespace Modules.Audio.Tests
 
         private void Update()
         {
-            // ´ú¸Õ¼½©ñ BGM
+            // æ¸¬è©¦æ’­æ”¾ BGM
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 Debug.Log($"[AudioTest] Play BGM: {bgmKey}");
                 AudioManager.Instance.PlayBGM(bgmKey);
             }
 
-            // ´ú¸Õ°±¤î BGM
+            // æ¸¬è©¦åœæ­¢ BGM
             if (Input.GetKeyDown(KeyCode.W))
             {
                 Debug.Log("[AudioTest] Stop BGM");
                 AudioManager.Instance.StopBGM();
             }
 
-            // ´ú¸Õ¼½©ñ SFX
+            // æ¸¬è©¦æ’­æ”¾ SFX
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log($"[AudioTest] Play SFX: {sfxKey}");
@@ -44,7 +44,7 @@ namespace Modules.Audio.Tests
             }
         }
 
-        // ´ú¸Õ­µ¶q½Õ¾ã (¥i³z¹L Inspector ©Ô°Ê Slider ´ú¸Õ)
+        // æ¸¬è©¦éŸ³é‡èª¿æ•´ (å¯é€é Inspector æ‹‰å‹• Slider æ¸¬è©¦)
         public void OnMasterVolumeChanged(float value)
         {
             AudioManager.Instance.SetMasterVolume(value);

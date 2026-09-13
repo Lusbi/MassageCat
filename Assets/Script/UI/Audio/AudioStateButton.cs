@@ -12,6 +12,12 @@ public class AudioStateButton : MonoBehaviour , IInitlization
     [SerializeField] private GameObject m_disableIcon;
 
     private bool m_state;
+    private void LateUpdate()
+    {
+        // 設定面板與快捷鍵也能切換音效，只在狀態改變時更新圖示。
+        if (AudioClipManager.instance != null && m_state != AudioClipManager.instance.IsSFXEnabled)
+            UpdateUI();
+    }
     public void Initlization(Action callBack = null)
     {
         m_button.onClicked = OnButtonClick;
@@ -21,7 +27,7 @@ public class AudioStateButton : MonoBehaviour , IInitlization
 
     private void OnButtonClick(UIButton button)
     {
-        m_state = !m_state;
+        m_state = !AudioClipManager.instance.IsSFXEnabled;
         if (m_state)
             AudioClipManager.instance.EnableSFX();
         else

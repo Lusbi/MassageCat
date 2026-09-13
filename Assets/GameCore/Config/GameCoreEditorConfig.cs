@@ -8,7 +8,7 @@ namespace GameCore
     public static class MenuItemConfig
     {
         public const string MENUITEM_TITLE = "GameCoreTool/";
-        public const string TOOL_ATTRIBUTE = MENUITEM_TITLE + "Äİ©Ê³Ğ«Ø¤u¨ã";
-        public const string TOOL_DEVELOPERWINDOW = MENUITEM_TITLE + "¾ã¦X¶}µo¤u¨ã";
+        public const string TOOL_ATTRIBUTE = MENUITEM_TITLE + "å±¬æ€§å‰µå»ºå·¥å…·";
+        public const string TOOL_DEVELOPERWINDOW = MENUITEM_TITLE + "æ•´åˆé–‹ç™¼å·¥å…·";
     }
 }

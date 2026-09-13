@@ -4,6 +4,6 @@ namespace GameCore
 {
     public static class DeveloperConfig
     {
-        public const string DEVELOPER_UI = "½s¿è¾¹/¤¶­±³]©w¤u¨ã";
+        public const string DEVELOPER_UI = "ç·¨è¼¯å™¨/ä»‹é¢è¨­å®šå·¥å…·";
     }
 }

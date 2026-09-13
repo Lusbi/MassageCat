@@ -7,15 +7,15 @@ namespace GameCore.Buff
 {
     public enum BuffConditionType
     {
-        [Description("§ğÀ»¤èÄİ©Ê")]
+        [Description("æ”»æ“Šæ–¹å±¬æ€§")]
         attackerAttribute,
-        [Description("¥Ø¼Ğ¤èÄİ©Ê")]
+        [Description("ç›®æ¨™æ–¹å±¬æ€§")]
         targetAttribute,
-        [Description("¶ZÂ÷")]
+        [Description("è·é›¢")]
         distance,
-        [Description("§ğÀ»¤èª¬ºA°Ñ¦Òºóµü")]
+        [Description("æ”»æ“Šæ–¹ç‹€æ…‹åƒè€ƒç¶´è©")]
         attackerBuffHastags,
-        [Description("¥Ø¼Ğ¤èª¬ºA°Ñ¦Òºóµü")]
+        [Description("ç›®æ¨™æ–¹ç‹€æ…‹åƒè€ƒç¶´è©")]
         targetBuffHastags,
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GameCore.Database.Editor
 {
     /// <summary>
-    /// ¹w³]³q¥Î¸ê®Æ·j´M¿ï¶µ
+    /// é è¨­é€šç”¨è³‡æ–™æœå°‹é¸é …
     /// </summary>
     public class DefaultDataSearchOptions<T> : DataSearchOptions<T> where T : Data
     {
@@ -37,7 +37,7 @@ namespace GameCore.Database.Editor
         {
             using (EditorGUI.ChangeCheckScope check = new())
             {
-                m_flags = EditorGUILayout.MaskField(EditorGUIUtility.TrTextContent("©Ò¦³ªÌ", "¿z¿ï¸ê®Æ¨Ó¦Û­ş¨Ç¨Ï¥ÎªÌ"), m_flags, m_userNames);
+                m_flags = EditorGUILayout.MaskField(EditorGUIUtility.TrTextContent("æ‰€æœ‰è€…", "ç¯©é¸è³‡æ–™ä¾†è‡ªå“ªäº›ä½¿ç”¨è€…"), m_flags, m_userNames);
                 if (check.changed)
                 {
                     Enabled = ((m_flags + 1) & ~0) > 1; // Disabled for Nothing or Everything

@@ -23,9 +23,9 @@ namespace FS3.EditorTool.DeveloperTool
 
         private UIType curUIType;
 
-        [TabGroup("Design")][HideLabel, PropertyOrder(5), Title("°ò¥»")] public AddUIEditorUseCase addUIEditorUseCase;
-        [TabGroup("Design")][HideLabel, PropertyOrder(10), ShowIf(nameof(HasText)), Title("¤å¦r")] public TextMeshProUGUIEditorUseCase textMeshProUGUIEditorUseCase;
-        [TabGroup("Design")][HideLabel, PropertyOrder(11), ShowIf(nameof(HasUIButton)), Title("«ö¶s")] public UIButtonCreateEditorUseCase uIButtonCreateEditorUseCase;
+        [TabGroup("Design")][HideLabel, PropertyOrder(5), Title("åŸºæœ¬")] public AddUIEditorUseCase addUIEditorUseCase;
+        [TabGroup("Design")][HideLabel, PropertyOrder(10), ShowIf(nameof(HasText)), Title("æ–‡å­—")] public TextMeshProUGUIEditorUseCase textMeshProUGUIEditorUseCase;
+        [TabGroup("Design")][HideLabel, PropertyOrder(11), ShowIf(nameof(HasUIButton)), Title("æŒ‰éˆ•")] public UIButtonCreateEditorUseCase uIButtonCreateEditorUseCase;
 
         [TabGroup("Sprite Asset")]
         [HideLabel, PropertyOrder(100)]
@@ -41,7 +41,7 @@ namespace FS3.EditorTool.DeveloperTool
             Selection.selectionChanged += OnSelectionChanged;
 
             tMP_SpriteAssetUseCase = new TMP_SpriteAssetUseCase();
-            // ªì¦¸°õ¦æ®É¡A¥ıÀË¬d¤@¦¸
+            // åˆæ¬¡åŸ·è¡Œæ™‚ï¼Œå…ˆæª¢æŸ¥ä¸€æ¬¡
             OnSelectionChanged();
             //colorGammaToLinnerUseCase ??= new ColorGammaToLinnerUseCase();
         }

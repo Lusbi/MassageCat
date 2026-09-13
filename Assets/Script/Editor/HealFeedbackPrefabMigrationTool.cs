@@ -20,17 +20,15 @@ public static class HealFeedbackPrefabMigrationTool
     private const string k_normalHealAnimationPath = "Assets/2DArt/Animation/HealValue_Normal.anim";
     private const string k_strongHealAnimationPath = "Assets/2DArt/Animation/HealValue_Strong.anim";
     private const string k_strongHealEffectAnimationPath = "Assets/2DArt/Animation/StrongHealEffect.anim";
-    private const string k_healProgressTrackPath = "Assets/2DArt/UI/MassageCatUI/HealProgressTrack.png";
-    private const string k_healProgressFillPath = "Assets/2DArt/UI/MassageCatUI/HealProgressFill.png";
+    private const string k_healProgressTrackPath = "Assets/2DArt/DesktopPet/ChibiPaper/support_atlas_v1.png";
+    private const string k_healProgressFillPath = "Assets/2DArt/DesktopPet/ChibiPaper/support_atlas_v1.png";
 
     [MenuItem("Tools/Massage Cat/Migrate Heal Feedback UX")]
     public static void Migrate()
     {
-        ConfigureProgressSpriteImport(k_healProgressTrackPath, new Vector4(150f, 40f, 150f, 40f));
-        ConfigureProgressSpriteImport(k_healProgressFillPath, new Vector4(60f, 40f, 60f, 40f));
-
-        Sprite progressTrackSprite = LoadSprite(k_healProgressTrackPath);
-        Sprite progressFillSprite = LoadSprite(k_healProgressFillPath);
+        // 圖集已於紙繪素材遷移時設定切片與九宮格邊界。
+        Sprite progressTrackSprite = ChibiPaperArtMigration.LoadNamedSprite(k_healProgressTrackPath, "HealProgressTrack");
+        Sprite progressFillSprite = ChibiPaperArtMigration.LoadNamedSprite(k_healProgressFillPath, "HealProgressFill");
         MigrateEnemySpawnPrefab(progressTrackSprite, progressFillSprite);
         MigrateInBattlePrefab(progressTrackSprite, progressFillSprite);
         RenamePrefabRoot(k_healValueTextPrefabPath, "Pool_HealValueText");
@@ -54,35 +52,6 @@ public static class HealFeedbackPrefabMigrationTool
     {
         ValidateInternal();
         Debug.Log("療癒完成度動畫 UX Prefab 驗證通過。");
-    }
-
-    private static void ConfigureProgressSpriteImport(string assetPath, Vector4 border)
-    {
-        AssetDatabase.ImportAsset(
-            assetPath,
-            ImportAssetOptions.ForceSynchronousImport | ImportAssetOptions.ForceUpdate);
-        TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
-        if (importer == null)
-            throw new InvalidOperationException($"找不到進度條圖片：{assetPath}");
-
-        importer.textureType = TextureImporterType.Sprite;
-        importer.spriteImportMode = SpriteImportMode.Single;
-        importer.spritePixelsPerUnit = 100f;
-        importer.spriteBorder = border;
-        importer.alphaIsTransparency = true;
-        importer.mipmapEnabled = false;
-        importer.filterMode = FilterMode.Bilinear;
-        importer.textureCompression = TextureImporterCompression.Uncompressed;
-        importer.maxTextureSize = 1024;
-        importer.SaveAndReimport();
-    }
-
-    private static Sprite LoadSprite(string assetPath)
-    {
-        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
-        if (sprite == null)
-            throw new InvalidOperationException($"進度條圖片不是有效 Sprite：{assetPath}");
-        return sprite;
     }
 
     private static void MigrateEnemySpawnPrefab(Sprite progressTrackSprite, Sprite progressFillSprite)

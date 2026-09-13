@@ -23,7 +23,7 @@ public class AddUIEditorUseCase
         this.callBack = callBack;
     }
 
-    [Button("Canvas View"), ButtonGroup("¥²³Æ")]
+    [Button("Canvas View"), ButtonGroup("å¿…å‚™")]
     private void AddCanvas()
     {
         foreach (GameObject go in m_lists)
@@ -40,7 +40,7 @@ public class AddUIEditorUseCase
         }
     }
 
-    [Button("CanvasGroup"), ButtonGroup("¥²³Æ")]
+    [Button("CanvasGroup"), ButtonGroup("å¿…å‚™")]
     private void AddCanvasGroup()
     {
         foreach (GameObject go in m_lists)
@@ -49,7 +49,7 @@ public class AddUIEditorUseCase
         }
     }
 
-    [Button("TextMeshPro"), ButtonGroup("±`¥Î")]
+    [Button("TextMeshPro"), ButtonGroup("å¸¸ç”¨")]
     private void AddTextMeshProUGUI()
     {
         foreach (GameObject go in m_lists)
@@ -60,7 +60,7 @@ public class AddUIEditorUseCase
         callBack?.Invoke();
     }
 
-    [Button("UIButton"), ButtonGroup("±`¥Î")]
+    [Button("UIButton"), ButtonGroup("å¸¸ç”¨")]
     private void AddUIButton()
     {
         foreach (GameObject go in m_lists)
@@ -70,7 +70,7 @@ public class AddUIEditorUseCase
         callBack?.Invoke();
     }
 
-    [Button("Image"), ButtonGroup("±`¥Î")]
+    [Button("Image"), ButtonGroup("å¸¸ç”¨")]
     private void AddImage()
     {
         foreach (GameObject go in m_lists)
@@ -80,7 +80,7 @@ public class AddUIEditorUseCase
         callBack?.Invoke();
     }
 
-    [Button("RawImage"), ButtonGroup("±`¥Î")]
+    [Button("RawImage"), ButtonGroup("å¸¸ç”¨")]
     private void AddRawImage()
     {
         foreach (GameObject go in m_lists)
@@ -90,7 +90,7 @@ public class AddUIEditorUseCase
         callBack?.Invoke();
     }
 
-    [Button("¶}±Òª«¥ó©³¤U©Ò¦³ªº raycast"), ButtonGroup("¤u¨ã")]
+    [Button("é–‹å•Ÿç‰©ä»¶åº•ä¸‹æ‰€æœ‰çš„ raycast"), ButtonGroup("å·¥å…·")]
     private void EnableRaycast()
     {
         foreach (GameObject go in m_lists)
@@ -101,7 +101,7 @@ public class AddUIEditorUseCase
         }
     }
 
-    [Button("Ãö³¬ª«¥ó©³¤U©Ò¦³ªº raycast"), ButtonGroup("¤u¨ã")]
+    [Button("é—œé–‰ç‰©ä»¶åº•ä¸‹æ‰€æœ‰çš„ raycast"), ButtonGroup("å·¥å…·")]
     private void DisableRaycast()
     {
         foreach (GameObject go in m_lists)

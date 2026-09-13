@@ -26,15 +26,17 @@ namespace MPUIKIT {
             return new Vector2(x, y);
         }
         
-        private static Sprite _emptySprite;
+        private static Sprite s_emptySprite;
 
         internal static Sprite EmptySprite {
             get {
-                if (_emptySprite == null) {
-                    _emptySprite = Resources.Load<Sprite>("mpui_default_empty_sprite");
+                if (s_emptySprite == null) {
+                    MPImageResources settings = Resources.Load<MPImageResources>("MPImageResources");
+                    if (settings != null)
+                        s_emptySprite = settings.EmptySprite;
                 }
 
-                return _emptySprite;
+                return s_emptySprite;
             }
         }
     }

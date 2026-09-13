@@ -12,7 +12,7 @@ using MemberTypes = CsvHelper.Configuration.MemberTypes;
 
 namespace GameCore.Database.Editor
 {
-    /// <summary>¸Ñ¨M¹w³]ClassMap·|¸ÑªRScriptableObjectµ¥¤ŞÀº¤º«ØÃş§O¤§¦¨­ûªº°İÃD</summary>
+    /// <summary>è§£æ±ºé è¨­ClassMapæœƒè§£æScriptableObjectç­‰å¼•æ“å…§å»ºé¡åˆ¥ä¹‹æˆå“¡çš„å•é¡Œ</summary>
     public class DataMap<T> : ClassMap<T> where T : Data
     {
         private static readonly List<Type> enumerableConverters = new()

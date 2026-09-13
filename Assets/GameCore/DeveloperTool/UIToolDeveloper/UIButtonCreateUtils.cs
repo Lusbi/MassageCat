@@ -29,7 +29,7 @@ public class UIButtonCreateEditorUseCase
         }
     }
 
-    [Button("®ÄªG_ÁY©ñ"), ButtonGroup("«ö¶s®ÄªG1")]
+    [Button("æ•ˆæœ_ç¸®æ”¾"), ButtonGroup("æŒ‰éˆ•æ•ˆæœ1")]
     private void AddButtonFx_Scale()
     {
         foreach (UIButton uIButton in m_lists)
@@ -41,7 +41,7 @@ public class UIButtonCreateEditorUseCase
         }
     }
 
-    [Button("®ÄªG_¹Ï¤ù"), ButtonGroup("«ö¶s®ÄªG1")]
+    [Button("æ•ˆæœ_åœ–ç‰‡"), ButtonGroup("æŒ‰éˆ•æ•ˆæœ1")]
     private void AddButtonFx_Sprite()
     {
         foreach (UIButton uIButton in m_lists)
@@ -53,7 +53,7 @@ public class UIButtonCreateEditorUseCase
         }
     }
 
-    [Button("®ÄªG_­µ®Ä"), ButtonGroup("«ö¶s®ÄªG1")]
+    [Button("æ•ˆæœ_éŸ³æ•ˆ"), ButtonGroup("æŒ‰éˆ•æ•ˆæœ1")]
     private void AddButtonFx_SFX()
     {
         foreach (UIButton uIButton in m_lists)
@@ -65,7 +65,7 @@ public class UIButtonCreateEditorUseCase
         }
     }
 
-    [Button("®ÄªG_¶}Ãö"), ButtonGroup("«ö¶s®ÄªG2")]
+    [Button("æ•ˆæœ_é–‹é—œ"), ButtonGroup("æŒ‰éˆ•æ•ˆæœ2")]
     private void AddButtonFx_Active()
     {
         foreach (UIButton uIButton in m_lists)
@@ -77,7 +77,7 @@ public class UIButtonCreateEditorUseCase
         }
     }
 
-    [Button("®ÄªG_ÃC¦â"), ButtonGroup("«ö¶s®ÄªG2")]
+    [Button("æ•ˆæœ_é¡è‰²"), ButtonGroup("æŒ‰éˆ•æ•ˆæœ2")]
     private void AddButtonFx_Color()
     {
         foreach (UIButton uIButton in m_lists)
@@ -88,7 +88,7 @@ public class UIButtonCreateEditorUseCase
             EditorUtility.SetDirty(uIButton);
         }
     }
-    [Button("®ÄªG_°Êµe"), ButtonGroup("«ö¶s®ÄªG2")]
+    [Button("æ•ˆæœ_å‹•ç•«"), ButtonGroup("æŒ‰éˆ•æ•ˆæœ2")]
     private void AddButtonFx_Animation()
     {
         foreach (UIButton uIButton in m_lists)

@@ -11,7 +11,7 @@ using UnityEngine.UI;
 internal static class CardStatusHudMigrationTool
 {
     private const string k_inBattlePrefabPath = "Assets/2DArt/UI/InBattle.prefab";
-    private const string k_cardStatusPath = "Assets/2DArt/UI/MassageCatUI/CardStatus.png";
+    private const string k_cardStatusPath = "Assets/2DArt/DesktopPet/ChibiPaper/controls_atlas_v1.png";
     private static readonly Vector2 s_cardIconSize = new Vector2(72f, 84f);
     private static readonly Vector2 s_cardIconPosition = new Vector2(6f, 0f);
 
@@ -19,7 +19,7 @@ internal static class CardStatusHudMigrationTool
     public static void Migrate()
     {
         ConfigureCardStatusSprite();
-        Sprite cardStatusSprite = AssetDatabase.LoadAssetAtPath<Sprite>(k_cardStatusPath);
+        Sprite cardStatusSprite = ChibiPaperArtMigration.LoadNamedSprite(k_cardStatusPath, "CardStatus");
         if (cardStatusSprite == null)
             throw new InvalidOperationException("找不到卡片狀態圖示 Sprite。\n" + k_cardStatusPath);
 
@@ -113,15 +113,8 @@ internal static class CardStatusHudMigrationTool
         if (importer == null)
             throw new InvalidOperationException("無法取得卡片狀態圖示的匯入器。\n");
 
-        importer.textureType = TextureImporterType.Sprite;
-        importer.spriteImportMode = SpriteImportMode.Single;
-        importer.spritePixelsPerUnit = 100f;
-        importer.alphaIsTransparency = true;
-        importer.mipmapEnabled = false;
-        importer.filterMode = FilterMode.Bilinear;
-        importer.textureCompression = TextureImporterCompression.Uncompressed;
-        importer.maxTextureSize = 512;
-        importer.SaveAndReimport();
+        // 共用圖集中保留既有切片，不可改為單張 Sprite。
+        ChibiPaperArtMigration.LoadNamedSprite(k_cardStatusPath, "CardStatus");
     }
 
     private static void ConfigureCardIcon(Image cardImage, RectTransform progressRoot, Sprite cardStatusSprite)

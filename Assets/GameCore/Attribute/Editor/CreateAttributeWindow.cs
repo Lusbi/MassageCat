@@ -45,16 +45,16 @@ namespace GameCore.Attribute.Editor
         public string errorMessage = string.Empty;
 
         [Space(10)]
-        [LabelText("¦W¦r"), HorizontalGroup]
+        [LabelText("åå­—"), HorizontalGroup]
         public string attributeTypeName;
         [Space(10)]
-        [LabelText("Key­È"), HorizontalGroup]
+        [LabelText("Keyå€¼"), HorizontalGroup]
         public int attributeTypeOrder = 0;
 
         [Space(10)]
-        [LabelText("µù¸Ñ")]
+        [LabelText("è¨»è§£")]
         public string summary;
-        [LabelText("´À´«¤½¦¡")]
+        [LabelText("æ›¿æ›å…¬å¼")]
         public string formula;
         [HideLabel , Multiline(3) , ShowIf("hasFormula")]
         public string formula_ex;
@@ -67,7 +67,7 @@ namespace GameCore.Attribute.Editor
             }
         }
 
-        [Button("¤½¦¡´À´««á¼Ë¤lÀË¬d"), ShowIf("hasFormula")]
+        [Button("å…¬å¼æ›¿æ›å¾Œæ¨£å­æª¢æŸ¥"), ShowIf("hasFormula")]
         private void ConvertFormulaWithEnum()
         {
             formula_ex = CreateAttributeUtils.ConvertFormulaWithEnum(formula);
@@ -82,7 +82,7 @@ namespace GameCore.Attribute.Editor
         private void ResetAttributeType()
         {
             attributeTypeInfos.Clear();
-            // ¦¬¶°¸ê°T
+            // æ”¶é›†è³‡è¨Š
             foreach (AttributeType attributeType in System.Enum.GetValues(typeof(AttributeType)))
             {
                 AttributeTypeInfo attributeTypeInfo = new AttributeTypeInfo(attributeType);
@@ -97,20 +97,20 @@ namespace GameCore.Attribute.Editor
             {
                 if (string.IsNullOrEmpty(attributeTypeName))
                 {
-                    errorMessage = $"Ãş«¬¦WºÙ¤£¯à¬°ªÅ­È";
+                    errorMessage = $"é¡å‹åç¨±ä¸èƒ½ç‚ºç©ºå€¼";
                     return false;
                 }
                 if (SortingCheck() == false)
                 {
-                    errorMessage = $"©Ò³]©wªº index ¦³­«½Æ¡A½Ğ­«·s³]©w";
+                    errorMessage = $"æ‰€è¨­å®šçš„ index æœ‰é‡è¤‡ï¼Œè«‹é‡æ–°è¨­å®š";
                     return false;
                 }
                 if (AttributeTypeCheck() == false)
                 {
-                    errorMessage = $"©Ò³]©wªº ¦WºÙ ¦³­«½Æ¡A½Ğ­«·s³]©w";
+                    errorMessage = $"æ‰€è¨­å®šçš„ åç¨± æœ‰é‡è¤‡ï¼Œè«‹é‡æ–°è¨­å®š";
                     return false;
                 }
-                errorMessage = "¨S¦³°İÃD¡I";
+                errorMessage = "æ²’æœ‰å•é¡Œï¼";
                 return true;
             }
         }
@@ -139,14 +139,14 @@ namespace GameCore.Attribute.Editor
             return true;
         }
 
-        [Button("«Ø¥ß¼Òª©") , ShowIf("careteTemplate")]
+        [Button("å»ºç«‹æ¨¡ç‰ˆ") , ShowIf("careteTemplate")]
         private void Create ()
         {
             attributeTypeInfos.Add(new AttributeTypeInfo(attributeTypeName, attributeTypeOrder));
             CreateAttributeUtils.Create(attributeTypeName, attributeTypeInfos, formula, summary);
         }
 
-        [Button("§R°£¤Ä¿ïÄİ©Ê")]
+        [Button("åˆªé™¤å‹¾é¸å±¬æ€§")]
         public void Remove()
         {
             bool needRemove = false;
@@ -158,13 +158,13 @@ namespace GameCore.Attribute.Editor
 
             if (needRemove == false)
             {
-                if (EditorUtility.DisplayDialog("´£¥Ü", $"¨S¦³¤Ä¿ï­n§R°£ªºÄİ©Ê¡C", "½T»{") == false)
+                if (EditorUtility.DisplayDialog("æç¤º", $"æ²’æœ‰å‹¾é¸è¦åˆªé™¤çš„å±¬æ€§ã€‚", "ç¢ºèª") == false)
                 {
                     return;
                 }
             }
-            // ¥i¯à¾É­P¨ä¥¦¤½¦¡¥X²{°İÃD°T®§´£¥Ü
-            if (EditorUtility.DisplayDialog("´£¥Ü", $"§R°£Äİ©Ê¥i¯à¾É­P³¡¥÷¤½¦¡¥X¿ù¡A»İ­n¤â°Ê½Õ¾ã¡C", "½T»{§R°£") == false)
+            // å¯èƒ½å°è‡´å…¶å®ƒå…¬å¼å‡ºç¾å•é¡Œè¨Šæ¯æç¤º
+            if (EditorUtility.DisplayDialog("æç¤º", $"åˆªé™¤å±¬æ€§å¯èƒ½å°è‡´éƒ¨ä»½å…¬å¼å‡ºéŒ¯ï¼Œéœ€è¦æ‰‹å‹•èª¿æ•´ã€‚", "ç¢ºèªåˆªé™¤") == false)
             {
                 return;
             }

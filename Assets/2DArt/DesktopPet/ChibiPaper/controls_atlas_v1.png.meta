@@ -1,0 +1,539 @@
+fileFormatVersion: 2
+guid: 00c50ee6848945749b6a71590dc67669
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2226992261615379290
+    second: controls_atlas_v1_0
+  - first:
+      213: 4865857869132196363
+    second: controls_atlas_v1_1
+  - first:
+      213: -5020604017898670066
+    second: controls_atlas_v1_2
+  - first:
+      213: 8731166819281070675
+    second: controls_atlas_v1_3
+  - first:
+      213: -1848247144470286721
+    second: controls_atlas_v1_4
+  - first:
+      213: -8153885921915306762
+    second: controls_atlas_v1_5
+  - first:
+      213: -1389294118280648746
+    second: controls_atlas_v1_6
+  - first:
+      213: 5379443713503470787
+    second: controls_atlas_v1_7
+  - first:
+      213: 2755167640040935517
+    second: controls_atlas_v1_8
+  - first:
+      213: -2216057701048185033
+    second: controls_atlas_v1_9
+  - first:
+      213: -7143780067813295062
+    second: controls_atlas_v1_10
+  - first:
+      213: 3139981584363805140
+    second: controls_atlas_v1_11
+  - first:
+      213: -5173178231774900484
+    second: controls_atlas_v1_12
+  - first:
+      213: -4002135307875515683
+    second: controls_atlas_v1_13
+  - first:
+      213: -7995593410384414459
+    second: controls_atlas_v1_14
+  - first:
+      213: 9155893184017342048
+    second: controls_atlas_v1_15
+  - first:
+      213: -3890499163900297527
+    second: controls_atlas_v1_16
+  - first:
+      213: 1250090844854733699
+    second: controls_atlas_v1_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 1024
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BgmOn
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 946
+        width: 276
+        height: 247
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09ffbf353a07fa14f9df8dbd240c71d0
+      internalID: -490949910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgmOff
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 938
+        width: 271
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb3887e098083894299acf5050ffff39
+      internalID: -2028089991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SfxOn
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 948
+        width: 274
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de8233fb5be7b3c4994e615d236df647
+      internalID: 818410275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SfxOff
+      rect:
+        serializedVersion: 2
+        x: 969
+        y: 943
+        width: 251
+        height: 247
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 226cef46250c5b444b6c7dc59b5dbf91
+      internalID: -490828043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AutoNextOn
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 664
+        width: 260
+        height: 211
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52ad9a8eb7cfaa849a1c785b546bc12f
+      internalID: 1550498170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AutoNextOff
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 673
+        width: 231
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 149c45de6c1a4524d8e84f0b8859999c
+      internalID: 1327337746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minimize
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 731
+        width: 238
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 192fd95d33fbeb64aa8cb7b0c346c307
+      internalID: -562069072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Quit
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 658
+        width: 247
+        height: 244
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c5f579a73d27b749bf26a0fc37856b3
+      internalID: -409469620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneVisible
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 393
+        width: 270
+        height: 188
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad561ff91e70e4d44bbdbb1b9eb2ceec
+      internalID: 1578327918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneHidden
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 386
+        width: 266
+        height: 212
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd09dab3c167a0844bbb0c8214fab6ed
+      internalID: -998733680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GalleryClose
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 376
+        width: 229
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0710704b7b3b57a42a490429325680f4
+      internalID: -187609210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardStatus
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 364
+        width: 224
+        height: 261
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d5b8d7ec5c0e9645977d0b7e428789d
+      internalID: 675925773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowLeft
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 97
+        width: 261
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad28ee4512dc7cc42b3b97c91094c940
+      internalID: -1557050400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowRight
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 96
+        width: 260
+        height: 220
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab26793a452ca8847b8909f91d6f6b44
+      internalID: 267377364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Star
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 85
+        width: 247
+        height: 243
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c832189594dc164eb359adb6c9f7363
+      internalID: 1737272384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Save
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 86
+        width: 244
+        height: 243
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c229eac5713119248965c6902aeb0c57
+      internalID: 489865449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 895a3ef55ae1e1d44989a587dbcabc9b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ArrowLeft: -1557050400
+      ArrowRight: 267377364
+      AutoNextOff: 1327337746
+      AutoNextOn: 1550498170
+      BgmOff: -2028089991
+      BgmOn: -490949910
+      CardStatus: 675925773
+      GalleryClose: -187609210
+      Minimize: -562069072
+      Quit: -409469620
+      Save: 489865449
+      SceneHidden: -998733680
+      SceneVisible: 1578327918
+      SfxOff: -490828043
+      SfxOn: 818410275
+      Star: 1737272384
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

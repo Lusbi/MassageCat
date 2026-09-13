@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Build;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
@@ -34,6 +37,38 @@ namespace GameCore.Steam.Editor
 
         private static void BuildWindows(BuildMode buildMode)
         {
+            UIBuildConsistencyValidator.ValidateOrThrow();
+
+            AddressableAssetSettings addressableSettings = AddressableAssetSettingsDefaultObject.Settings;
+            if (addressableSettings == null)
+            {
+                throw new Exception("[WalkBraveBuildTool] Addressables settings are missing.");
+            }
+
+            AddressableAssetSettings.PlayerBuildOption originalBuildOption =
+                addressableSettings.BuildAddressablesWithPlayerBuild;
+            addressableSettings.BuildAddressablesWithPlayerBuild =
+                AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer;
+
+            try
+            {
+                BuildWindowsWithFreshAddressables(buildMode);
+            }
+            finally
+            {
+                addressableSettings.BuildAddressablesWithPlayerBuild = originalBuildOption;
+            }
+        }
+
+        private static void BuildWindowsWithFreshAddressables(BuildMode buildMode)
+        {
+            AddressableAssetSettings.BuildPlayerContent(out AddressablesPlayerBuildResult addressablesResult);
+            if (!string.IsNullOrEmpty(addressablesResult.Error))
+            {
+                throw new Exception(
+                    $"[WalkBraveBuildTool] Addressables build failed: {addressablesResult.Error}");
+            }
+
             string locationPathName = GetLocationPathName(buildMode);
             string directoryName = Path.GetDirectoryName(locationPathName);
             if (!string.IsNullOrEmpty(directoryName))

@@ -5,27 +5,27 @@ using Sirenix.OdinInspector;
 
 namespace GameCore.Buff
 {
-    [CreateAssetMenu(menuName ="³q¥Î/ª¬ºA³]©wÀÉ")]
+    [CreateAssetMenu(menuName ="é€šç”¨/ç‹€æ…‹è¨­å®šæª”")]
     public class BuffScriptable : ScriptableObject
     {
-        [Title("«ùÄò®É¶¡Ãş«¬") , HideLabel , EnumToggleButtons]
+        [Title("æŒçºŒæ™‚é–“é¡å‹") , HideLabel , EnumToggleButtons]
         public BuffTimeType buffTimeType;
 
-        [LabelText("«ùÄò®É¶¡") , ShowIf("buffTimeType" , BuffTimeType.Interval)]
+        [LabelText("æŒçºŒæ™‚é–“") , ShowIf("buffTimeType" , BuffTimeType.Interval)]
         public float durationTime = 0;
-        [LabelText("¶¡¹jÄ²µo®É¶¡"), ShowIf("buffTimeType", BuffTimeType.Interval)]
+        [LabelText("é–“éš”è§¸ç™¼æ™‚é–“"), ShowIf("buffTimeType", BuffTimeType.Interval)]
         public float intervalTime = 0;
-        [LabelText("°ïÅ|¦¸¼Æ")]
+        [LabelText("å †ç–Šæ¬¡æ•¸")]
         public int stack = 1;
 
         [Space(10)]
-        // «e¸m±ø¥ó
-        [Title("«e¸m±ø¥ó"), HideLabel, ValueDropdown("@OdinBuffConditionTypeEnumList.valueDropdownList")]
+        // å‰ç½®æ¢ä»¶
+        [Title("å‰ç½®æ¢ä»¶"), HideLabel, ValueDropdown("@OdinBuffConditionTypeEnumList.valueDropdownList")]
         public BuffConditionType buffConditionType;
 
-        // °õ¦æ¥\¯à
+        // åŸ·è¡ŒåŠŸèƒ½
         [Space(10)]
-        [Title("°õ¦æ¥\¯à") , HideLabel , ValueDropdown("@OdinBuffActionTypeEnumList.valueDropdownList")]
+        [Title("åŸ·è¡ŒåŠŸèƒ½") , HideLabel , ValueDropdown("@OdinBuffActionTypeEnumList.valueDropdownList")]
         public BuffActionType buffActionType;
     }
 }

@@ -22,11 +22,11 @@ namespace Modules.Audio.Editor
 
         private void LoadAllAudioData(AudioLibrary library)
         {
-            // ·j´M±M®×¤¤©Ò¦³ªº AudioData
+            // æœå°‹å°ˆæ¡ˆä¸­æ‰€æœ‰çš„ AudioData
             string[] guids = AssetDatabase.FindAssets("t:AudioData");
             int addedCount = 0;
 
-            // «Ø¥ß²{¦³ Key ªº HashSet ¥HÁ×§K­«½Æ
+            // å»ºç«‹ç¾æœ‰ Key çš„ HashSet ä»¥é¿å…é‡è¤‡
             HashSet<string> existingKeys = new HashSet<string>();
             foreach (var entry in library.entries)
             {
@@ -43,10 +43,10 @@ namespace Modules.Audio.Editor
 
                 if (data != null)
                 {
-                    // ¨Ï¥Î AudioClip ¦WºÙ§@¬° Key (­Y clip ¬°ªÅ«h¥Î Asset ¦WºÙ)
+                    // ä½¿ç”¨ AudioClip åç¨±ä½œç‚º Key (è‹¥ clip ç‚ºç©ºå‰‡ç”¨ Asset åç¨±)
                     string key = data.clip != null ? data.clip.name : data.name.Replace("Data_", "");
                     
-                    // ¦pªG Key ©|¥¼¦s¦b¡A«h¥[¤J
+                    // å¦‚æœ Key å°šæœªå­˜åœ¨ï¼Œå‰‡åŠ å…¥
                     if (!existingKeys.Contains(key))
                     {
                         library.entries.Add(new AudioLibrary.AudioEntry
@@ -63,11 +63,11 @@ namespace Modules.Audio.Editor
             if (addedCount > 0)
             {
                 EditorUtility.SetDirty(library);
-                Debug.Log($"[AudioLibrary] ¤w¦Û°Ê¸ü¤J {addedCount} ­Ó·sªº AudioData¡C");
+                Debug.Log($"[AudioLibrary] å·²è‡ªå‹•è¼‰å…¥ {addedCount} å€‹æ–°çš„ AudioDataã€‚");
             }
             else
             {
-                Debug.Log("[AudioLibrary] ¨S¦³µo²{·sªº AudioData¡C");
+                Debug.Log("[AudioLibrary] æ²’æœ‰ç™¼ç¾æ–°çš„ AudioDataã€‚");
             }
         }
     }

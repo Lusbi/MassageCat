@@ -8,22 +8,22 @@ using UnityEngine;
 
 public class DataRepositoryTool : DeveloperToolBase
 {
-    public override string DeveloperName => "Data Repository ¤u¨ã";
+    public override string DeveloperName => "Data Repository å·¥å…·";
 
-    [Title("Data Repository ¦Cªí")]
+    [Title("Data Repository åˆ—è¡¨")]
     [ValueDropdown(nameof(AllDataRepositories))]
     [OnValueChanged(nameof(OnDataRepositorySelected))]
-    [LabelText("¿ï¾Ü Data Repository")]
+    [LabelText("é¸æ“‡ Data Repository")]
     public ScriptableObject selectedDataRepository;
 
     [ShowIf(nameof(selectedDataRepository))]
     [InlineEditor(InlineEditorObjectFieldModes.Hidden)]
-    [LabelText("Data Repository ¸Ô²Ó¤º®e")]
+    [LabelText("Data Repository è©³ç´°å…§å®¹")]
     public ScriptableObject selectedDataRepositoryDetails;
 
     private List<ScriptableObject> AllDataRepositories()
     {
-        // ·j¯Á±M®×¤¤©Ò¦³Ä~©Ó¦Û Data ªº ScriptableObject
+        // æœç´¢å°ˆæ¡ˆä¸­æ‰€æœ‰ç¹¼æ‰¿è‡ª Data çš„ ScriptableObject
         string[] guids = AssetDatabase.FindAssets("t:Repository");
         List<ScriptableObject> repositories = new List<ScriptableObject>();
 
