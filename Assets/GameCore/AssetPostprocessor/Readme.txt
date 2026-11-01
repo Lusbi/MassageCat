@@ -1,0 +1,4 @@
+目標
+AssetPostprocessorSettings，控管所有要做設定的項目
+
+IGameCorePostprocess  該專案的自動化處理基底

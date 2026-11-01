@@ -1,0 +1,2722 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9202558011703347849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u66B4\u8D70\u5143\u7D20\u7CBE\u9748"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+  m_comment: 2
+  key: "\u66B4\u8D70\u5143\u7D20\u7CBE\u9748"
+  m_roleSortId: 27
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u66B4\u8D70\u5143\u7D20\u7CBE\u9748"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+    m_queryText: 
+    m_selectedTitle: "5/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F: "
+  m_fatigue: 639171000
+  m_enemyIcon: {fileID: 21300000, guid: c9c23258a092f314f875e5ec401cb4a9, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5931\u63A7\u9B54\u6CD5\u66F8"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u66B4\u8D70\u5143\u7D20\u7CBE\u9748"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F/\u64CA\u6BBA_\u66B4\u8D70\u5143\u7D20\u7CBE\u9748: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 40
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0502
+  m_talkScriptableObject: {fileID: 11400000, guid: 2793e6ea74ec8b446807cda201838c4d, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 16
+    bonusValue: 3
+--- !u!114 &-8572075138140381688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u60E1\u72AC\u5E7D\u9748"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5EE2\u68C4\u5F8C\u5DF7"
+  m_comment: 3
+  key: "\u60E1\u72AC\u5E7D\u9748"
+  m_roleSortId: 4
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u60E1\u72AC\u5E7D\u9748"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5EE2\u68C4\u5F8C\u5DF7"
+    m_queryText: 
+    m_selectedTitle: "1/\u5EE2\u68C4\u5F8C\u5DF7: "
+  m_fatigue: 127500
+  m_enemyIcon: {fileID: 21300000, guid: 881fb041885213640bf606f58fec61a0, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6436\u98DF\u70CF\u9D09"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u60E1\u72AC\u5E7D\u9748"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5EE2\u68C4\u5F8C\u5DF7/\u64CA\u6BBA_\u60E1\u72AC\u5E7D\u9748: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 5
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0103
+  m_talkScriptableObject: {fileID: 11400000, guid: b8eaebbb18d5da64baa6957045664746, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 2
+  - cardFormulaInfoType: 4
+    bonusValue: 1
+--- !u!114 &-8470744692071837744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u88AB\u8A5B\u5492\u7684\u6383\u5E1A"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5EE2\u68C4\u5F8C\u5DF7"
+  m_comment: 5
+  key: "\u88AB\u8A5B\u5492\u7684\u6383\u5E1A"
+  m_roleSortId: 6
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u88AB\u8A5B\u5492\u7684\u6383\u5E1A"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5EE2\u68C4\u5F8C\u5DF7"
+    m_queryText: 
+    m_selectedTitle: "1/\u5EE2\u68C4\u5F8C\u5DF7: "
+  m_fatigue: 506250
+  m_enemyIcon: {fileID: 21300000, guid: b27afe1d93a18594780f8704d8c1a129, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8150\u721B\u6CE5\u602A"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u88AB\u8A5B\u5492\u7684\u6383\u5E1A"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5EE2\u68C4\u5F8C\u5DF7/\u64CA\u6BBA_\u88AB\u8A5B\u5492\u7684\u6383\u5E1A: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 5
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0105
+  m_talkScriptableObject: {fileID: 11400000, guid: 96d1ba2eff4af254e9e4e244d1697996, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 1
+  - cardFormulaInfoType: 256
+    bonusValue: 0.01
+--- !u!114 &-8464233040534860180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5929\u7A7A\u6230\u58EB\u9748\u9B42"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5929\u7A7A\u4E4B\u57CE"
+  m_comment: 5
+  key: "\u5929\u7A7A\u6230\u58EB\u9748\u9B42"
+  m_roleSortId: 48
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5929\u7A7A\u6230\u58EB\u9748\u9B42"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u5929\u7A7A\u4E4B\u57CE"
+    m_queryText: 
+    m_selectedTitle: "8/\u5929\u7A7A\u4E4B\u57CE: "
+  m_fatigue: 17112465000
+  m_enemyIcon: {fileID: 21300000, guid: dfe0f7b2e89333844bc7c7b5e7ff0ad1, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u98A8\u4E4B\u9B54\u50CF"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5929\u7A7A\u6230\u58EB\u9748\u9B42"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5929\u7A7A\u4E4B\u57CE/\u64CA\u6BBA_\u5929\u7A7A\u6230\u58EB\u9748\u9B42: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 200
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0805
+  m_talkScriptableObject: {fileID: 11400000, guid: 54dd688938f4db341a7b6b94c13a5a19, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 10
+  - cardFormulaInfoType: 64
+    bonusValue: 0.4
+--- !u!114 &-8236365160055707037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u7194\u5CA9\u5DE8\u9B54"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u7194\u5CA9\u6DF1\u6DF5"
+  m_comment: 1
+  key: "\u7194\u5CA9\u5DE8\u9B54"
+  m_roleSortId: 50
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u7194\u5CA9\u5DE8\u9B54"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u7194\u5CA9\u6DF1\u6DF5"
+    m_queryText: 
+    m_selectedTitle: "9/\u7194\u5CA9\u6DF1\u6DF5: "
+  m_fatigue: 14832300000
+  m_enemyIcon: {fileID: 21300000, guid: 95eabc65d8180284aab0b2af8403cf2b, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5929\u7A7A\u738B\u5EA7-\u98A8\u66B4\u6CF0\u5766"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u7194\u5CA9\u5DE8\u9B54"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u7194\u5CA9\u6DF1\u6DF5/\u64CA\u6BBA_\u7194\u5CA9\u5DE8\u9B54: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 80
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0901
+  m_talkScriptableObject: {fileID: 11400000, guid: b43b45998664eb641a0ddc9f17c4d3f2, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 9
+  - cardFormulaInfoType: 16
+    bonusValue: 3
+--- !u!114 &-8023240887506441675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8FF7\u9014\u6C34\u9B3C"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6E56\u6CCA\u79D8\u5883"
+  m_comment: 4
+  key: "\u8FF7\u9014\u6C34\u9B3C"
+  m_roleSortId: 17
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8FF7\u9014\u6C34\u9B3C"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u6E56\u6CCA\u79D8\u5883"
+    m_queryText: 
+    m_selectedTitle: "3/\u6E56\u6CCA\u79D8\u5883: "
+  m_fatigue: 73780000
+  m_enemyIcon: {fileID: 21300000, guid: fccb2f5525e7b874b88fd76bec961924, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u507D\u88DD\u6C34\u8349\u5996"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8FF7\u9014\u6C34\u9B3C"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6E56\u6CCA\u79D8\u5883/\u64CA\u6BBA_\u8FF7\u9014\u6C34\u9B3C: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 20
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0304
+  m_talkScriptableObject: {fileID: 11400000, guid: 735aeadafa125ff4ea9b144897c3aaa2, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 4
+    bonusValue: 2
+  - cardFormulaInfoType: 128
+    bonusValue: 0.1
+--- !u!114 &-7811345282933128439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5730\u7344\u7194\u738B-\u6DF1\u7D05\u9B54\u9F8D"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u7194\u5CA9\u6DF1\u6DF5"
+  m_comment: 6
+  key: "\u5730\u7344\u7194\u738B-\u6DF1\u7D05\u9B54\u9F8D"
+  m_roleSortId: 55
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5730\u7344\u7194\u738B-\u6DF1\u7D05\u9B54\u9F8D"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u7194\u5CA9\u6DF1\u6DF5"
+    m_queryText: 
+    m_selectedTitle: "9/\u7194\u5CA9\u6DF1\u6DF5: "
+  m_fatigue: 64255950000
+  m_enemyIcon: {fileID: 21300000, guid: 927ca3ec26c7ebf43bb974c107966e9a, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u7194\u5CA9\u98DB\u9F8D"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5730\u7344\u7194\u738B-\u6DF1\u7D05\u9B54\u9F8D"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u7194\u5CA9\u6DF1\u6DF5/\u64CA\u6BBA_\u5730\u7344\u7194\u738B-\u6DF1\u7D05\u9B54\u9F8D: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 300
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0911
+  m_talkScriptableObject: {fileID: 11400000, guid: e754f45870fb56e4baac0cf947080e99, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 64
+    bonusValue: 10
+  - cardFormulaInfoType: 128
+    bonusValue: 2
+--- !u!114 &-7716545042429061199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6436\u98DF\u70CF\u9D09"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5EE2\u68C4\u5F8C\u5DF7"
+  m_comment: 2
+  key: "\u6436\u98DF\u70CF\u9D09"
+  m_roleSortId: 3
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6436\u98DF\u70CF\u9D09"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5EE2\u68C4\u5F8C\u5DF7"
+    m_queryText: 
+    m_selectedTitle: "1/\u5EE2\u68C4\u5F8C\u5DF7: "
+  m_fatigue: 45250
+  m_enemyIcon: {fileID: 21300000, guid: 71dba8a7b35c8d646a94d7bcff9b1016, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6D41\u6D6A\u9F20\u5996"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5EE2\u68C4\u5F8C\u5DF7/\u64CA\u6BBA_\u6D41\u6D6A\u9F20\u5996: "
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6436\u98DF\u70CF\u9D09"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5EE2\u68C4\u5F8C\u5DF7/\u64CA\u6BBA_\u6436\u98DF\u70CF\u9D09: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 5
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0102
+  m_talkScriptableObject: {fileID: 11400000, guid: d566c696a67b80d47ba612123d44540e, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 3
+--- !u!114 &-7464797187756750964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u60E1\u610F\u85E4\u8513"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+  m_comment: 4
+  key: "\u60E1\u610F\u85E4\u8513"
+  m_roleSortId: 11
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u60E1\u610F\u85E4\u8513"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+    m_queryText: 
+    m_selectedTitle: "2/\u9B54\u6CD5\u68EE\u6797\u908A\u5883: "
+  m_fatigue: 9570000
+  m_enemyIcon: {fileID: 21300000, guid: f866c43c186b38546b54412c2eb35fec, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8B8A\u8272\u8449\u5F71\u7378"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u60E1\u610F\u85E4\u8513"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u68EE\u6797\u908A\u5883/\u64CA\u6BBA_\u60E1\u610F\u85E4\u8513: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 10
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0204
+  m_talkScriptableObject: {fileID: 11400000, guid: e42710d7d9020984a85131fc78ee143d, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 2
+--- !u!114 &-7387906493409244034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6C99\u5F71\u5E7B\u72FC"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u8352\u91CE\u907A\u8DE1"
+  m_comment: 4
+  key: "\u6C99\u5F71\u5E7B\u72FC"
+  m_roleSortId: 23
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6C99\u5F71\u5E7B\u72FC"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u8352\u91CE\u907A\u8DE1"
+    m_queryText: 
+    m_selectedTitle: "4/\u8352\u91CE\u907A\u8DE1: "
+  m_fatigue: 290127750
+  m_enemyIcon: {fileID: 21300000, guid: 5af0862e5957f534dafdc36d1337161e, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8A5B\u5492\u6728\u4E43\u4F0A\u8C93"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6C99\u5F71\u5E7B\u72FC"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u8352\u91CE\u907A\u8DE1/\u64CA\u6BBA_\u6C99\u5F71\u5E7B\u72FC: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 30
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0404
+  m_talkScriptableObject: {fileID: 11400000, guid: 31527e0f212fc7241922e78a0687ecb9, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 64
+    bonusValue: 0.2
+  - cardFormulaInfoType: 128
+    bonusValue: 0.1
+--- !u!114 &-7281009289561792791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6232\u6C34\u9B5A\u5996"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6E56\u6CCA\u79D8\u5883"
+  m_comment: 2
+  key: "\u6232\u6C34\u9B5A\u5996"
+  m_roleSortId: 15
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6232\u6C34\u9B5A\u5996"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u6E56\u6CCA\u79D8\u5883"
+    m_queryText: 
+    m_selectedTitle: "3/\u6E56\u6CCA\u79D8\u5883: "
+  m_fatigue: 46462500
+  m_enemyIcon: {fileID: 21300000, guid: f3e408c9d33b07b42be9e31385f062fb, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6CE1\u6CE1\u6C34\u7CBE"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6232\u6C34\u9B5A\u5996"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6E56\u6CCA\u79D8\u5883/\u64CA\u6BBA_\u6232\u6C34\u9B5A\u5996: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 20
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0302
+  m_talkScriptableObject: {fileID: 11400000, guid: b6e6601ab6aa7cb48a116fcf15084390, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 1
+  - cardFormulaInfoType: 16
+    bonusValue: 0.1
+--- !u!114 &-6445032715040759049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8B8A\u8272\u8449\u5F71\u7378"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+  m_comment: 3
+  key: "\u8B8A\u8272\u8449\u5F71\u7378"
+  m_roleSortId: 10
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8B8A\u8272\u8449\u5F71\u7378"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+    m_queryText: 
+    m_selectedTitle: "2/\u9B54\u6CD5\u68EE\u6797\u908A\u5883: "
+  m_fatigue: 6930000
+  m_enemyIcon: {fileID: 21300000, guid: fad89d18e0adfe945833d3f8e5696912, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5077\u9B5A\u7CBE\u9748"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8B8A\u8272\u8449\u5F71\u7378"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u68EE\u6797\u908A\u5883/\u64CA\u6BBA_\u8B8A\u8272\u8449\u5F71\u7378: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 10
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0203
+  m_talkScriptableObject: {fileID: 11400000, guid: b3c5b089622770243ae7a354304c1d41, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 4
+    bonusValue: 1
+  - cardFormulaInfoType: 16
+    bonusValue: 1
+--- !u!114 &-6033574214875861240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u71C3\u71D2\u528D\u9748"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u7194\u5CA9\u6DF1\u6DF5"
+  m_comment: 2
+  key: "\u71C3\u71D2\u528D\u9748"
+  m_roleSortId: 51
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u71C3\u71D2\u528D\u9748"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u7194\u5CA9\u6DF1\u6DF5"
+    m_queryText: 
+    m_selectedTitle: "9/\u7194\u5CA9\u6DF1\u6DF5: "
+  m_fatigue: 25069050000
+  m_enemyIcon: {fileID: 21300000, guid: d8f201754cd076840933f033d0fee806, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u7194\u5CA9\u5DE8\u9B54"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u71C3\u71D2\u528D\u9748"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u7194\u5CA9\u6DF1\u6DF5/\u64CA\u6BBA_\u71C3\u71D2\u528D\u9748: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 250
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0902
+  m_talkScriptableObject: {fileID: 11400000, guid: 4d330d7b1206ef94e812f78b5b69dc2f, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 10
+  - cardFormulaInfoType: 4
+    bonusValue: 10
+--- !u!114 &-5882992432556577393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6D3B\u5316\u77F3\u50CF"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u8352\u91CE\u907A\u8DE1"
+  m_comment: 2
+  key: "\u6D3B\u5316\u77F3\u50CF"
+  m_roleSortId: 21
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6D3B\u5316\u77F3\u50CF"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u8352\u91CE\u907A\u8DE1"
+    m_queryText: 
+    m_selectedTitle: "4/\u8352\u91CE\u907A\u8DE1: "
+  m_fatigue: 206167500
+  m_enemyIcon: {fileID: 21300000, guid: a258f53765a6ae44a86b7ad7ca22d27d, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6C99\u5875\u880D\u602A"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6D3B\u5316\u77F3\u50CF"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u8352\u91CE\u907A\u8DE1/\u64CA\u6BBA_\u6D3B\u5316\u77F3\u50CF: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 30
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0402
+  m_talkScriptableObject: {fileID: 11400000, guid: 7a02743ea0700df40bb486c33cfe06ef, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 7
+--- !u!114 &-5779342695947175185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5077\u9B5A\u7CBE\u9748"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+  m_comment: 2
+  key: "\u5077\u9B5A\u7CBE\u9748"
+  m_roleSortId: 9
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5077\u9B5A\u7CBE\u9748"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+    m_queryText: 
+    m_selectedTitle: "2/\u9B54\u6CD5\u68EE\u6797\u908A\u5883: "
+  m_fatigue: 4824000
+  m_enemyIcon: {fileID: 21300000, guid: d2f5b3f1bb7f7d84f9433f8f760e5e86, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8DF3\u8DF3\u8611\u83C7\u7CBE"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5077\u9B5A\u7CBE\u9748"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u68EE\u6797\u908A\u5883/\u64CA\u6BBA_\u5077\u9B5A\u7CBE\u9748: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 10
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0202
+  m_talkScriptableObject: {fileID: 11400000, guid: 07b4d3909311dfb4cbd50cf576fb8173, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 64
+    bonusValue: 0.2
+--- !u!114 &-5672889247780724166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8A6D\u7570\u65C5\u9928\u4E3B\u4EBA-\u6C89\u9ED8\u4E4B\u5F71"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5E7D\u9748\u57CE\u93AE"
+  m_comment: 6
+  key: "\u8A6D\u7570\u65C5\u9928\u4E3B\u4EBA-\u6C89\u9ED8\u4E4B\u5F71"
+  m_roleSortId: 37
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8A6D\u7570\u65C5\u9928\u4E3B\u4EBA-\u6C89\u9ED8\u4E4B\u5F71"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u5E7D\u9748\u57CE\u93AE"
+    m_queryText: 
+    m_selectedTitle: "6/\u5E7D\u9748\u57CE\u93AE: "
+  m_fatigue: 6910166250
+  m_enemyIcon: {fileID: 21300000, guid: fe98d5d9dac8df249871cc6d03272a14, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u7121\u81C9\u5E7D\u5F71"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8A6D\u7570\u65C5\u9928\u4E3B\u4EBA-\u6C89\u9ED8\u4E4B\u5F71"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5E7D\u9748\u57CE\u93AE/\u64CA\u6BBA_\u8A6D\u7570\u65C5\u9928\u4E3B\u4EBA-\u6C89\u9ED8\u4E4B\u5F71: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 150
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0611
+  m_talkScriptableObject: {fileID: 11400000, guid: 1fd3383e2dfee9f4cbc23eafa83ffa9e, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 4
+    bonusValue: 120
+  - cardFormulaInfoType: 256
+    bonusValue: 0.3
+--- !u!114 &-4915889791935783199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u4EA1\u9748\u65C5\u4EBA"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5E7D\u9748\u57CE\u93AE"
+  m_comment: 3
+  key: "\u4EA1\u9748\u65C5\u4EBA"
+  m_roleSortId: 34
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u4EA1\u9748\u65C5\u4EBA"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5E7D\u9748\u57CE\u93AE"
+    m_queryText: 
+    m_selectedTitle: "6/\u5E7D\u9748\u57CE\u93AE: "
+  m_fatigue: 1781315250
+  m_enemyIcon: {fileID: 21300000, guid: 9f8ed0e44ac96104ab8ff33a2b1a6a8d, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8A6D\u7570\u4EBA\u5076"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u4EA1\u9748\u65C5\u4EBA"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5E7D\u9748\u57CE\u93AE/\u64CA\u6BBA_\u4EA1\u9748\u65C5\u4EBA: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 50
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0603
+  m_talkScriptableObject: {fileID: 11400000, guid: 3ae01cc771bc11b419b31c0d8b61c06f, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 4
+  - cardFormulaInfoType: 16
+    bonusValue: 2
+--- !u!114 &-4807500708305071959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6CE1\u6CE1\u6C34\u7CBE"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6E56\u6CCA\u79D8\u5883"
+  m_comment: 1
+  key: "\u6CE1\u6CE1\u6C34\u7CBE"
+  m_roleSortId: 14
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6CE1\u6CE1\u6C34\u7CBE"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u6E56\u6CCA\u79D8\u5883"
+    m_queryText: 
+    m_selectedTitle: "3/\u6E56\u6CCA\u79D8\u5883: "
+  m_fatigue: 35717500
+  m_enemyIcon: {fileID: 21300000, guid: dacaf8bdc5c18dd4fa76024bc4ec41ef, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5E7B\u5F71\u9E7F\u9748-\u9280\u89D2\u4E4B\u68EE\u738B"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6CE1\u6CE1\u6C34\u7CBE"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6E56\u6CCA\u79D8\u5883/\u64CA\u6BBA_\u6CE1\u6CE1\u6C34\u7CBE: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 20
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0301
+  m_talkScriptableObject: {fileID: 11400000, guid: 0575f1d7ae977a144b4dfcbd667a0c42, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 5
+--- !u!114 &-4803783542002423321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5CA9\u77F3\u9B54\u50CF"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5730\u5E95\u8FF7\u5BAE"
+  m_comment: 1
+  key: "\u5CA9\u77F3\u9B54\u50CF"
+  m_roleSortId: 38
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5CA9\u77F3\u9B54\u50CF"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5730\u5E95\u8FF7\u5BAE"
+    m_queryText: 
+    m_selectedTitle: "7/\u5730\u5E95\u8FF7\u5BAE: "
+  m_fatigue: 3289688500
+  m_enemyIcon: {fileID: 21300000, guid: 038f7c259e7705744a8c0fc5c082170e, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8A6D\u7570\u65C5\u9928\u4E3B\u4EBA-\u6C89\u9ED8\u4E4B\u5F71"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5CA9\u77F3\u9B54\u50CF"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5730\u5E95\u8FF7\u5BAE/\u64CA\u6BBA_\u5CA9\u77F3\u9B54\u50CF: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 60
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0701
+  m_talkScriptableObject: {fileID: 11400000, guid: 34a722ee55f43a741bb364f5c7751b42, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 5
+  - cardFormulaInfoType: 16
+    bonusValue: 1
+--- !u!114 &-4260487337147235364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6D41\u6D6A\u9F20\u5996"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5EE2\u68C4\u5F8C\u5DF7"
+  m_comment: 1
+  key: "\u6D41\u6D6A\u9F20\u5996"
+  m_roleSortId: 2
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6D41\u6D6A\u9F20\u5996"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5EE2\u68C4\u5F8C\u5DF7"
+    m_queryText: 
+    m_selectedTitle: "1/\u5EE2\u68C4\u5F8C\u5DF7: "
+  m_fatigue: 10000
+  m_enemyIcon: {fileID: 21300000, guid: f3d464b33bc19204f9cff570ef3f082d, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u7D19\u7BB1"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6D41\u6D6A\u9F20\u5996"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5EE2\u68C4\u5F8C\u5DF7/\u64CA\u6BBA_\u6D41\u6D6A\u9F20\u5996: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 5
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0101
+  m_talkScriptableObject: {fileID: 11400000, guid: cb15f281a67842d4f9013cefcece5f1d, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 1
+  - cardFormulaInfoType: 8
+    bonusValue: 1
+--- !u!114 &-4130069585008667241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8A6D\u7B11\u8857\u71C8"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5E7D\u9748\u57CE\u93AE"
+  m_comment: 4
+  key: "\u8A6D\u7B11\u8857\u71C8"
+  m_roleSortId: 35
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8A6D\u7B11\u8857\u71C8"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5E7D\u9748\u57CE\u93AE"
+    m_queryText: 
+    m_selectedTitle: "6/\u5E7D\u9748\u57CE\u93AE: "
+  m_fatigue: 1985961250
+  m_enemyIcon: {fileID: 21300000, guid: 3c7ee20f7aa9ac146b455dd9f1a72c08, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u4EA1\u9748\u65C5\u4EBA"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8A6D\u7B11\u8857\u71C8"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5E7D\u9748\u57CE\u93AE/\u64CA\u6BBA_\u8A6D\u7B11\u8857\u71C8: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 50
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0604
+  m_talkScriptableObject: {fileID: 11400000, guid: c5222531676b2fa4db1dd43888d5ec27, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 32
+    bonusValue: 2
+--- !u!114 &-4083128337814233445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6C99\u5875\u880D\u602A"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u8352\u91CE\u907A\u8DE1"
+  m_comment: 1
+  key: "\u6C99\u5875\u880D\u602A"
+  m_roleSortId: 20
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6C99\u5875\u880D\u602A"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u8352\u91CE\u907A\u8DE1"
+    m_queryText: 
+    m_selectedTitle: "4/\u8352\u91CE\u907A\u8DE1: "
+  m_fatigue: 170857500
+  m_enemyIcon: {fileID: 21300000, guid: db3c1ded7ec8e5a46880f6c11a7b7101, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6C89\u7720\u7684\u6E56\u738B-\u6DF1\u6DF5\u4E5D\u982D\u86C7"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6C99\u5875\u880D\u602A"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u8352\u91CE\u907A\u8DE1/\u64CA\u6BBA_\u6C99\u5875\u880D\u602A: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 30
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0401
+  m_talkScriptableObject: {fileID: 11400000, guid: f132e9df2e4a8c54aa3280eba01099dc, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 4
+    bonusValue: 7
+--- !u!114 &-4032599264716717802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6C99\u66B4\u4E4B\u738B-\u5343\u5E74\u91D1\u5B57\u5854\u9B54\u795E"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u8352\u91CE\u907A\u8DE1"
+  m_comment: 6
+  key: "\u6C99\u66B4\u4E4B\u738B-\u5343\u5E74\u91D1\u5B57\u5854\u9B54\u795E"
+  m_roleSortId: 25
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6C99\u66B4\u4E4B\u738B-\u5343\u5E74\u91D1\u5B57\u5854\u9B54\u795E"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u8352\u91CE\u907A\u8DE1"
+    m_queryText: 
+    m_selectedTitle: "4/\u8352\u91CE\u907A\u8DE1: "
+  m_fatigue: 1086937500
+  m_enemyIcon: {fileID: 21300000, guid: 282433c4577d9f24c81f5d77bb2ae6ab, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u72C2\u98A8\u5143\u7D20"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6C99\u66B4\u4E4B\u738B-\u5343\u5E74\u91D1\u5B57\u5854\u9B54\u795E"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u8352\u91CE\u907A\u8DE1/\u64CA\u6BBA_\u6C99\u66B4\u4E4B\u738B-\u5343\u5E74\u91D1\u5B57\u5854\u9B54\u795E: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 80
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0411
+  m_talkScriptableObject: {fileID: 11400000, guid: ff4f335965763b6419807b2d7d0237f8, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 50
+  - cardFormulaInfoType: 32
+    bonusValue: 6
+--- !u!114 &-3934072804122521430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8FF7\u5931\u7684\u8C93\u9B42"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5E7D\u9748\u57CE\u93AE"
+  m_comment: 1
+  key: "\u8FF7\u5931\u7684\u8C93\u9B42"
+  m_roleSortId: 32
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8FF7\u5931\u7684\u8C93\u9B42"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5E7D\u9748\u57CE\u93AE"
+    m_queryText: 
+    m_selectedTitle: "6/\u5E7D\u9748\u57CE\u93AE: "
+  m_fatigue: 1413724000
+  m_enemyIcon: {fileID: 21300000, guid: ae5f8e6353fd52a459c53016da448da0, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u58AE\u843D\u5927\u6CD5\u5E2B-\u9ED1\u7130\u4E4B\u8C93"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8FF7\u5931\u7684\u8C93\u9B42"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5E7D\u9748\u57CE\u93AE/\u64CA\u6BBA_\u8FF7\u5931\u7684\u8C93\u9B42: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 50
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0601
+  m_talkScriptableObject: {fileID: 11400000, guid: 6e4e40f8b5fb8de4f8e99ae4c0f2915c, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 5
+  - cardFormulaInfoType: 4
+    bonusValue: 5
+--- !u!114 &-3099290712714048522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u7121\u81C9\u5E7D\u5F71"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5E7D\u9748\u57CE\u93AE"
+  m_comment: 5
+  key: "\u7121\u81C9\u5E7D\u5F71"
+  m_roleSortId: 36
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u7121\u81C9\u5E7D\u5F71"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u5E7D\u9748\u57CE\u93AE"
+    m_queryText: 
+    m_selectedTitle: "6/\u5E7D\u9748\u57CE\u93AE: "
+  m_fatigue: 3461298750
+  m_enemyIcon: {fileID: 21300000, guid: 2edb68b410285ba4882485f56e829b5a, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8A6D\u7B11\u8857\u71C8"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u7121\u81C9\u5E7D\u5F71"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5E7D\u9748\u57CE\u93AE/\u64CA\u6BBA_\u7121\u81C9\u5E7D\u5F71: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 100
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0605
+  m_talkScriptableObject: {fileID: 11400000, guid: 5e9a6c5909d7db849a5df969fc2ba92e, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 7
+  - cardFormulaInfoType: 64
+    bonusValue: 0.3
+--- !u!114 &-2964233767393923160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5E7D\u51A5\u5B88\u885B"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5730\u5E95\u8FF7\u5BAE"
+  m_comment: 4
+  key: "\u5E7D\u51A5\u5B88\u885B"
+  m_roleSortId: 41
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5E7D\u51A5\u5B88\u885B"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u5730\u5E95\u8FF7\u5BAE"
+    m_queryText: 
+    m_selectedTitle: "7/\u5730\u5E95\u8FF7\u5BAE: "
+  m_fatigue: 6918135000
+  m_enemyIcon: {fileID: 21300000, guid: 18dba5cd2d58ea54098e2a3a6ef37a87, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6D1E\u7A74\u731B\u7378"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5E7D\u51A5\u5B88\u885B"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5730\u5E95\u8FF7\u5BAE/\u64CA\u6BBA_\u5E7D\u51A5\u5B88\u885B: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 150
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0704
+  m_talkScriptableObject: {fileID: 11400000, guid: 962cf42573173bc408fb11306b45788f, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 64
+    bonusValue: 0.3
+  - cardFormulaInfoType: 128
+    bonusValue: 0.3
+--- !u!114 &-2749729636265525871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5929\u7A7A\u738B\u5EA7-\u98A8\u66B4\u6CF0\u5766"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5929\u7A7A\u4E4B\u57CE"
+  m_comment: 6
+  key: "\u5929\u7A7A\u738B\u5EA7-\u98A8\u66B4\u6CF0\u5766"
+  m_roleSortId: 49
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5929\u7A7A\u738B\u5EA7-\u98A8\u66B4\u6CF0\u5766"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u5929\u7A7A\u4E4B\u57CE"
+    m_queryText: 
+    m_selectedTitle: "8/\u5929\u7A7A\u4E4B\u57CE: "
+  m_fatigue: 32490675000
+  m_enemyIcon: {fileID: 21300000, guid: e5235fd50eb08ab4ab2ff32babeb0878, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5929\u7A7A\u6230\u58EB\u9748\u9B42"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5929\u7A7A\u738B\u5EA7-\u98A8\u66B4\u6CF0\u5766"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5929\u7A7A\u4E4B\u57CE/\u64CA\u6BBA_\u5929\u7A7A\u738B\u5EA7-\u98A8\u66B4\u6CF0\u5766: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 250
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0811
+  m_talkScriptableObject: {fileID: 11400000, guid: 5fd7a02758b6bca4b82f1f6da8083e24, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 64
+    bonusValue: 3
+  - cardFormulaInfoType: 128
+    bonusValue: 2
+  - cardFormulaInfoType: 256
+    bonusValue: 0.8
+--- !u!114 &-2582028980247346222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u507D\u88DD\u6C34\u8349\u5996"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6E56\u6CCA\u79D8\u5883"
+  m_comment: 3
+  key: "\u507D\u88DD\u6C34\u8349\u5996"
+  m_roleSortId: 16
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u507D\u88DD\u6C34\u8349\u5996"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u6E56\u6CCA\u79D8\u5883"
+    m_queryText: 
+    m_selectedTitle: "3/\u6E56\u6CCA\u79D8\u5883: "
+  m_fatigue: 59100000
+  m_enemyIcon: {fileID: 21300000, guid: b3aab6ec17028354baf61b1a628e6cbf, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6232\u6C34\u9B5A\u5996"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u507D\u88DD\u6C34\u8349\u5996"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6E56\u6CCA\u79D8\u5883/\u64CA\u6BBA_\u507D\u88DD\u6C34\u8349\u5996: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 20
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0303
+  m_talkScriptableObject: {fileID: 11400000, guid: af4e38b355599bc40bb6e3ea7f5a7b9c, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 2
+  - cardFormulaInfoType: 16
+    bonusValue: 1
+--- !u!114 &-2322246862927793568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u706B\u7130\u72AC\u9B54"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u7194\u5CA9\u6DF1\u6DF5"
+  m_comment: 3
+  key: "\u706B\u7130\u72AC\u9B54"
+  m_roleSortId: 52
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u706B\u7130\u72AC\u9B54"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u7194\u5CA9\u6DF1\u6DF5"
+    m_queryText: 
+    m_selectedTitle: "9/\u7194\u5CA9\u6DF1\u6DF5: "
+  m_fatigue: 28060812000
+  m_enemyIcon: {fileID: 21300000, guid: 4cb56af6befe33c4a821f7bead84653c, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u71C3\u71D2\u528D\u9748"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u706B\u7130\u72AC\u9B54"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u7194\u5CA9\u6DF1\u6DF5/\u64CA\u6BBA_\u706B\u7130\u72AC\u9B54: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 250
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0903
+  m_talkScriptableObject: {fileID: 11400000, guid: d0afd7ed065829849b07839dc9cca577, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 5
+  - cardFormulaInfoType: 64
+    bonusValue: 0.5
+--- !u!114 &-2282728046106140920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8150\u721B\u6CE5\u602A"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5EE2\u68C4\u5F8C\u5DF7"
+  m_comment: 4
+  key: "\u8150\u721B\u6CE5\u602A"
+  m_roleSortId: 5
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8150\u721B\u6CE5\u602A"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5EE2\u68C4\u5F8C\u5DF7"
+    m_queryText: 
+    m_selectedTitle: "1/\u5EE2\u68C4\u5F8C\u5DF7: "
+  m_fatigue: 275000
+  m_enemyIcon: {fileID: 21300000, guid: 3b7270c7f491d3e4cb8b6c776c31bee7, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u60E1\u72AC\u5E7D\u9748"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8150\u721B\u6CE5\u602A"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5EE2\u68C4\u5F8C\u5DF7/\u64CA\u6BBA_\u8150\u721B\u6CE5\u602A: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 5
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0104
+  m_talkScriptableObject: {fileID: 11400000, guid: b729a3bdb00a24542b095bb383bc447e, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 2
+  - cardFormulaInfoType: 64
+    bonusValue: 0.05
+--- !u!114 &-2192268727118871612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u7194\u5CA9\u98DB\u9F8D"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u7194\u5CA9\u6DF1\u6DF5"
+  m_comment: 5
+  key: "\u7194\u5CA9\u98DB\u9F8D"
+  m_roleSortId: 54
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u7194\u5CA9\u98DB\u9F8D"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u7194\u5CA9\u6DF1\u6DF5"
+    m_queryText: 
+    m_selectedTitle: "9/\u7194\u5CA9\u6DF1\u6DF5: "
+  m_fatigue: 34575822000
+  m_enemyIcon: {fileID: 21300000, guid: b00ccf552ef606f4b9be11faa08f0a75, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u706B\u7130\u60E1\u9B54"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u7194\u5CA9\u98DB\u9F8D"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u7194\u5CA9\u6DF1\u6DF5/\u64CA\u6BBA_\u7194\u5CA9\u98DB\u9F8D: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 250
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0905
+  m_talkScriptableObject: {fileID: 11400000, guid: 6ceccb5271acfc341a64a4663d3d175e, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 16
+    bonusValue: 7
+--- !u!114 &-1834405293160709448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u9B3C\u706B\u98DB\u86FE"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+  m_comment: 5
+  key: "\u9B3C\u706B\u98DB\u86FE"
+  m_roleSortId: 12
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u9B3C\u706B\u98DB\u86FE"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+    m_queryText: 
+    m_selectedTitle: "2/\u9B54\u6CD5\u68EE\u6797\u908A\u5883: "
+  m_fatigue: 12804000
+  m_enemyIcon: {fileID: 21300000, guid: f915f693bae71de4180fbfa699be4e06, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u60E1\u610F\u85E4\u8513"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u9B3C\u706B\u98DB\u86FE"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u68EE\u6797\u908A\u5883/\u64CA\u6BBA_\u9B3C\u706B\u98DB\u86FE: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 10
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0205
+  m_talkScriptableObject: {fileID: 11400000, guid: 6890c64c46898e845b7def10450a3fc3, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 4
+--- !u!114 &-1601447254415154018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5931\u63A7\u9B54\u6CD5\u66F8"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+  m_comment: 1
+  key: "\u5931\u63A7\u9B54\u6CD5\u66F8"
+  m_roleSortId: 26
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5931\u63A7\u9B54\u6CD5\u66F8"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+    m_queryText: 
+    m_selectedTitle: "5/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F: "
+  m_fatigue: 552825000
+  m_enemyIcon: {fileID: 21300000, guid: c76a6503875f28d499c66953fd1c489e, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6C99\u66B4\u4E4B\u738B-\u5343\u5E74\u91D1\u5B57\u5854\u9B54\u795E"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5931\u63A7\u9B54\u6CD5\u66F8"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F/\u64CA\u6BBA_\u5931\u63A7\u9B54\u6CD5\u66F8: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 40
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0501
+  m_talkScriptableObject: {fileID: 11400000, guid: fbf5c13846fb7b94eb8f1ada6556161c, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 5
+  - cardFormulaInfoType: 8
+    bonusValue: 2
+--- !u!114 &-839381378524103733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u58AE\u843D\u5927\u6CD5\u5E2B-\u9ED1\u7130\u4E4B\u8C93"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+  m_comment: 6
+  key: "\u58AE\u843D\u5927\u6CD5\u5E2B-\u9ED1\u7130\u4E4B\u8C93"
+  m_roleSortId: 31
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u58AE\u843D\u5927\u6CD5\u5E2B-\u9ED1\u7130\u4E4B\u8C93"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+    m_queryText: 
+    m_selectedTitle: "5/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F: "
+  m_fatigue: 2884162500
+  m_enemyIcon: {fileID: 21300000, guid: df357ee307f282a4487dc63f6c2ed29b, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u88AB\u8A5B\u5492\u7684\u93E1\u50CF"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u58AE\u843D\u5927\u6CD5\u5E2B-\u9ED1\u7130\u4E4B\u8C93"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F/\u64CA\u6BBA_\u58AE\u843D\u5927\u6CD5\u5E2B-\u9ED1\u7130\u4E4B\u8C93: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 100
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0511
+  m_talkScriptableObject: {fileID: 11400000, guid: c2e7c24fd9d402d4aa9fdf1360738f89, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 100
+  - cardFormulaInfoType: 64
+    bonusValue: 1
+--- !u!114 &-344818632175126153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6C34\u9F8D\u5E7C\u5D3D"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6E56\u6CCA\u79D8\u5883"
+  m_comment: 5
+  key: "\u6C34\u9F8D\u5E7C\u5D3D"
+  m_roleSortId: 18
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6C34\u9F8D\u5E7C\u5D3D"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u6E56\u6CCA\u79D8\u5883"
+    m_queryText: 
+    m_selectedTitle: "3/\u6E56\u6CCA\u79D8\u5883: "
+  m_fatigue: 90652500
+  m_enemyIcon: {fileID: 21300000, guid: f95a03b3bf533cb46b442eb158c5a638, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8FF7\u9014\u6C34\u9B3C"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6C34\u9F8D\u5E7C\u5D3D"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6E56\u6CCA\u79D8\u5883/\u64CA\u6BBA_\u6C34\u9F8D\u5E7C\u5D3D: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 20
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0305
+  m_talkScriptableObject: {fileID: 11400000, guid: 4f950268a19e29a4e8aca3a5d758668d, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 256
+    bonusValue: 0.05
+--- !u!114 &-42529864505115276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6C89\u7720\u7684\u6E56\u738B-\u6DF1\u6DF5\u4E5D\u982D\u86C7"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6E56\u6CCA\u79D8\u5883"
+  m_comment: 6
+  key: "\u6C89\u7720\u7684\u6E56\u738B-\u6DF1\u6DF5\u4E5D\u982D\u86C7"
+  m_roleSortId: 19
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6C89\u7720\u7684\u6E56\u738B-\u6DF1\u6DF5\u4E5D\u982D\u86C7"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u6E56\u6CCA\u79D8\u5883"
+    m_queryText: 
+    m_selectedTitle: "3/\u6E56\u6CCA\u79D8\u5883: "
+  m_fatigue: 317418750
+  m_enemyIcon: {fileID: 21300000, guid: 6fabefc3d98129a4fa99310edcb445c5, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6C34\u9F8D\u5E7C\u5D3D"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6C89\u7720\u7684\u6E56\u738B-\u6DF1\u6DF5\u4E5D\u982D\u86C7"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6E56\u6CCA\u79D8\u5883/\u64CA\u6BBA_\u6C89\u7720\u7684\u6E56\u738B-\u6DF1\u6DF5\u4E5D\u982D\u86C7: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 60
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0311
+  m_talkScriptableObject: {fileID: 11400000, guid: ab3e31498a19ab440b374c09040dbd48, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 20
+  - cardFormulaInfoType: 2
+    bonusValue: 20
+  - cardFormulaInfoType: 4
+    bonusValue: 20
+--- !u!114 &-9454202061368611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv2"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6DF7\u6C8C\u7981\u57DF"
+  m_comment: 2
+  key: "\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv2"
+  m_roleSortId: 57
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv2"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u6DF7\u6C8C\u7981\u57DF"
+    m_queryText: 
+    m_selectedTitle: "10/\u6DF7\u6C8C\u7981\u57DF: "
+  m_fatigue: 79705237500
+  m_enemyIcon: {fileID: 21300000, guid: c6042176d1460b640bc1e5912294e104, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv1"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv2"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6DF7\u6C8C\u7981\u57DF/\u64CA\u6BBA_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv2: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 500
+  m_dieActionType: 2
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_1012
+  m_talkScriptableObject: {fileID: 11400000, guid: 9339a264253dea44ca7cb061e80df8a0, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 400
+  - cardFormulaInfoType: 2
+    bonusValue: 100
+  - cardFormulaInfoType: 4
+    bonusValue: 50
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0570d0b386e155e479801322a3a05228, type: 3}
+  m_Name: RoleRepository
+  m_EditorClassIdentifier: 
+  m_dataList:
+  - {fileID: 2802172165901217668}
+  - {fileID: -4915889791935783199}
+  - {fileID: -5779342695947175185}
+  - {fileID: 8214006055210634301}
+  - {fileID: 358876552186429477}
+  - {fileID: -4803783542002423321}
+  - {fileID: -2964233767393923160}
+  - {fileID: -7464797187756750964}
+  - {fileID: -8572075138140381688}
+  - {fileID: -7281009289561792791}
+  - {fileID: -7716545042429061199}
+  - {fileID: -344818632175126153}
+  - {fileID: -4083128337814233445}
+  - {fileID: -7387906493409244034}
+  - {fileID: -4807500708305071959}
+  - {fileID: 8160939513442045490}
+  - {fileID: -5882992432556577393}
+  - {fileID: -4260487337147235364}
+  - {fileID: 5604162068840273191}
+  - {fileID: -2322246862927793568}
+  - {fileID: -3099290712714048522}
+  - {fileID: -8236365160055707037}
+  - {fileID: -2192268727118871612}
+  - {fileID: -6033574214875861240}
+  - {fileID: 6725464781359861601}
+  - {fileID: -2282728046106140920}
+  - {fileID: 6226339734261269760}
+  - {fileID: -4130069585008667241}
+  - {fileID: -8023240887506441675}
+  - {fileID: 141138253197496816}
+  - {fileID: 4414193167586752712}
+  - {fileID: 4066205625334357814}
+  - {fileID: -1834405293160709448}
+  - {fileID: -2582028980247346222}
+  - {fileID: -1601447254415154018}
+  - {fileID: 8692105084915671564}
+  - {fileID: 7895950442299010232}
+  - {fileID: -6445032715040759049}
+  - {fileID: 2802941207026632634}
+  - {fileID: -3934072804122521430}
+  - {fileID: -8464233040534860180}
+  - {fileID: -9202558011703347849}
+  - {fileID: -8470744692071837744}
+  - {fileID: 768279517145388459}
+  - {fileID: 3474280909880729771}
+  - {fileID: 4690096294232761914}
+  - {fileID: -7811345282933128439}
+  - {fileID: -2749729636265525871}
+  - {fileID: 5073014329320146125}
+  - {fileID: -839381378524103733}
+  - {fileID: 2029169840254307350}
+  - {fileID: 7908589988331048803}
+  - {fileID: -42529864505115276}
+  - {fileID: -5672889247780724166}
+  - {fileID: -4032599264716717802}
+  - {fileID: 3075256532581512014}
+  - {fileID: -9454202061368611}
+  - {fileID: 209611234249782339}
+  m_key: 1_tTLn5gqtLCdyAfP1AfpShe1YLCOstRbeHx7AOCjtKs
+  m_gid: 1952850634
+  m_gas: 
+  m_sheetName: 
+  m_externalImportFromGoogleSheet: 0
+  m_googleSheetDownloaderReferences: []
+--- !u!114 &141138253197496816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u96F2\u9727\u5143\u7D20"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5929\u7A7A\u4E4B\u57CE"
+  m_comment: 2
+  key: "\u96F2\u9727\u5143\u7D20"
+  m_roleSortId: 45
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u96F2\u9727\u5143\u7D20"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5929\u7A7A\u4E4B\u57CE"
+    m_queryText: 
+    m_selectedTitle: "8/\u5929\u7A7A\u4E4B\u57CE: "
+  m_fatigue: 7785112500
+  m_enemyIcon: {fileID: 21300000, guid: 03d93a6df1459c645ab2013f062c3069, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5929\u7FFC\u7375\u9DF9"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u96F2\u9727\u5143\u7D20"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5929\u7A7A\u4E4B\u57CE/\u64CA\u6BBA_\u96F2\u9727\u5143\u7D20: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 70
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0802
+  m_talkScriptableObject: {fileID: 11400000, guid: 9e8153d7e8501d34198e83f37e869282, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 16
+    bonusValue: 3
+  - cardFormulaInfoType: 64
+    bonusValue: 0.3
+--- !u!114 &209611234249782339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv3"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6DF7\u6C8C\u7981\u57DF"
+  m_comment: 3
+  key: "\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv3"
+  m_roleSortId: 58
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv3"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u6DF7\u6C8C\u7981\u57DF"
+    m_queryText: 
+    m_selectedTitle: "10/\u6DF7\u6C8C\u7981\u57DF: "
+  m_fatigue: 120400387500
+  m_enemyIcon: {fileID: 21300000, guid: 441112df6bdb32240a9f52b7de9f58aa, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv2"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv3"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6DF7\u6C8C\u7981\u57DF/\u64CA\u6BBA_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv3: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 500
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_1013
+  m_talkScriptableObject: {fileID: 11400000, guid: efdd5fc9158f66a40961eddc6988e843, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 64
+    bonusValue: 5
+  - cardFormulaInfoType: 128
+    bonusValue: 5
+  - cardFormulaInfoType: 256
+    bonusValue: 5
+--- !u!114 &358876552186429477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5929\u7FFC\u7375\u9DF9"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5929\u7A7A\u4E4B\u57CE"
+  m_comment: 1
+  key: "\u5929\u7FFC\u7375\u9DF9"
+  m_roleSortId: 44
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5929\u7FFC\u7375\u9DF9"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5929\u7A7A\u4E4B\u57CE"
+    m_queryText: 
+    m_selectedTitle: "8/\u5929\u7A7A\u4E4B\u57CE: "
+  m_fatigue: 7190782500
+  m_enemyIcon: {fileID: 21300000, guid: 429279e7e7c9d16479e72772edebde89, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6C38\u6046\u770B\u5B88\u8005-\u9396\u93C8\u9B54\u738B"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5929\u7FFC\u7375\u9DF9"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5929\u7A7A\u4E4B\u57CE/\u64CA\u6BBA_\u5929\u7FFC\u7375\u9DF9: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 70
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0801
+  m_talkScriptableObject: {fileID: 11400000, guid: fda7da74d6020d74cb4313f94eb2a81b, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 5
+  - cardFormulaInfoType: 256
+    bonusValue: 0.1
+--- !u!114 &768279517145388459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u88AB\u8A5B\u5492\u7684\u93E1\u50CF"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+  m_comment: 5
+  key: "\u88AB\u8A5B\u5492\u7684\u93E1\u50CF"
+  m_roleSortId: 30
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u88AB\u8A5B\u5492\u7684\u93E1\u50CF"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+    m_queryText: 
+    m_selectedTitle: "5/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F: "
+  m_fatigue: 948735000
+  m_enemyIcon: {fileID: 21300000, guid: be3614502b6a17c488c93115a54a0b69, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8A5B\u5492\u9ED1\u8C93\u4EBA"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u88AB\u8A5B\u5492\u7684\u93E1\u50CF"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F/\u64CA\u6BBA_\u88AB\u8A5B\u5492\u7684\u93E1\u50CF: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 40
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0505
+  m_talkScriptableObject: {fileID: 11400000, guid: 96c0cbfd320a83d488694073ccb838c9, type: 2}
+  m_roleCardInfos: []
+--- !u!114 &2029169840254307350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5E7B\u5F71\u9E7F\u9748-\u9280\u89D2\u4E4B\u68EE\u738B"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+  m_comment: 6
+  key: "\u5E7B\u5F71\u9E7F\u9748-\u9280\u89D2\u4E4B\u68EE\u738B"
+  m_roleSortId: 13
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5E7B\u5F71\u9E7F\u9748-\u9280\u89D2\u4E4B\u68EE\u738B"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+    m_queryText: 
+    m_selectedTitle: "2/\u9B54\u6CD5\u68EE\u6797\u908A\u5883: "
+  m_fatigue: 53430000
+  m_enemyIcon: {fileID: 21300000, guid: fe50fce0171d1f7419698ca3f14e7d9d, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u9B3C\u706B\u98DB\u86FE"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5E7B\u5F71\u9E7F\u9748-\u9280\u89D2\u4E4B\u68EE\u738B"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u68EE\u6797\u908A\u5883/\u64CA\u6BBA_\u5E7B\u5F71\u9E7F\u9748-\u9280\u89D2\u4E4B\u68EE\u738B: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 40
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0211
+  m_talkScriptableObject: {fileID: 11400000, guid: 2109ff3008e72b444b6e234df86c59f5, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 32
+    bonusValue: 5
+  - cardFormulaInfoType: 256
+    bonusValue: 0.05
+--- !u!114 &2802172165901217668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u7D19\u7BB1"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5192\u96AA\u5165\u53E3"
+  m_comment: 0
+  key: "\u7D19\u7BB1"
+  m_roleSortId: 1
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u7834\u820A\u7D19\u7BB1"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5192\u96AA\u5165\u53E3"
+    m_queryText: 
+    m_selectedTitle: "0/\u5192\u96AA\u5165\u53E3: "
+  m_fatigue: 50
+  m_enemyIcon: {fileID: 21300000, guid: 6d08a500c8b392e419b1811767837c1f, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions: []
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u7D19\u7BB1"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5192\u96AA\u5165\u53E3/\u64CA\u6BBA_\u7D19\u7BB1: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 3
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0001
+  m_talkScriptableObject: {fileID: 11400000, guid: b5ba8b1d1d4293f4b92f0b531f0b2dbe, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 1
+--- !u!114 &2802941207026632634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8DF3\u8DF3\u8611\u83C7\u7CBE"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+  m_comment: 1
+  key: "\u8DF3\u8DF3\u8611\u83C7\u7CBE"
+  m_roleSortId: 8
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8DF3\u8DF3\u8611\u83C7\u7CBE"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u68EE\u6797\u908A\u5883"
+    m_queryText: 
+    m_selectedTitle: "2/\u9B54\u6CD5\u68EE\u6797\u908A\u5883: "
+  m_fatigue: 3192000
+  m_enemyIcon: {fileID: 21300000, guid: 5ba26ac49ab0a8d4b9841278be891f35, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u9ED1\u5DF7\u4E4B\u738B-\u7368\u773C\u72F8\u8C93"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8DF3\u8DF3\u8611\u83C7\u7CBE"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u68EE\u6797\u908A\u5883/\u64CA\u6BBA_\u8DF3\u8DF3\u8611\u83C7\u7CBE: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 10
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0201
+  m_talkScriptableObject: {fileID: 11400000, guid: 294bafd060791a34499b41ad053cd455, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 2
+  - cardFormulaInfoType: 4
+    bonusValue: 2
+--- !u!114 &3075256532581512014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv1"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u6DF7\u6C8C\u7981\u57DF"
+  m_comment: 1
+  key: "\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv1"
+  m_roleSortId: 56
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv1"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u6DF7\u6C8C\u7981\u57DF"
+    m_queryText: 
+    m_selectedTitle: "10/\u6DF7\u6C8C\u7981\u57DF: "
+  m_fatigue: 46459875000
+  m_enemyIcon: {fileID: 21300000, guid: 9012ef45a36f18549a252799175b5279, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5730\u7344\u7194\u738B-\u6DF1\u7D05\u9B54\u9F8D"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv1"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u6DF7\u6C8C\u7981\u57DF/\u64CA\u6BBA_\u6DF7\u6C8C\u4E4B\u4E3B-\u7D42\u7109\u8C93\u795E_Lv1: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 500
+  m_dieActionType: 2
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_1011
+  m_talkScriptableObject: {fileID: 11400000, guid: 1569abca469876b44860e4f5e7a762f5, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 75
+  - cardFormulaInfoType: 16
+    bonusValue: 50
+  - cardFormulaInfoType: 32
+    bonusValue: 30
+--- !u!114 &3474280909880729771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8A5B\u5492\u6728\u4E43\u4F0A\u8C93"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u8352\u91CE\u907A\u8DE1"
+  m_comment: 3
+  key: "\u8A5B\u5492\u6728\u4E43\u4F0A\u8C93"
+  m_roleSortId: 22
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8A5B\u5492\u6728\u4E43\u4F0A\u8C93"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u8352\u91CE\u907A\u8DE1"
+    m_queryText: 
+    m_selectedTitle: "4/\u8352\u91CE\u907A\u8DE1: "
+  m_fatigue: 245841750
+  m_enemyIcon: {fileID: 21300000, guid: 4535e119ed63c4541a579de26726c5ca, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6D3B\u5316\u77F3\u50CF"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8A5B\u5492\u6728\u4E43\u4F0A\u8C93"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u8352\u91CE\u907A\u8DE1/\u64CA\u6BBA_\u8A5B\u5492\u6728\u4E43\u4F0A\u8C93: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 30
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0403
+  m_talkScriptableObject: {fileID: 11400000, guid: 7289a4b9f4e720b42a04ed1fe07769a7, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 1
+  - cardFormulaInfoType: 8
+    bonusValue: 3
+--- !u!114 &4066205625334357814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u98A8\u4E4B\u9B54\u50CF"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5929\u7A7A\u4E4B\u57CE"
+  m_comment: 4
+  key: "\u98A8\u4E4B\u9B54\u50CF"
+  m_roleSortId: 47
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u98A8\u4E4B\u9B54\u50CF"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u5929\u7A7A\u4E4B\u57CE"
+    m_queryText: 
+    m_selectedTitle: "8/\u5929\u7A7A\u4E4B\u57CE: "
+  m_fatigue: 15183320625
+  m_enemyIcon: {fileID: 21300000, guid: 499bf9a2d6b477744ad787829f373ca4, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u96F7\u64CA\u98DB\u9F8D"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u98A8\u4E4B\u9B54\u50CF"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5929\u7A7A\u4E4B\u57CE/\u64CA\u6BBA_\u98A8\u4E4B\u9B54\u50CF: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 200
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0804
+  m_talkScriptableObject: {fileID: 11400000, guid: 1d7bf7ea74eeae74c9c8d1b95af86029, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 4
+  - cardFormulaInfoType: 32
+    bonusValue: 2
+--- !u!114 &4414193167586752712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u96F7\u64CA\u98DB\u9F8D"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5929\u7A7A\u4E4B\u57CE"
+  m_comment: 3
+  key: "\u96F7\u64CA\u98DB\u9F8D"
+  m_roleSortId: 46
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u96F7\u64CA\u98DB\u9F8D"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u5929\u7A7A\u4E4B\u57CE"
+    m_queryText: 
+    m_selectedTitle: "8/\u5929\u7A7A\u4E4B\u57CE: "
+  m_fatigue: 13372846875
+  m_enemyIcon: {fileID: 21300000, guid: b5c38a38538833a449dd9166f0f98030, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u96F2\u9727\u5143\u7D20"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u96F7\u64CA\u98DB\u9F8D"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5929\u7A7A\u4E4B\u57CE/\u64CA\u6BBA_\u96F7\u64CA\u98DB\u9F8D: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 200
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0803
+  m_talkScriptableObject: {fileID: 11400000, guid: b6817b98b95f18341ac38180d31f784e, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 4
+    bonusValue: 6
+  - cardFormulaInfoType: 128
+    bonusValue: 0.4
+--- !u!114 &4690096294232761914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u9B54\u6CD5\u6BD2\u53F2\u840A\u59C6"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+  m_comment: 3
+  key: "\u9B54\u6CD5\u6BD2\u53F2\u840A\u59C6"
+  m_roleSortId: 28
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u9B54\u6CD5\u6BD2\u53F2\u840A\u59C6"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+    m_queryText: 
+    m_selectedTitle: "5/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F: "
+  m_fatigue: 733698000
+  m_enemyIcon: {fileID: 21300000, guid: d01903e543a06e7459cbd3ff93492f97, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u66B4\u8D70\u5143\u7D20\u7CBE\u9748"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u9B54\u6CD5\u6BD2\u53F2\u840A\u59C6"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F/\u64CA\u6BBA_\u9B54\u6CD5\u6BD2\u53F2\u840A\u59C6: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 40
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0503
+  m_talkScriptableObject: {fileID: 11400000, guid: 043c6fcc80247414bb3dbb5b9d1665e9, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 4
+    bonusValue: 4
+  - cardFormulaInfoType: 32
+    bonusValue: 1
+--- !u!114 &5073014329320146125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u9ED1\u5DF7\u4E4B\u738B-\u7368\u773C\u72F8\u8C93"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5EE2\u68C4\u5F8C\u5DF7"
+  m_comment: 6
+  key: "\u9ED1\u5DF7\u4E4B\u738B-\u7368\u773C\u72F8\u8C93"
+  m_roleSortId: 7
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u9ED1\u5DF7\u4E4B\u738B-\u7368\u773C\u72F8\u8C93"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u5EE2\u68C4\u5F8C\u5DF7"
+    m_queryText: 
+    m_selectedTitle: "1/\u5EE2\u68C4\u5F8C\u5DF7: "
+  m_fatigue: 3084375
+  m_enemyIcon: {fileID: 21300000, guid: 2a4463eb533aea54c84a4e9be9b0cfe0, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u88AB\u8A5B\u5492\u7684\u6383\u5E1A"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u9ED1\u5DF7\u4E4B\u738B-\u7368\u773C\u72F8\u8C93"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5EE2\u68C4\u5F8C\u5DF7/\u64CA\u6BBA_\u9ED1\u5DF7\u4E4B\u738B-\u7368\u773C\u72F8\u8C93: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 20
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0111
+  m_talkScriptableObject: {fileID: 11400000, guid: 7a789680b127b3a408b41881263a11b8, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 10
+--- !u!114 &5604162068840273191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u706B\u7130\u60E1\u9B54"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u7194\u5CA9\u6DF1\u6DF5"
+  m_comment: 4
+  key: "\u706B\u7130\u60E1\u9B54"
+  m_roleSortId: 53
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u706B\u7130\u60E1\u9B54"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u7194\u5CA9\u6DF1\u6DF5"
+    m_queryText: 
+    m_selectedTitle: "9/\u7194\u5CA9\u6DF1\u6DF5: "
+  m_fatigue: 31228236000
+  m_enemyIcon: {fileID: 21300000, guid: c0bebd55fb76a4048861b420d25e14c9, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u706B\u7130\u72AC\u9B54"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u706B\u7130\u60E1\u9B54"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u7194\u5CA9\u6DF1\u6DF5/\u64CA\u6BBA_\u706B\u7130\u60E1\u9B54: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 250
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0904
+  m_talkScriptableObject: {fileID: 11400000, guid: 59baceb5e7f50324fb94fa11432fd107, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 5
+  - cardFormulaInfoType: 128
+    bonusValue: 0.5
+--- !u!114 &6226339734261269760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8A6D\u7570\u4EBA\u5076"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5E7D\u9748\u57CE\u93AE"
+  m_comment: 2
+  key: "\u8A6D\u7570\u4EBA\u5076"
+  m_roleSortId: 33
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8A6D\u7570\u4EBA\u5076"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5E7D\u9748\u57CE\u93AE"
+    m_queryText: 
+    m_selectedTitle: "6/\u5E7D\u9748\u57CE\u93AE: "
+  m_fatigue: 1590732000
+  m_enemyIcon: {fileID: 21300000, guid: c5ba8ecdf48aa9049bb785f699c707df, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u8FF7\u5931\u7684\u8C93\u9B42"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8A6D\u7570\u4EBA\u5076"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5E7D\u9748\u57CE\u93AE/\u64CA\u6BBA_\u8A6D\u7570\u4EBA\u5076: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 50
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0602
+  m_talkScriptableObject: {fileID: 11400000, guid: e6192d17edea76a4eaaa3b56100ced3a, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 2
+  - cardFormulaInfoType: 128
+    bonusValue: 0.2
+--- !u!114 &6725464781359861601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u72C2\u98A8\u5143\u7D20"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u8352\u91CE\u907A\u8DE1"
+  m_comment: 5
+  key: "\u72C2\u98A8\u5143\u7D20"
+  m_roleSortId: 24
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u72C2\u98A8\u5143\u7D20"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u8352\u91CE\u907A\u8DE1"
+    m_queryText: 
+    m_selectedTitle: "4/\u8352\u91CE\u907A\u8DE1: "
+  m_fatigue: 339273000
+  m_enemyIcon: {fileID: 21300000, guid: 913c649f614523541a5075e5db47338d, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6C99\u5F71\u5E7B\u72FC"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u72C2\u98A8\u5143\u7D20"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u8352\u91CE\u907A\u8DE1/\u64CA\u6BBA_\u72C2\u98A8\u5143\u7D20: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 30
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0405
+  m_talkScriptableObject: {fileID: 11400000, guid: c7f14ce392379124f8e8af9bcde5750d, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 8
+    bonusValue: 1
+  - cardFormulaInfoType: 32
+    bonusValue: 1
+--- !u!114 &7895950442299010232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u8A5B\u5492\u9ED1\u8C93\u4EBA"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+  m_comment: 4
+  key: "\u8A5B\u5492\u9ED1\u8C93\u4EBA"
+  m_roleSortId: 29
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u8A5B\u5492\u9ED1\u8C93\u4EBA"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F"
+    m_queryText: 
+    m_selectedTitle: "5/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F: "
+  m_fatigue: 836766000
+  m_enemyIcon: {fileID: 21300000, guid: ad7f1ca7f9d88a24797896458ac1df00, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u9B54\u6CD5\u6BD2\u53F2\u840A\u59C6"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u8A5B\u5492\u9ED1\u8C93\u4EBA"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u9B54\u6CD5\u5B78\u9662\u5EE2\u589F/\u64CA\u6BBA_\u8A5B\u5492\u9ED1\u8C93\u4EBA: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 40
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0504
+  m_talkScriptableObject: {fileID: 11400000, guid: bb7fe3e390b60c34f857ab1f46e2ef49, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 256
+    bonusValue: 0.09
+--- !u!114 &7908589988331048803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6C38\u6046\u770B\u5B88\u8005-\u9396\u93C8\u9B54\u738B"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5730\u5E95\u8FF7\u5BAE"
+  m_comment: 6
+  key: "\u6C38\u6046\u770B\u5B88\u8005-\u9396\u93C8\u9B54\u738B"
+  m_roleSortId: 43
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6C38\u6046\u770B\u5B88\u8005-\u9396\u93C8\u9B54\u738B"
+  m_roleDescription: 
+  m_enemyType: 2
+  m_sceneReference:
+    m_key: "\u5730\u5E95\u8FF7\u5BAE"
+    m_queryText: 
+    m_selectedTitle: "7/\u5730\u5E95\u8FF7\u5BAE: "
+  m_fatigue: 15462746250
+  m_enemyIcon: {fileID: 21300000, guid: cc49abb67de91c14e8f07ec8c9ff88ca, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u6DF1\u6DF5\u8725\u8734\u738B"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6C38\u6046\u770B\u5B88\u8005-\u9396\u93C8\u9B54\u738B"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5730\u5E95\u8FF7\u5BAE/\u64CA\u6BBA_\u6C38\u6046\u770B\u5B88\u8005-\u9396\u93C8\u9B54\u738B: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 200
+  m_dieActionType: 1
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0711
+  m_talkScriptableObject: {fileID: 11400000, guid: ff3ade12bc81d564d84f7f8294a0e206, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 150
+  - cardFormulaInfoType: 32
+    bonusValue: 5
+--- !u!114 &8160939513442045490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6D1E\u7A74\u731B\u7378"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5730\u5E95\u8FF7\u5BAE"
+  m_comment: 3
+  key: "\u6D1E\u7A74\u731B\u7378"
+  m_roleSortId: 40
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6D1E\u7A74\u731B\u7378"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5730\u5E95\u8FF7\u5BAE"
+    m_queryText: 
+    m_selectedTitle: "7/\u5730\u5E95\u8FF7\u5BAE: "
+  m_fatigue: 3977610000
+  m_enemyIcon: {fileID: 21300000, guid: 61ea7e08d02c7b84a89afda483e568ee, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5730\u7E1B\u9B3C\u9B42"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6D1E\u7A74\u731B\u7378"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5730\u5E95\u8FF7\u5BAE/\u64CA\u6BBA_\u6D1E\u7A74\u731B\u7378: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 60
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0703
+  m_talkScriptableObject: {fileID: 11400000, guid: 6f3163bdff58f26489e0ccd617df2311, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 1
+    bonusValue: 8
+  - cardFormulaInfoType: 4
+    bonusValue: 5
+--- !u!114 &8214006055210634301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u5730\u7E1B\u9B3C\u9B42"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5730\u5E95\u8FF7\u5BAE"
+  m_comment: 2
+  key: "\u5730\u7E1B\u9B3C\u9B42"
+  m_roleSortId: 39
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u5730\u7E1B\u9B3C\u9B42"
+  m_roleDescription: 
+  m_enemyType: 0
+  m_sceneReference:
+    m_key: "\u5730\u5E95\u8FF7\u5BAE"
+    m_queryText: 
+    m_selectedTitle: "7/\u5730\u5E95\u8FF7\u5BAE: "
+  m_fatigue: 3623119500
+  m_enemyIcon: {fileID: 21300000, guid: afcdcb27f24d9d44cbe707febc67c103, type: 3}
+  m_directionType: 1
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5CA9\u77F3\u9B54\u50CF"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u5730\u7E1B\u9B3C\u9B42"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5730\u5E95\u8FF7\u5BAE/\u64CA\u6BBA_\u5730\u7E1B\u9B3C\u9B42: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 60
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0702
+  m_talkScriptableObject: {fileID: 11400000, guid: 066eb51e5e7f6484f9b12558b43c36e7, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 1
+  - cardFormulaInfoType: 16
+    bonusValue: 2
+--- !u!114 &8692105084915671564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565f4caf95d13944c80dbbd2e024bbb7, type: 3}
+  m_Name: "RoleData_\u6DF1\u6DF5\u8725\u8734\u738B"
+  m_EditorClassIdentifier: 
+  m_titlePath: "\u5730\u5E95\u8FF7\u5BAE"
+  m_comment: 5
+  key: "\u6DF1\u6DF5\u8725\u8734\u738B"
+  m_roleSortId: 42
+  m_roleName: "\u6575\u4EBA\u540D\u5B57.\u6DF1\u6DF5\u8725\u8734\u738B"
+  m_roleDescription: 
+  m_enemyType: 1
+  m_sceneReference:
+    m_key: "\u5730\u5E95\u8FF7\u5BAE"
+    m_queryText: 
+    m_selectedTitle: "7/\u5730\u5E95\u8FF7\u5BAE: "
+  m_fatigue: 7942079250
+  m_enemyIcon: {fileID: 21300000, guid: dc46246e0497de04685e10338341e10d, type: 3}
+  m_directionType: 0
+  m_flagReferenceConditions:
+  - m_key: "\u64CA\u6BBA_\u5E7D\u51A5\u5B88\u885B"
+    m_queryText: 
+    m_selectedTitle: 
+  m_satisfyToAddFlagReference:
+    m_key: "\u64CA\u6BBA_\u6DF1\u6DF5\u8725\u8734\u738B"
+    m_queryText: 
+    m_selectedTitle: "\u64CA\u6BBA/\u5730\u5E95\u8FF7\u5BAE/\u64CA\u6BBA_\u6DF1\u6DF5\u8725\u8734\u738B: "
+  m_satisfyBonus: 1
+  m_tomatoBouns: 150
+  m_dieActionType: 0
+  m_changeStyleKey: 
+  m_dramaKey: 
+  m_roleIconkey: Mob_0705
+  m_talkScriptableObject: {fileID: 11400000, guid: ac9d48fb53932924fbc36d8e13d13061, type: 2}
+  m_roleCardInfos:
+  - cardFormulaInfoType: 2
+    bonusValue: 5
+  - cardFormulaInfoType: 8
+    bonusValue: 5

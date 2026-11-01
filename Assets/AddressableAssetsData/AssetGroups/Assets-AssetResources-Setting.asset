@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Assets-AssetResources-Setting
+  m_EditorClassIdentifier: 
+  m_GroupName: Assets-AssetResources-Setting
+  m_GUID: 850a4fdfc9369d543be93088d3273cf3
+  m_SerializeEntries:
+  - m_GUID: 014b23c9e18690e4eb67008dd217f0cc
+    m_Address: BgmClipSetting
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ba6701677a3e384890b744b78c83a01
+    m_Address: AudioClipSetting
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9300dd40d98839a4f81d8ee112235a04
+    m_Address: GameDefaultSetting
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6cd68b54096f374d8d003397eba762c
+    m_Address: TomatoSetting
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f0253e52413956b41b0a7c7c0aa58ec3
+    m_Address: SpellQuestion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e2993f66a7e367b4b91087661a632625, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6c6b06aed393e6640912565033d1158d, type: 2}
+    - {fileID: 11400000, guid: 9ade429871293f9459c2f45b29581bce, type: 2}

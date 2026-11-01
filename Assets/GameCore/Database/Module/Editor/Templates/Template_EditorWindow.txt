@@ -1,0 +1,35 @@
+// WARNING: Generated file. Do not modify!
+using UnityEditor;
+
+namespace GameCore.Database.Editor
+{
+    public partial class $DATA_TYPEEditorWindow : DataEditorWindow<$DATA_TYPEData>
+    {
+        [MenuItem("Database/$MENU_ITEM_NAME", priority = $MENU_ITEM_PRIORITY)]
+        private static void OpenWindow()
+        {
+            $DATA_TYPEEditorWindow window = GetWindow<$DATA_TYPEEditorWindow>("$EDITOR_WINDOW_TITLE");
+            window.Show();
+            window.Focus();
+        }
+
+        [MenuItem("Database/$MENU_ITEM_NAME", true)]
+        private static bool OpenWindowValidate()
+        {
+            return DatabaseUser.HasUserName();
+        }
+
+        private static void OpenWindowWithKey(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+            {
+                return;
+            }
+
+            $DATA_TYPEEditorWindow window = GetWindow<$DATA_TYPEEditorWindow>("$EDITOR_WINDOW_TITLE");
+            window.Show();
+            window.Focus();
+            window.SetKey(key);
+        }
+    }
+}

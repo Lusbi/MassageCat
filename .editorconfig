@@ -1,0 +1,7 @@
+root = true
+
+# 專案原始碼統一採用 UTF-8，避免 Windows Big5/CP950 造成中文註解與字串顯示錯誤。
+[*.cs]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
